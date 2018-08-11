@@ -1,0 +1,158 @@
+article_id,journal,year_volume,issue,page,link,animal,methods_used,main_q,type_of_state_manipulation,within_between_ss,dependent_variable,country_authors,seriousness_of_mistake
+1,NN,2010 (13),12,1526,http://www.nature.com/neuro/journal/v13/n12/pdf/nn.2682.pdf,mice,"optogenetic, EEG, behavioral",YES,optogenetic,between,behavioral,US,potentially serious
+2,NN,2010 (13),11,1354,http://www.nature.com/neuro/journal/v13/n11/pdf/nn.2654.pdf,zebrafish,"genetic inactivation, behavior",YES,genetic inactivation,between,behavioral,Japan,"potentially serious, ook vb van voormeting, nameting apart"
+3,NN,2010 (13),9,1137,http://www.nature.com/neuro/journal/v13/n9/pdf/nn.2619.pdf,mice,,YES,different intra-Nac infusions,between,behavioral,US,potentially serious
+4,NN,2010 (13),8,979,,rats,"pharmacology, neural recordings, behavior",NO,pharmacological inactivation,within,behavioral,US,
+5,NN,2010 (13),,923,,human,"rTMS, behavior",NO,rTMS,between,behavioral,US,
+6,NN,2010 (13),,995,,rats,,YES,injection of NMDAR antagonist vs drug-free,between,correlation between memory performance and cell synchrony,UK,potentially serious (vergelijking sign en nonsign correlaties)
+7,NN,2010 (13),6,753,,mice,,YES,targeted disruption in the Prlr gene,between,behavioral,Canada,not serious (groot verschil tussen gene sorts
+8,NN,2010 (13),,669,,human,"fMRI, behavior, aging",NO,2 age groups,between,behavioral,US,
+9,NN,2010 (13),5,635,,rats,,NO,groups with different access to food,between,behavioral,US,
+10,NN,2010 (13),,536,,rats,,NO,amygdala infusion of protein synthesis inhibitor anisomycin or vehicle,between,behavioral,US,
+11,NN,2010 (13),2,253,,ferrets,selectively killing the neurons using chromophore-targeted laser photolysis,YES,number of neurons in layers 3 and 5,within,behavioral,UK,not so serious p.088 vs < .001
+12,NN,2010 (13),,158,,rats,,YES,nasal infusions made subjects temporarily anosmic vs vehicle infusions,between,behavioral,US,not serious
+13,NN,2009 (12),12,1559,,mice,"early life stress, AVP expression",YES,learning/training in ELS mice,between,behavioral,GER,data suggest: not serious
+14,NN,2009 (12),,1594,,monkey,single cell recordings,NO,Attentional cueing ,within,behavioral,US,
+15,NN,2009 (12),11,1364,http://www.nature.com/neuro/journal/v12/n11/pdf/nn.2407.pdf,rats, spinal nerve ligation,YES,ligated/intact rats,between,behavioral,US,potentially serious
+16,NN,2009 (12),,1367,,pups,"shock conditioning, dopamine",NO,"neurotransmitters, age",between,behavioral,US,
+17,NN,2009 (12),,1370,,human,"training, DTI",NO,training in juggling,between,DTI,UK,
+18,NN,2009 (12),,1463,,human,fMRI,YES,front/back auditory information (BOLD signal),within,BOLD,US,potentially serious
+19,NN,2009 (12),,1469,,human,fMRI,NO,inducement of cognitive dissonance,between,BOLD,US,
+20,NN,2009 (12),9,1152,,mice,"cannabis, neuronal efficiency",NO,Cannabis-no cannabis,between,behavioral,Spain,
+21,NN,2009 (12),8,970,,human,learning,NO,ASD vs. Typically developing,between,behavioral,US,
+22,NN,2009 (12),7,932,http://www.nature.com/neuro/journal/v12/n7/pdf/nn.2324.pdf,human,"odor discrimination,fMRI",YES,PPC vs. APC,within,BOLD,US,"potentially serious, specificity t.o.v. andere gebieden niet aangetoond met vergelijking tussen gebieden"
+23,NN,2009 (12),,939,,human,"motivation, fMRI",YES,LPC vs MPC connectivity,within,BOLD,France,"potentially serious, want geen plots met gemiddelden en error bars om de situatie te bekijken"
+24,NN,2009 (12),6,801,,cats,"muscimol infusions, gamma power",YES,muscimol vs. saline,within,gamma power,US,data suggest: not serious
+25,NN,2009 (12),5,547,,human,"firing rates, stroking, pleasantness ratings",YES,C-tactile vs. myelinated units,within,correlation,Sweden,"potentially serious, correlaties niet met elkaar vergeleken"
+26,NN,2009 (12),,549,,human,"gaming, visual acuity",NO,trained vs. untrained,between,behavioral,US,
+27,NN,2009 (12),4,396,http://www.nature.com/neuro/journal/v12/n4/pdf/nn.2206.pdf,human,"pharma, behavior, sleep",NO,pharma vs placebo,within,behavioral,GER,potentially serious
+28,NN,2009 (12),3,333,http://www.nature.com/neuro/journal/v12/n3/pdf/nn.2261.pdf,mice,"lesions, behavior, more",YES,early vs late training (met exp en sham-lesioned mice),within,behavioral,US,potentially serious; dit is een voorbeeld van type 2 fout: 2 tijdsmomenten met elkaar vergelijken zonder tijd mee te nemen in design
+29,NN,2009 (12),,256,,human,"farma, behavior",NO,pharma vs placebo,between,behavioral,NL,
+30,NN,2009 (12),,253,,mice,"lesions, behavior",NO,lesion vs sham,between,behavioral,CAN,
+31,NN,2009 (12),1,85,,human,"TMS, EEG, behavior",YES,TMS over FEF vs control site,within,behavioral,Japan,potentially serious: within-subject bars not informative about the interaction
+32,NN,2009 (12),,60,,,"knockout mice, behavior, LFP, spike activity",NO,several types of knockout mice vs controls (B6129),between,behavioral,US,
+33,NN,2009 (12),,32,,human,"DTI, personality questionaires",NO,correlations between DTI and 2 different personality traits,between,personality questionaire,GER,
+34,Nature,2010,07-Jan,49,8637,human,"behavioral, shocks, GSR",NO,groups with different extinction schedules,between,GSR,US,
+35,Nature,2010,18-Feb,948,8759,birds,,YES,2 groups with different levels of spine turnover,between,HVC dendritic spine turnover,US,"potentially serious, because we don't know the sem of the pre vs post tutoring difference"
+36,Nature,2010,18-Mar,413,8826,rats,,YES,infusions of small interference RNA vs control vector,between,behavioral,UK,potentially serious: relevant info is missing
+37,Nature,2010,22-Jul,457,9263,mice,,YES,knockout mice vs controls,between,percentage of neurons with specific type of activity,US,potentially serious: relevant info is missing
+38,Science,2010,11-Jun,1412,http://www.sciencemag.org/content/328/5984/1412.full.pdf,human,"lesions, behavior",NO,lesion patients vs control,between,behavior,GER,
+39,Science,2010,11-Jun,1408,http://www.sciencemag.org/content/328/5984/1408.full.pdf,human,"pharma, behavior",NO,oxytocin vs placebo,between,behavior,NL,
+40,Science,2010,29-Oct,669,http://www.sciencemag.org/content/330/6004/669.full.pdf,zebrafish,,YES,tectum ipsi vs contralateral to manipulation,within,neural responses,US,potentially serious: relevant info is missing
+41,Science,2010,03-Dec,1408,http://www.sciencemag.org/content/330/6009/1408.full.pdf,rats ,"lesions, behavior",NO,lesioned rats vs controls,between,behavior,UK,
+42,Science,2010,12-Feb,863,http://www.sciencemag.org/content/327/5967/863.full.pdf,human ,"human, mice, polymorphisms, behavior",YES,early vs late trials,within,behavior,US,potentially serious: relevant info is missing
+43,Neuron,2010,65,399,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-4YC2GXT-D-2&_cdi=7054&_user=530453&_pii=S0896627310000140&_origin=browse&_zone=rslt_list_item&_coverDate=02%2F11%2F2010&_sk=999349996&wchp=dGLbVlz-zSkzk&md5=98adf9fbdebd1cd7be7d84d279f7929b&ie=/sdarticle.pdf,mice,,YES,control vs knockout mice,between,behavior,GER,potentially serious: relevant info is missing
+44,Neuron,2010,,480,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-4YG202D-7-2&_cdi=7054&_user=530453&_pii=S0896627310000450&_origin=browse&_zone=rslt_list_item&_coverDate=02%2F25%2F2010&_sk=999349995&wchp=dGLbVlz-zSkzV&md5=427b85ddc8776d1a12896fc515aac0bb&ie=/sdarticle.pdf,mice,,YES,time of measurement,within,behavior,JAP,potentially serious: relevant info is missing
+45,Neuron,2010,,682,,rats,low-level neurosci!,NO,with or without SK-selective blocker apamin,within,# of cell spikes,US,
+46,Neuron,2010,,845,,human,,NO,patients vs controls,between,behavior,US,
+47,Neuron,2010,,927,,monkeys,,NO,OFC lesions vs controls,between,behavior,UK,
+48,Neuron,2010,66,896,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-50CDMGG-D-T&_cdi=7054&_user=530453&_pii=S089662731000379X&_origin=browse&_zone=rslt_list_item&_coverDate=06%2F24%2F2010&_sk=999339993&wchp=dGLbVtb-zSkWA&md5=5304a05a11a8c24480301ee713496350&ie=/sdarticle.pdf,mice,,YES,saline vs cocaine,between,behavior,JAP,potentially serious: relevant info is missing
+49,Neuron,2010,,908,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-50CDMGG-F-2&_cdi=7054&_user=530453&_pii=S0896627310003697&_origin=browse&_zone=rslt_list_item&_coverDate=06%2F24%2F2010&_sk=999339993&wchp=dGLbVtb-zSkWA&md5=bca57ce48edb0f7ab043a8d4fed45ace&ie=/sdarticle.pdf,mice,,YES,altered vs wild-type mice,between,number of cells,FRA,potentially serious: relevant info is missing
+50,Neuron,2010,,921,,rats,,NO,before vs after rule acquisition,within,proportion of neurons,FRA,
+51,Neuron,2010,67,618,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-50VVCP5-C-2&_cdi=7054&_user=530453&_pii=S0896627310005477&_origin=browse&_zone=rslt_list_item&_coverDate=08%2F26%2F2010&_sk=999329995&wchp=dGLbVzW-zSkzV&md5=87160be578e00ec448f467b15df2c282&ie=/sdarticle.pdf,mice,,YES,control vs knockout mice,between,behavior,NL,potentially serious: relevant info is missing
+52,Neuron,2010,,656,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-50VVCP5-G-T&_cdi=7054&_user=530453&_pii=S0896627310005465&_origin=browse&_zone=rslt_list_item&_coverDate=08%2F26%2F2010&_sk=999329995&wchp=dGLbVzW-zSkzV&md5=75e44775d6a9a3be630e014e9f7a0079&ie=/sdarticle.pdf,mice,,YES,control vs knockout mice,between,behavior,ITA,potentially serious: relevant info is missing
+53,Neuron,2010,,821,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-50YV1JT-J-1&_cdi=7054&_user=530453&_pii=S0896627310006227&_origin=browse&_zone=rslt_list_item&_coverDate=09%2F09%2F2010&_sk=999329994&wchp=dGLbVlz-zSkzV&md5=216c14588fa7830bd984e07d2f267397&ie=/sdarticle.pdf,rats,low-level neurosci!,YES,time of measurement,within,surface expression of b3 subunit ,,potentially serious: relevant info is missing
+54,Neuron,2010,68,401,,human,,NO,patients vs controls,between,behavior,US,
+55,Neuron,2010,,529,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-51CSGBM-N-11&_cdi=7054&_user=530453&_pii=S0896627310007580&_origin=browse&_zone=rslt_list_item&_coverDate=11%2F04%2F2010&_sk=999319996&wchp=dGLzVzb-zSkWA&md5=98d5184d01ef82fa95f1d27d091109de&ie=/sdarticle.pdf,mice,low-level neurosci!,YES,vehicle vs pharma,between,behavior,SWE,potentially serious: relevant info is missing
+56,Neuron,2010,,543,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-51CSGBM-P-X&_cdi=7054&_user=530453&_pii=S0896627310007257&_origin=browse&_zone=rslt_list_item&_coverDate=11%2F04%2F2010&_sk=999319996&wchp=dGLzVzb-zSkWA&md5=1b21adb0a149b377c4d06cf3f75e9aed&ie=/sdarticle.pdf,mice,low-level neurosci!,YES,several temperatures,within,behavior,US,potentially serious: relevant info is missing
+57,Neuron,2010,,570,http://www.sciencedirect.com/science?_ob=MImg&_imagekey=B6WSS-51CSGBM-S-13&_cdi=7054&_user=530453&_pii=S0896627310007828&_origin=browse&_zone=rslt_list_item&_coverDate=11%2F04%2F2010&_sk=999319996&wchp=dGLzVzb-zSkWA&md5=c534a2ae14a858b0a641a52c1621c66c&ie=/sdarticle.pdf,rats,low-level neurosci!,YES,type of coding scheme,within,classification success,US,potentially serious: relevant info is missing
+58,Neuron,2010,,991,,rats,,NO,pharma inactivation vs vehicle,within,behavior,US,
+59,JN,2010 (30),1,47,http://www.jneurosci.org/cgi/reprint/30/1/47,human,fMRI,YES,two subgroups of participants,between,BOLD peak,GER,potentially serious: relevant info is missing
+60,JN,2010 (30),,304,,rats,cocaine self administration model of addiction,NO,sham vs irradiation CSA,between,cocaine intake,US,
+61,JN,2010 (30),5,1610,,rats,,NO,NMDA antagonist vs vehicle,between,behavior,UK,
+62,JN,2010 (30),9,3518,,mice,low-level neurosci,NO,nicotine vs other drug,between,aspect of signal,US,
+63,JN,2010 (30),,3544,,human,fMRI,NO,familiar vs unfamiliar faces,within,BOLD signal change,UK,
+64,JN,2010 (30),13,4590,http://www.jneurosci.org/cgi/reprint/30/13/4590,mice,low-level neurosci,YES,mutants vs controls,between,EPSC amplitude,US,potentially serious: relevant info is missing
+65,JN,2010 (30),,4767,,human,fMRI,NO,correlation,within,BOLD difference,KOR,
+66,JN,2010 (30),17,6072,,human,"fMRI, TMS, connectivity",NO,salient distractor vs salient target,within,BOLD signal change,UK,
+67,JN,2010 (30),21,7139,http://www.jneurosci.org/cgi/reprint/30/21/7139,mice,,YES,two doses of pharma,between,behavior,US,potentially serious: relevant info is missing
+68,JN,2010 (30),,7202,,human,,NO,three different tasks,within,presence of map,FRA,
+69,JN,2010 (30),,7369,http://www.jneurosci.org/cgi/reprint/30/21/7369,mice,,YES,wild-type vs k.o. mice,between,behavior,UK,"unlikely to be serious, because effect crosses over"
+70,JN,2010 (30),25,8435,,human,"TMS, behavior",NO,2 different TMS sites,within,behavior,UK,
+71,JN,2010 (30),,8591,,monkey,neuronal responses,NO,VMPFC vs OFC,within,neuronal responses,US,
+72,JN,2010 (30),29,9708,http://www.jneurosci.org/cgi/reprint/30/29/9708,rats,PET and behavior,YES,2 task conditions,within,behavior,GER,potentially serious: relevant info is missing
+73,JN,2010 (30),,9782,http://www.jneurosci.org/cgi/reprint/30/29/9782,rats,lesions,YES,sham vs real lesions,between,behavior,POR,potentially serious: relevant info is missing
+74,JN,2010 (30),,9793,http://www.jneurosci.org/cgi/reprint/30/29/9793,human,ERP,YES,low vs high reward condition,within,ERP voltage,UK,potentially serious: relevant info is missing
+75,JN,2010 (30),,9869,,human,fMRI,NO,2 cortical regions,within,behavior,CHI,
+76,JN,2010 (30),,9877,http://www.jneurosci.org/cgi/reprint/30/29/9877,mice,low-level neurosci,YES,KO vs andere muizen,between,decay of dopamine,US,potentially serious: relevant info is missing
+77,JN,2010 (30),37,12323,http://www.jneurosci.org/cgi/reprint/30/37/12323,human,"psychophysics, modeling",YES,trained vs untrained orientation,within,behavior,CHI,unlikely to be serious because enormous difference between p values
+78,JN,2010 (30),,12329,,human,"fMRI, DCM",NO,type of task,within,behavior,GER,
+79,JN,2010 (30),41,13552,,human,rTMS behavior,NO,type of task,within,behavior,UK,
+80,JN,2010 (30),,13670,,human,ERP,NO,left vs right nogo stimuli,within,ERP voltage,SWI,
+81,JN,2010 (30),45,15254,,human,ERP,NO,left vs right hemisphere,within,ERP voltage,US,
+82,JN,2010 (30),49,16453,http://www.jneurosci.org/cgi/reprint/30/49/16453,mice,cell recordings,YES,mice susceptible vs resilient to social defeat,between,firing rate,US,unlikely to be serious because large differences between differences and p values
+83,JN,2010 (30),,16601,,human,"fMRI, modeling",NO,high vs low expectation ,within,BOLD,US,
+84,Nature,2009,17-Dec,916,8389,mice,training-induced spine formation and elimination,YES,training/nontraining effects in ipsi vs. contralateral motor cortex,between,percentage of spine formation and elimination,US,potentially serious: probably still significant but much less so
+85,Nature,2009,,921,8577,mice,spine formation,YES,spine formation in enriched vs standard conditions,between,percentage of spine formation,US,potentially serious
+86,Nature,2009,12-Nov,220,8485,mice,PTX affects on spike bias,YES,PTX,between,spike bias,Japan,potentially serious
+87,Nature,2009,26-Oct,1128,8488,mice,sleep deprivation cAMP,NO,sleep-deprived/NSD,between,learning,US,
+88,Nature,2009,02-Jul,95,8103,human,fMRI,NO,"body/car-task, body/car -stimulus",within,difference in correlation,US,
+89,Nature,2009,14-May,259,7868,human,viewing preference in autism,YES,autism vs control,between,viewing preference,US,potentially serious
+90,Science,2009,20-Nov,1079,5956,human,memory sleep enhancement,NO,presented during REM sleep or not,within,behavioral,US ,
+91,Science,2009,21-Aug,1018,5943,rats,"LTM, shocks, dopamine",YES,Vehicle vs. neurotransmitter,between,behavioral,Brazil,data suggest: not serious
+92,Science,2009,31-Jul,612,5940,human,"babies, bilingual learning",NO,bilingual vs. monolingual,between,behavioral,Italy,
+93,Science,2009,31-Jul,622,5940,rats,"stress, learning",YES,stress vs. control,between,behavioral,Portugal,potentially serious
+94,Science,2009,03-Jul,55,5936,monkeys,"lesions, WCST",NO,selective influence of lesions,between,behavioral,UK,
+95,Science,2009,03-Jul,780,5936,rats,"memory, RGS-14 in V2",YES,RGS-14 rats vs. controls,between,behavioral,Spain,data suggest: not serious
+96,Science,2009,19-Jun,1584,5934,human,eye movements mental arithmatic,YES,leftward vs rightward saccades,within,behavioral,France,potentially serious
+97,Science,2009,22-May,1083,5930,mice,"optogenetic tools, DA neurons",YES,phasic vs. tonic,between,behavioral,US ,potentially serious
+98,Science,2009,15-May,952,5929,rats,fear conditioning,NO,retrieval vs no-retrieval group,between,behavioral,US,
+99,Science,2009,15-May,949,5929,monkeys,single-cell recordings,YES,control vs. standard task,within,behavioral,US ,data suggest: not serious
+100,Science,2009,01-May,647,5927,human,BOLD,YES,self-control vs. non self-control,between,BOLD beta's,US,data suggest: not serious
+101,Science,2009,17-Apr,355,5925,rats,"STN, eNpHR",YES,eNpHR vs. electrode HFS,between,behavioral,US,data suggest: not serious
+102,Science,2009,01-May,645,5927,rat,neural firing,YES,burst-induced LFP L/H ratio change versus burst frequency,between,neural,US,data suggest: potentially serious
+103,Science,2009,13-Feb,938,5916,human,"schadenfreude, fMRI",NO,SpHi-AvLo vs. SpLo-AvLo contrast,within,BOLD,Japan,
+104,Science,2009,09-Jan,276,5911,human,"racists comment, emotional responses",NO,different levels of racism,within,behavioral,Canada,
+105,Neuron,2009,24-Dec,914,64-6,human,"sharp wave ripples, reward",YES,effect of day & S1 vs. S2,within,neural,US,data suggest: not serious
+106,Neuron,2009,10-Dec,762,64-5,human,"BOLD, trust game",NO,honest vs. dishonest,between,behavioral & BOLD,Switzerland,
+107,Neuron,2009,25-Nov,559,64-4,human,"EEG, auditory perception",NO,continuous vs discontinuous,within,EEG power,Netherlands,
+108,Neuron,2009,12-Nov,425,64-3,monkey,"attention, cross-modal modulation, intracortical field potentials",YES,A1 vs V1,within,frequency,US,data suggest: not serious
+109,Neuron,2009,12-Mar,703,61-5,human,learning,YES,trained vs untrained orientation,within,behavioral,US,unclear
+110,Neuron,2009,16-Jul,132,63-1,human,"BOLD, training",YES,dual-task vs single-task,within,BOLD,US,unclear
+111,Neuron,2009,25-Jun,865,62-6,human,"BOLD, hypnosis",NO,hypnosis vs simulation,between,BOLD,Switzerland,
+112,Neuron,2009,11-Jun,737,62-5,human,"BOLD, bandit task",NO,say vs. switch trials,within,BOLD,UK,
+113,Neuron,2009,30-Apr,270,62-2,rats,OFC and learning,NO,OFC operated vs. intact,between,behavioral,US,
+114,Neuron,2009,26-Mar,943,61-6,monkeys,"WCST, task switching, single cell recordings",NO,shift vs. non-shift trials,within,neural,Japan,
+115,Neuron,2009,12-Mar,794,61-5,rats,"lesions, TMT exposure",YES,lesioned vs. unlesioned rats,between,behavioral,US,data suggest: not serious
+116,Neuron,2009,15-Jan,145,61-1,human,"fMRI, conformity",NO,conformists vs. nonconformists,between,BOLD,Netherlands,
+117,JoN,2009,09-Dec,15410,49,humans,,NO,PD patients vs controls,between,gray-matter volume,SWI,
+118,JoN,2009,09-Dec,15390,49,rats,"cells in gustatory cortex, associative learning",NO,water vs. sucrose,between,neural,US,
+119,JoN,2009,11-Nov,14102,45,humans,speech recognition in noise for musicians,NO,musicians vs. non-musicians,between,behavioral,US,
+120,JoN,2009,11-Nov,14163,45,monkey,"switching, cue validity",NO,valid vs invalid cues,within,behavioral,US,
+121,JoN,2009,11-Nov,14301,45,rats,"lesions of BLA, memory ",NO,ipsilateral vs contralateral lesion,between,behavioral,Netherlands,
+122,JoN,2009,14-Oct,13076/13077,41,humans,"sound perception, EEG",YES,head-related vs allocentric,within,EEG,Germany,data suggest: not serious
+123,JoN,2009,14-Oct,12911,41,mice,horizontal vs. vertical gratings,YES,beta2- vs. beta2+,between,behavioral,US,data suggest: not serious
+124,JoN,2009,14-Oct,13055,41,rats,analgesia for hedonic foods,NO,hedonic vs. non-hedonic foods,within,behavioral,US,
+125,JoN,2009,14-Oct,13081,41,mice,chromatin remodeling through PP1,YES,control vs. NIPP1*-EGFP,between,neural,Switserland,data suggest: not serious
+126,JoN,2009,16-Sep,11615,37,humans,"amygdala, fear",YES,fearful vs neutral faces,within,DTI,US,unclear
+127,JoN,2009,16-Sep,11624,37,monkeys,"cocaine, addiction, single cell recordings",YES,self-administration of cocaine vs. extinction,within,neural,US,potentially serious
+128,JoN,2009,16-Sep,11703,37,rats,"sleep deprivation, theta waves, BF lactate release",YES,young vs. old,between,neural,Finland,unclear
+129,JoN,2009,19-Aug,10412,33,rats,"addiction, self-administration of nicotine",NO,saline vs. nicotine,between,neural,France,
+130,JoN,2009,19-Aug,10365,33,monkeys,"menopausal monkeys, set-shifting, estrogen",NO,estrogen vs. non-estrogen,between,behavioral,US,
+131,JoN,2009,22-Jul,9241,29,rats,reinstatement cue for cocaine self-administration,NO,ceftriaxone dosage,between,behavioral,US,
+132,JoN,2009,22-Jul,9273,29,humans,"MEG, semantics",NO,semantic vs phonological,within,MEG,Finland,
+133,JoN,2009,22-Jul,9366,29,rats,"EMG, sleep, lesions",YES,control vs SOM lesions,between,EMG,US,data suggest: not serious
+134,JoN,2009,22-Jul,9398,29,cats,"working memory, lesions",YES,prelesion vs postlesion,within,behavioral,Canada,data suggest: not serious
+135,JoN,2009,24-Jun,8033,25,humans,"EEG, visual short term memory",NO,two-item vs four-item,within,behavioral,UK,
+136,JoN,2009,24-Jun,8089,25,rats,"lesions of the entorhinal cortex, fear",NO,sham vs ENT,between,behavioral,France,
+137,JoN,2009,24-Jun,8108,25,mice,"Parkinson's disease, VMAT2-deficiency",NO, VMAT2-deficient vs VMAT2-WT mice,between,behavioral,US,
+138,JoN,2009,24-Jun,8123,25,humans,"fMRI, cholinergic effects on encoding and retrieval",NO,placebo vs physostigmine ,between,behavioral,Germany,
+139,JoN,2009,24-Jun,8159,25,mice,"serotonin receptor mutation, dopamine",YES,mutant vs wild mice,between,neural,US,
+140,JoN,2009,24-Jun,8209,25,mice,"conditional fear memory, lesions",NO,lesions vs sham,between,behavioral,Italy,
+141,JoN,2009,24-Jun,8282,25,rats,"conditioning, lesions",NO,lesions vs sham,between,behavioral,US,
+142,JoN,2009,27-May,6928,21,humans,"action selection, PFC, PMC, MEP",NO,stay vs switch,between,MEP,UK,
+143,JoN,2009,29-Apr,5391,17,rats,"LTP, withdrawal",YES,control vs. inhibitors,between,neural,US,unclear
+144,JoN,2009,29-Apr,5499,17,monkeys,"inferior temporal cortex, single cell recordings, visual working memory",YES,simple vs. complex occluder,within,neural,US,potentially serious
+145,JoN,2009,29-Apr,5520,17,monkeys,prosaccade antisaccade,YES,NS vs BS neurons,between,neural,Canada,data suggest: not serious
+146,JoN,2009,01-Apr,3985,13,humans,training in patients with V1 damage,YES,pre-training vs post-training,within,behavioral,US,data suggest: not serious
+147,JoN,2009,01-Apr,4041,13,rats,"dopamine, nicotine",YES,striatum vs Nac,between,neural,US,data suggest: not serious
+148,JoN,2009,01-Apr,4158,13,mice,NPS increases locomotor activity through a CRF1-dependent mechanism.,NO,vehicle vs. antalarmin,between,behavioral,US,
+149,JoN,2009,01-Apr,4165,13,humans,"fMRI, body schema",NO,motor vs. visual strategy,within,BOLD,Germany,
+150,JoN,2009,01-Apr,4223,13,mice,"anxiety, MeCP2-Mediated Transcription Repression",YES,vehicle vs. SAHA,between,behavioral,US,potentially serious
+151,JoN,2009,04-Mar,2744,9,humans,"think/no-think, EEG",YES,5 trials vs. 10 trials,within,behavioral,Germany,unclear
+152,JoN,2009,04-Mar,2727,9,humans,"visual awareness, alpha phase",YES,high vs low alpha power,within,behavioral,US,unclear
+153,JoN,2009,04-Feb,1398,5,humans,"depression, irrelevant visual information",NO,MDD vs. controls,between,behavioral,Belgium,
+154,JoN,2009,07-Jan,40,1,humans,"oxytocin, face recognition",NO,oxytocin vs. placebo,between,behavioral,Switserland,
+155,JoN,2009,07-Jan,102,1,humans,"post-error slowing, EEG",YES,F5 vs F6,within,behavioral,US,potentially serious
+156,JoN,2009,07-Jan,183,1,rats,"mRNA levels, food intake",YES,NPY vs Agrp,between,neural,US,data suggest: not serious
+157,JoN,2009,07-Jan,283,1,rats,"Catecholamine, Glucoprivic Feeding",YES,controls vs. DBH + NPY siRNAs,between,behavioral,US,data suggest: not serious

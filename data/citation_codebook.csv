@@ -1,0 +1,67 @@
+label,description,r_label
+FN,File Name,file_name
+VR,Version Number,version_number
+PT,Publication Type (J=Journal; B=Book; S=Series; P=Patent),pub_type
+AU,Authors,authors_eng
+AF,Author Full Name,author_fullname
+BA,Book Authors,book_authors
+BF,Book Authors Full Name,book_authors_fullname
+CA,Group Authors,group_authors
+GP,Book Group Authors,book_group_authors
+BE,Editors,editors
+TI,Document Title,title
+SO,Publication Name,source_title
+SE,Book Series Title,book_series_title
+BS,Book Series Subtitle,book_series_subtitle
+LA,Language,language
+DT,Document Type,document_type
+CT,Conference Title,conference_title
+CY,Conference Date,conference_date
+CL,Conference Location,conference_location
+SP,Conference Sponsors,conference_sponsor
+HO,Conference Host,conference_host
+DE,Author Keywords,author_keywords
+ID,Keywords Plus,keywords_plus
+AB,Abstract,abstract
+C1,Author Address,author_address
+RP,Reprint Address,reprint_address
+EM,E-mail Address,email_address
+RI,ResearcherID Number,researcherid
+OI,ORCID Identifier (Open Researcher and Contributor ID),orcid
+FU,Funding Agency and Grant Number,funding_agency_grant_num
+FX,Funding Text,funding_text
+CR,Cited References,cited_references
+NR,Cited Reference Count,cited_referece_count
+TC,Web of Science Core Collection Times Cited Count,cited_wos_core
+U1,Usage Count (Last 180 Days),usage_last_180
+U2,Usage Count (Since 2013),usage_2013
+PU,Publisher,publisher
+PI,Publisher City,publisher_city
+PA,Publisher Address,publisher_address
+SN,International Standard Serial Number (ISSN),issn
+EI,Electronic International Standard Serial Number (eISSN),eissn
+BN,International Standard Book Number (ISBN),isbn
+J9,29-Character Source Abbreviation,29_char_source_abbrev
+JI,ISO Source Abbreviation,iso_source_abbrev
+PD,Publication Date,pub_date
+PY,Year Published,pub_year
+VL,Volume,volume
+IS,Issue,issue
+SI,Special Issue,special_issue
+PN,Part Number,part_patent
+SU,Supplement,supplement
+MA,Meeting Abstract,meeting_abstract_number
+BP,Beginning Page,start_page
+EP,Ending Page,ending_page
+AR,Article Number,article_number
+DI,Digital Object Identifier (DOI),doi
+D2,Book Digital Object Identifier (DOI),book_doi
+PG,Page Count,pg_count
+P2,Chapter Count(Book Citation Index),chapter_count
+WC,Web of Science Categories,wos_categories
+SC,Research Areas,research_areas
+GA,Document Delivery Number,document_delivery_num
+UT,Accession Number,accession_num
+PM,PubMed ID,pubmed_id
+ER,End of Record,end_of_record
+EF,End of File,end_of_file
