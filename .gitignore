@@ -1,0 +1,14 @@
+dev/
+present/
+
+# Folder config file
+[Dd]esktop.ini
+
+# tex
+.aux
+.bbl
+.blg
+.log
+
+#
+.DS_Store
