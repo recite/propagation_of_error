@@ -38,6 +38,7 @@ library(stargazer)
 library(ggplot2)
 library(grid)
 library(lme4)
+library(equatiomatic)
 
 # 1. Read in the data
 # --------------------------------
@@ -152,9 +153,14 @@ serious_cites_by_article_year <-
    group_by(id, diff_time) %>% 
    summarise(n_cites = n())   
 
-# OLS with time trends
-change         <- with(cites_by_article_year, lmer(n_cites ~ I(diff_time > 0) + diff_time + (1| id)))
-serious_change <- with(serious_cites_by_article_year, lmer(n_cites ~ I(diff_time > 0) + diff_time + (1| id)))
+# OLS with time trends and article f.e.
+change         <- with(cites_by_article_year, lmer(n_cites ~ I(diff_time > 0) + diff_time + id + (1| id)))
+serious_change <- with(serious_cites_by_article_year, lmer(n_cites ~ I(diff_time > 0) + diff_time + id + (1| id)))
+
+cites_by_article_year$treat <- I(cites_by_article_year$diff_time > 0)
+change_r <- with(cites_by_article_year, lmer(n_cites ~ treat + diff_time + (1| id)))
+
+extract_eq(change_r)
 
 # Table
 stargazer(change, serious_change, 
@@ -164,7 +170,7 @@ stargazer(change, serious_change,
       covariate.labels = c("Transition Date", "Time"),
       no.space = TRUE,
       digits = 1,
-      omit = "as.factor", 
+      omit = "id", 
       omit.stat = c("LL", "ser", "f"),
       label = "tab:si_tab1",
       out = "tabs/nw_tab.tex")
@@ -263,8 +269,26 @@ serious_cites_by_article_year$nw_years <- I(serious_cites_by_article_year$diff_t
 did_fit          <- with(cites_by_article_year, lmer(n_cites ~ nw_years + sig_fault + nw_years*sig_fault + (1|id)))
 serious_did_fit  <- with(serious_cites_by_article_year, lmer(n_cites ~ nw_years + sig_fault + nw_years*sig_fault + (1|id)))
 
+# Plausibly switch to sandwich estimator
+library(plm)
+library(lmtest)
+library(multiwayvcov)
+
+plm_did_fit <- plm(n_cites ~ 
+               nw_years + 
+               sig_fault + 
+               nw_years*sig_fault, 
+               model = "pooling",
+               data = cites_by_article_year,
+               index = c("id"))
+
+# Bottom line assessment for interaction term = 2.4
+
 # Another possibility (but seems off in how clustering is handled)
-# library(miceadds); summary(with(cites_by_article_year, lm.cluster(data = cites_by_article_year, formula = n_cites ~ nw_years + sig_fault + nw_years*sig_fault + as.factor(id), cluster = "id")))
+library(miceadds)
+mice_did_fit <- summary(with(cites_by_article_year, lm.cluster(data = cites_by_article_year, formula = n_cites ~ nw_years + sig_fault + nw_years*sig_fault + as.factor(id), cluster = "id")))
+
+# Bottom line assessment for interaction term ~ 3
 
 # 2 year out
 cites_by_article_year$nw_years <- I(cites_by_article_year$diff_time > 1)

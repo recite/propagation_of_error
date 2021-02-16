@@ -17,6 +17,7 @@ setwd("propagation_of_error/")
 
 # Load lib.
 library(tidyverse)
+library(equatiomatic)
 
 # 1. Are dates trustworthy?
 # ---------------------------
@@ -48,7 +49,6 @@ table(bad_dates$pre_post_good, bad_dates$pre_post)
 
 # Read in data 
 retracted  <- read_csv("data/07_citations_to_retracted_articles/new_retracted_article_citations.zip")
-
 notices    <- read.csv("data/03_retraction_notices/new_retraction_notices.csv")
 codebook   <- read.csv("data/citation_codebook.csv")
 
@@ -130,6 +130,9 @@ cites_by_article_all_years$n_cites <- ifelse(is.na(cites_by_article_all_years$n_
 
 # Subset to all the years for which we have complete data
 cites_by_article_all_years_2016 <- subset(cites_by_article_all_years, pub_year_re < 2016 & ret_art_pub_year < 2016 & notice_year < 2016)
+
+## Write this out
+write.csv(cites_by_article_all_years_2016, file = "data/cites_by_article_all_years_2016.csv")
 
 # 2. Out of the box numbers: Total cites before/after notification
 # ------------------------------------------
@@ -238,37 +241,97 @@ ggsave("figs/retracted_growth_curve.pdf")
 # Formal
 #--------------
 
+## Formal 1. Sandwich Estimator + f.e. for article and without it
+## 
+
+# Loading the required libraries
+library(plm)
+library(lmtest)
+library(multiwayvcov)
+library(sandwich)
+
+# Subset on articles with at least 1 year of full post retraction notice data
+cites_by_article_all_years_1 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 1)
+cites_by_article_all_years_1$transition <- I(cites_by_article_all_years_1$diff > 0)
+
+change_1_lm_fe   <- lm(n_cites ~ transition*diff + as.factor(index), data = cites_by_article_all_years_1)
+change_1_lm_fe_c <- coeftest(change_1_lm_fe, vcov = vcovCL, cluster = ~ index)
+
+change_1_lm_no_fe   <- lm(n_cites ~ transition*diff, data = cites_by_article_all_years_1)
+change_1_lm_no_fe_c <- coeftest(change_1_lm_no_fe, vcov = vcovCL, cluster = ~ index)
+
+# Subset on articles with at least 2 years of full post retraction notice data
+cites_by_article_all_years_2 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 2)
+cites_by_article_all_years_2$transition <- I(cites_by_article_all_years_2$diff > 1)
+
+change_2_lm_fe   <- lm(n_cites ~ transition*diff + as.factor(index), data = cites_by_article_all_years_2)
+change_2_lm_fe_c <- coeftest(change_2_lm_fe, vcov = vcovCL, cluster = ~ index)
+
+change_2_lm_no_fe   <- lm(n_cites ~ transition*diff, data = cites_by_article_all_years_2)
+change_2_lm_no_fe_c <- coeftest(change_2_lm_no_fe, vcov = vcovCL, cluster = ~ index)
+
+# Subset on articles with at least 2 years of full post retraction notice data
+cites_by_article_all_years_3 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 3)
+cites_by_article_all_years_3$transition <- I(cites_by_article_all_years_3$diff > 2)
+
+change_3_lm_fe   <- lm(n_cites ~ transition*diff + as.factor(index), data = cites_by_article_all_years_3)
+change_3_lm_fe_c <- coeftest(change_3_lm_fe, vcov = vcovCL, cluster = ~ index)
+
+change_3_lm_no_fe   <- lm(n_cites ~ transition*diff, data = cites_by_article_all_years_3)
+change_3_lm_no_fe_c <- coeftest(change_3_lm_no_fe, vcov = vcovCL, cluster = ~ index)
+
+# Table 
+library(stargazer)
+stargazer(change_1_lm_fe_c, change_1_lm_no_fe_c, change_2_lm_fe_c, change_2_lm_no_fe_c, change_3_lm_fe_c, change_3_lm_no_fe_c,
+      title = "Impact of Publication of Retraction Notice on the Number of Times Retracted Articles Are Cited per Year With Article Fixed Effects and Clustered Standard Errors by Article",
+      align = TRUE,
+      digits = 1,
+      font.size = "small",
+      float.env = "sidewaystable",
+      dep.var.labels = c("Citations Per Year"), 
+      column.separate = c(2, 2, 2), 
+      column.labels = c("1 Year Later", "2 Years Later", "3 Years Later"),
+      covariate.labels = c("(1, 2, 3) Years After Notice", "Years to Notice", "(1, 2, 3) Years After Notice*Years to Notice"),
+      no.space = TRUE, 
+      omit = "as.factor", 
+      #ci = T,
+      ci.level = .95,
+      omit.stat = c("LL", "ser", "f"),
+      label = "tab:lm_fe_clustered",
+      notes = c("Models (1), (3), and (5) have fixed effects for each article, which are suppressed.",
+                "And Models (2), (4), and (6) do not have fixed effects."),
+      notes.align = "l",
+      out = "tabs/retracted_tab_lm_fe_clustered.tex")
+
+
+## Formal 2. Fit with hierarchical model with the f.e. and without it
+## Main Text Specification w/ fe
+
 library(lme4)
 
 # Subset on articles with at least 1 year of full post retraction notice data
 cites_by_article_all_years_1 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 1)
-
 cites_by_article_all_years_1$transition <- I(cites_by_article_all_years_1$diff > 0)
-change         <- with(cites_by_article_all_years_1, lmer(n_cites ~ transition*diff + (1 |index)))
+
+change_1_lmer_fe      <- lmer(n_cites ~ transition*diff + as.factor(index) + (1 |index), data = cites_by_article_all_years_1)
+change_1_lmer_no_fe   <- lmer(n_cites ~ transition*diff + (1 |index), data = cites_by_article_all_years_1)
 
 # Subset on articles with at least 2 years of full post retraction notice data
 cites_by_article_all_years_2 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 2)
-
 cites_by_article_all_years_2$transition <- I(cites_by_article_all_years_2$diff > 1)
-change_2       <- with(cites_by_article_all_years_2, lmer(n_cites ~ transition*diff + (1 |index)))
+
+change_2_lmer_fe      <- lmer(n_cites ~ transition*diff + as.factor(index) + (1 |index), data = cites_by_article_all_years_2)
+change_2_lmer_no_fe   <- lmer(n_cites ~ transition*diff + (1 |index), data = cites_by_article_all_years_2)
 
 # Subset on articles with at least 2 years of full post retraction notice data
 cites_by_article_all_years_3 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 3)
-
 cites_by_article_all_years_3$transition <- I(cites_by_article_all_years_3$diff > 2)
-change_3       <- with(cites_by_article_all_years_3, lmer(n_cites ~ transition*diff + (1 |index)))
 
-# Quantile Regression
-library(quantreg)
-taus <- c(.010, .250, .500, .750, .900)
-fit1 <- with(cites_by_article_all_years_1, rq(n_cites ~ I(diff > 0)*diff, tau = taus))
-fit2 <- with(cites_by_article_all_years_2, rq(n_cites ~ I(diff > 1)*diff, tau = taus))
-fit3 <- with(cites_by_article_all_years_3, rq(n_cites ~ I(diff > 2)*diff, tau = taus))
-round(coef(fit1), 3)
+change_3_lmer_fe      <- lmer(n_cites ~ transition*diff + as.factor(index) + (1 |index), data = cites_by_article_all_years_3)
+change_3_lmer_no_fe   <- lmer(n_cites ~ transition*diff + (1 |index), data = cites_by_article_all_years_3)
 
 # Table 
-library(stargazer)
-stargazer(change, change_2, change_3, 
+stargazer(change_1_lmer_fe, change_2_lmer_fe, change_3_lmer_fe, 
       title = "Impact of Publication of Retraction Notice on the Number of Times Retracted Articles Are Cited per Year",
       align = TRUE,
       digits = 1,
@@ -280,3 +343,96 @@ stargazer(change, change_2, change_3,
       omit.stat = c("LL", "ser", "f"),
       label = "tab:tab2",
       out = "tabs/retracted_tab.tex")
+
+## Formal 3. Changing Estimand: Quantiles Using Quantile Regression
+##
+
+library(quantreg)
+taus <- c(.100, .250, .500, .750, .900)
+fit1 <- with(cites_by_article_all_years_1, rq(n_cites ~ I(diff > 0)*diff, tau = taus))
+fit2 <- with(cites_by_article_all_years_2, rq(n_cites ~ I(diff > 1)*diff, tau = taus))
+fit3 <- with(cites_by_article_all_years_3, rq(n_cites ~ I(diff > 2)*diff, tau = taus))
+round(coef(fit1), 3)
+
+
+## Formal 4. Robustness with non-linear time trend pre and post 
+##
+
+cites_by_article_all_years_1 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 1)
+cites_by_article_all_years_1$transition <- I(cites_by_article_all_years_1$diff > 0)
+
+change_r         <- with(cites_by_article_all_years_1, lmer(n_cites ~ transition*diff + I(diff^2) + I(diff^3) + as.factor(index) + (1 |index)))
+
+# Subset on articles with at least 2 years of full post retraction notice data
+cites_by_article_all_years_2 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 2)
+cites_by_article_all_years_2$transition <- I(cites_by_article_all_years_2$diff > 1)
+
+change_2_r       <- with(cites_by_article_all_years_2, lmer(n_cites ~ transition*diff + I(diff^2) + I(diff^3) + as.factor(index) + (1 |index)))
+
+# Subset on articles with at least 2 years of full post retraction notice data
+cites_by_article_all_years_3 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 3)
+
+cites_by_article_all_years_3$transition <- I(cites_by_article_all_years_3$diff > 2)
+change_3_r       <- with(cites_by_article_all_years_3, lmer(n_cites ~ transition*diff + I(diff^2) + I(diff^3) + as.factor(index) + (1 |index)))
+
+stargazer(change_r, change_2_r, change_3_r, 
+      title = "Impact of Publication of Retraction Notice on the Number of Times Retracted Articles Are Cited per Year With Non-Linear Time Trends",
+      align = TRUE,
+      digits = 1,
+      dep.var.labels = c("Citations Per Year"), 
+      column.labels = c("1 Year Later", "2 Years Later", "3 Years Later"),
+      covariate.labels = c("(1, 2, 3) Years After Notice",
+                           "Years to Notice",
+                           "(1, 2, 3) Years After Notice*Years to Notice",
+                           "Years to Notice Squared",
+                           "Years to Notice Cubed"),
+      no.space = TRUE, 
+      omit = "as.factor", 
+      omit.stat = c("LL", "ser", "f"),
+      label = "tab:non_linear",
+      out = "tabs/retracted_tab_non_linear_time_trends.tex")
+
+## Formal 5. Robustness with non-linear time trend pre and post and Poisson
+
+## Notes: 
+## With glmer, it gives convergence warning 
+## rstanarm also but it is amazingly slow
+
+cites_by_article_all_years_1 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 1)
+cites_by_article_all_years_1$transition <- I(cites_by_article_all_years_1$diff > 0)
+change_p         <- with(cites_by_article_all_years_1, glmer(n_cites ~ transition*diff + I(diff^2) + I(diff^3) + (1 |index), family = poisson(link = "log"), nAGQ = 100))
+ 
+# Doing the sandwich estimator
+change_p <- glm(n_cites ~ transition*diff + I(diff^2) + I(diff^3) + as.factor(index), data = cites_by_article_all_years_1, family = poisson)
+change_p <- coeftest(change_p, vcov = vcovCL, cluster = ~ index)
+
+# Subset on articles with at least 2 years of full post retraction notice data
+cites_by_article_all_years_2 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 2)
+cites_by_article_all_years_2$transition <- I(cites_by_article_all_years_2$diff > 1)
+
+change_2_p <- glm(n_cites ~ transition*diff + I(diff^2) + I(diff^3) + as.factor(index), data = cites_by_article_all_years_2, family = poisson)
+change_2_p <- coeftest(change_2_p, vcov = vcovCL, cluster = ~ index)
+
+# Subset on articles with at least 2 years of full post retraction notice data
+cites_by_article_all_years_3 <- subset(cites_by_article_all_years_2016, 2016 - notice_year >= 3)
+cites_by_article_all_years_3$transition <- I(cites_by_article_all_years_3$diff > 2)
+
+change_3_p <- glm(n_cites ~ transition*diff + I(diff^2) + I(diff^3) + as.factor(index), data = cites_by_article_all_years_3, family = poisson)
+change_3_p <- coeftest(change_3_p, vcov = vcovCL, cluster = ~ index)
+
+stargazer(change_p, change_2_p, change_3_p, 
+      title = "Impact of Publication of Retraction Notice on the Number of Times Retracted Articles Are Cited per Year With Non-Linear Time Trends And Modeled as a Poisson",
+      align = TRUE,
+      digits = 1,
+      dep.var.labels = c("Citations Per Year"), 
+      column.labels = c("1 Year Later", "2 Years Later", "3 Years Later"),
+      covariate.labels = c("(1, 2, 3) Years After Notice",
+                           "Years to Notice",
+                           "(1, 2, 3) Years After Notice*Years to Notice",
+                           "Years to Notice Squared",
+                           "Years to Notice Cubed"),
+      no.space = TRUE, 
+      omit = "as.factor", 
+      omit.stat = c("LL", "ser", "f"),
+      label = "tab:poisson",
+      out = "tabs/retracted_tab_non_linear_time_trends_poisson.tex")

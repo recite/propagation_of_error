@@ -67,6 +67,8 @@ ret_field_res        <- as.data.frame(table(ret_not$area))
 ret_field_res$prop   <- ret_field_res[, 2]*100/sum(ret_field_res[, 2])
 names(ret_field_res) <- c("Field", "Number of Notices", "Percentage of Total")
 
+## SI 2
+
 print(
 	  xtable(ret_field_res,
          digits = 1,
