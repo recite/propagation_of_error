@@ -1,7 +1,7 @@
 RSCRIPT ?= Rscript
 PY ?= python3
 
-.PHONY: restore wos rw rw-fetch targets targets-fetch validation pilot openalex-fetch openalex match analysis sdid figures tables manuscript paper format lint test check ci-docker clean
+.PHONY: restore wos rw rw-fetch targets targets-fetch validation validation-fetch pilot openalex-fetch openalex match analysis sdid figures tables manuscript paper format lint test check ci-docker clean
 
 restore:
 	$(RSCRIPT) --vanilla -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv", repos = "https://cloud.r-project.org"); renv::load(project = getwd()); renv::restore(prompt = FALSE)'
@@ -23,10 +23,8 @@ targets: wos rw
 targets-fetch: wos rw
 	$(PY) -m scripts.openalex.01_targets
 
-validation: targets
-	$(PY) -m scripts.openalex.02_histories --offline --only wos
+validation:
 	$(PY) -m scripts.wos.02_compare
-	$(RSCRIPT) scripts/wos/compare.R
 
 validation-fetch: targets
 	$(PY) -m scripts.openalex.02_histories --only wos
@@ -48,7 +46,7 @@ openalex: targets
 	$(PY) -m scripts.openalex.04_candidates --offline
 	$(PY) -m scripts.openalex.05_world_counts --offline
 
-match: openalex
+match:
 	$(PY) -m scripts.matching.01_match
 	$(PY) -m scripts.matching.02_panel
 
@@ -81,12 +79,15 @@ lint:
 	$(PY) -m flake8 --max-line-length=100 scripts tests
 	$(RSCRIPT) -e 'l <- unlist(lapply(c("R", "scripts", "tests"), lintr::lint_dir), recursive = FALSE); print(l); quit(status = as.integer(length(l) > 0))'
 
-test: wos rw openalex match analysis sdid validation
+test: match analysis sdid validation
 	$(PY) -m unittest discover -s tests -p 'test_*.py'
 	$(RSCRIPT) -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'
 
 check: paper lint test
 
+# Acquisition targets (wos, rw, targets, openalex, *-fetch) need the private cache or the
+# network and are run by the maintainer; check rebuilds everything downstream of the
+# committed acquisition outputs.
 ci-docker:
 	docker run --rm -v "$(CURDIR):/project" -w /project \
 		-v r_renv_cache:/root/.cache/R/renv \

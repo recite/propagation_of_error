@@ -2,14 +2,14 @@
   "schema_version": 1,
   "study": "openalex",
   "stage": "01_targets",
-  "started_at": "2026-10-29T06:13:32.673307+00:00",
+  "started_at": "2026-10-29T06:19:35.120785+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/01_targets.py",
     "--offline"
   ],
   "python": "3.14.7",
-  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
+  "git_commit": "962403719d772cbc5e95ce0587760082a01377b3",
   "inputs": [
     {
       "path": "data/retraction_watch/sample.csv",
@@ -83,19 +83,19 @@
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
-      "bytes": 6925
+      "sha256": "a1f42129749988d370d07cecdc960aba6c09657bd44b660a3089d04fafbf3c90",
+      "bytes": 7777
     }
   ],
   "parents": [
     {
       "path": "data/retraction_watch/receipts/03_sample.json",
-      "sha256": "e5e4ac2483a6bd42d01168d26506726d58aef0323ac2c38bc29b49ce7afc6fb5",
+      "sha256": "8238f021621cf22fd3fc3fd59613e63d400497644a999272c88208e95612af37",
       "bytes": 2642
     },
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "9a0f06e4a6518b0c22d038ad0cc0bb4282efc7ce6ea3dad5d1261cb60d71f1f5",
+      "sha256": "19d049e0be1ae38d05610407b3f54ede20783dd7e49ad8a1ce313f30b6a9f9af",
       "bytes": 5946
     }
   ],
@@ -1939,5 +1939,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T06:13:33.089195+00:00"
+  "finished_at": "2026-10-29T06:19:35.504590+00:00"
 }

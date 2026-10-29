@@ -159,6 +159,9 @@ def verify_receipt(path, visiting=None):
         raise ValueError("Upstream stage is incomplete: " + str(path))
     for item in record["inputs"] + record["outputs"] + record["code"] + record.get("parents", []):
         file = ROOT / item["path"]
+        if item["path"].startswith("private-data/") and not file.exists():
+            # Cached responses are not committed; a checkout without them is still verifiable.
+            continue
         if not file.exists() or digest(file) != item["sha256"]:
             raise ValueError("Stale or changed artifact: " + item["path"])
     for parent in record.get("parents", []):

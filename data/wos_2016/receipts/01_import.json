@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "wos_2016",
   "stage": "01_import",
-  "started_at": "2026-10-29T06:13:30.347523+00:00",
+  "started_at": "2026-10-29T06:19:31.202728+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/wos/01_import.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
+  "git_commit": "962403719d772cbc5e95ce0587760082a01377b3",
   "inputs": [
     {
       "path": "data/wos_2016/retraction_notices.csv",
@@ -125,8 +125,8 @@
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
-      "bytes": 6925
+      "sha256": "a1f42129749988d370d07cecdc960aba6c09657bd44b660a3089d04fafbf3c90",
+      "bytes": 7777
     }
   ],
   "parents": [],
@@ -219,5 +219,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T06:13:32.517839+00:00"
+  "finished_at": "2026-10-29T06:19:33.115356+00:00"
 }
