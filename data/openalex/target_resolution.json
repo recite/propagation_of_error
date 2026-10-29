@@ -1,0 +1,22 @@
+{
+  "dois": 10994,
+  "frame": 9555,
+  "wos": 2723,
+  "wos_duplicate_dois_skipped": 0,
+  "overlap": 1284,
+  "resolution": {
+    "resolved": 10895,
+    "multiple": 10,
+    "unresolved": 89
+  },
+  "frame_exclusions": {
+    "openalex_multiple_works": 10,
+    "openalex_unresolved": 58,
+    "openalex_not_article": 291,
+    "year_disagreement": 109,
+    "openalex_not_journal": 124
+  },
+  "frame_eligible": 8963,
+  "frame_flagged_retracted": 8772,
+  "wos_resolved": 2687
+}

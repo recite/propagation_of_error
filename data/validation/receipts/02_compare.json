@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "study": "validation",
+  "stage": "02_compare",
+  "started_at": "2026-10-29T03:46:30.324082+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/wos/02_compare.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "07398bc39312a0cd8b79a4b06bec5501d958d5a9",
+  "inputs": [
+    {
+      "path": "data/wos_2016/tidy/articles.csv",
+      "sha256": "bb7f16da1aa0d504e02e9c41173bad8745d7a8983ffb0b65fe743540d0d6a1ac",
+      "bytes": 1057169,
+      "rows": 3029
+    },
+    {
+      "path": "data/wos_2016/tidy/citing_counts.csv",
+      "sha256": "3836b6c323cdf06db9639c0b14794d07832a25fbe8be7b7acbe036e316e1dad1",
+      "bytes": 411277,
+      "rows": 25955
+    },
+    {
+      "path": "data/wos_2016/tidy/acknowledgment.csv",
+      "sha256": "4a6382d0722c9b2c5f14d896211e47d8afe6d3a80c9fbba451691f21f692b917",
+      "bytes": 5732,
+      "rows": 375
+    },
+    {
+      "path": "data/wos_2016/tidy/reasons.csv",
+      "sha256": "e98a6f96deaad047041fbbfbed2ac83e55445fdeac492682265230c042a5191b",
+      "bytes": 7436,
+      "rows": 95
+    },
+    {
+      "path": "data/wos_2016/tidy/legacy_check.json",
+      "sha256": "b501a9feef7335fa1cdeda5eb72422118b0e390503386bd48308e55824bba4b5",
+      "bytes": 507
+    },
+    {
+      "path": "data/wos_2016/manifest.json",
+      "sha256": "ca6318d27a3b81b02c268a931675826ed5ee33203ba8342d93b08b4eadc21f75",
+      "bytes": 2175
+    },
+    {
+      "path": "data/openalex/histories.csv.gz",
+      "sha256": "cabefd01bf67f2a95c3ce4c77a6f4e0df4378991127f9eafbc65f516e1c3d15c",
+      "bytes": 141554
+    },
+    {
+      "path": "data/openalex/history_totals.csv",
+      "sha256": "435193931352aae2545752977709efd424d7efea03d2035375d9a066a2b3923a",
+      "bytes": 167901,
+      "rows": 2687
+    },
+    {
+      "path": "data/openalex/histories_summary.json",
+      "sha256": "fbe3eb66d67395e83f4f872193f4036b9f1237159da1ed45185fd2f3c8845e29",
+      "bytes": 155
+    },
+    {
+      "path": "data/retraction_watch/frame.csv",
+      "sha256": "b890569fa5482e9f242dccdc00a10ec055908c93511a4f35adb111180b04c5f6",
+      "bytes": 4490030,
+      "rows": 9555
+    },
+    {
+      "path": "data/retraction_watch/exclusions.csv",
+      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
+      "bytes": 2697439,
+      "rows": 63315
+    },
+    {
+      "path": "data/retraction_watch/frame_summary.json",
+      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
+      "bytes": 1162
+    }
+  ],
+  "outputs": [
+    {
+      "path": "data/validation/paired_panel.csv",
+      "sha256": "f6fa43e5049ef623e51b0b457d8fe3f1ae28934e8b1a531d1eff9f6a367f029e",
+      "bytes": 666474,
+      "rows": 19351
+    },
+    {
+      "path": "data/validation/date_agreement.csv",
+      "sha256": "4d9f2b8d9f4ec6282f2101225dc9516c606abfdc9f0d901701e133bf45387bf0",
+      "bytes": 54970,
+      "rows": 1284
+    },
+    {
+      "path": "data/validation/comparison_summary.json",
+      "sha256": "429e1dd68b8f763123974b798dfd303605df1ba7840763d47399e563b36332b0",
+      "bytes": 3421
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/wos/02_compare.py",
+      "sha256": "ca1a208e1d80374810b18653c8fce6263bbd09c065baacdc1aff2f441171c3f9",
+      "bytes": 5213
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
+      "bytes": 6008
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
+      "bytes": 6924
+    }
+  ],
+  "parents": [
+    {
+      "path": "data/wos_2016/receipts/01_import.json",
+      "sha256": "0bb8636bc30ad6e24bc0e81d140f49b205e1ad22d61a4b42431510da862df9dd",
+      "bytes": 5945
+    },
+    {
+      "path": "data/openalex/receipts/02_histories.json",
+      "sha256": "a5b2f2ce4fad8e0c08f9fcbc23ddf435f98f2941939699ae3c4bd76bae13ae26",
+      "bytes": 1396720
+    },
+    {
+      "path": "data/retraction_watch/receipts/02_frame.json",
+      "sha256": "ddbfd895838a67532fa73e6bf1e28f8f08add092af8c4ab10727444dc0fbfbfb",
+      "bytes": 4176
+    }
+  ],
+  "checks": [
+    {
+      "name": "paired_panel_nonempty",
+      "passed": true,
+      "detail": 19351
+    }
+  ],
+  "sources": [],
+  "metrics": {
+    "article_years": 19351,
+    "articles": 2661,
+    "totals": {
+      "wos": 62965,
+      "openalex": 69461
+    },
+    "ratio_openalex_to_wos": 1.1032,
+    "share_exact": 0.5003,
+    "share_within_one": 0.7816,
+    "share_both_zero": 0.318,
+    "by_year": {
+      "1985": {
+        "wos": 0,
+        "openalex": 0,
+        "n": 1,
+        "ratio": null
+      },
+      "1986": {
+        "wos": 0,
+        "openalex": 0,
+        "n": 1,
+        "ratio": null
+      },
+      "1987": {
+        "wos": 2,
+        "openalex": 1,
+        "n": 2,
+        "ratio": 0.5
+      },
+      "1988": {
+        "wos": 2,
+        "openalex": 1,
+        "n": 3,
+        "ratio": 0.5
+      },
+      "1989": {
+        "wos": 1,
+        "openalex": 0,
+        "n": 3,
+        "ratio": 0.0
+      },
+      "1990": {
+        "wos": 1,
+        "openalex": 2,
+        "n": 4,
+        "ratio": 2.0
+      },
+      "1991": {
+        "wos": 5,
+        "openalex": 5,
+        "n": 6,
+        "ratio": 1.0
+      },
+      "1992": {
+        "wos": 25,
+        "openalex": 25,
+        "n": 8,
+        "ratio": 1.0
+      },
+      "1993": {
+        "wos": 22,
+        "openalex": 17,
+        "n": 8,
+        "ratio": 0.773
+      },
+      "1994": {
+        "wos": 16,
+        "openalex": 8,
+        "n": 9,
+        "ratio": 0.5
+      },
+      "1995": {
+        "wos": 64,
+        "openalex": 55,
+        "n": 15,
+        "ratio": 0.859
+      },
+      "1996": {
+        "wos": 143,
+        "openalex": 109,
+        "n": 20,
+        "ratio": 0.762
+      },
+      "1997": {
+        "wos": 192,
+        "openalex": 143,
+        "n": 32,
+        "ratio": 0.745
+      },
+      "1998": {
+        "wos": 208,
+        "openalex": 190,
+        "n": 51,
+        "ratio": 0.913
+      },
+      "1999": {
+        "wos": 402,
+        "openalex": 377,
+        "n": 73,
+        "ratio": 0.938
+      },
+      "2000": {
+        "wos": 565,
+        "openalex": 585,
+        "n": 120,
+        "ratio": 1.035
+      },
+      "2001": {
+        "wos": 1032,
+        "openalex": 1051,
+        "n": 180,
+        "ratio": 1.018
+      },
+      "2002": {
+        "wos": 1686,
+        "openalex": 1705,
+        "n": 244,
+        "ratio": 1.011
+      },
+      "2003": {
+        "wos": 1835,
+        "openalex": 1907,
+        "n": 317,
+        "ratio": 1.039
+      },
+      "2004": {
+        "wos": 2286,
+        "openalex": 2446,
+        "n": 426,
+        "ratio": 1.07
+      },
+      "2005": {
+        "wos": 2808,
+        "openalex": 3040,
+        "n": 555,
+        "ratio": 1.083
+      },
+      "2006": {
+        "wos": 3326,
+        "openalex": 3605,
+        "n": 728,
+        "ratio": 1.084
+      },
+      "2007": {
+        "wos": 3894,
+        "openalex": 4259,
+        "n": 903,
+        "ratio": 1.094
+      },
+      "2008": {
+        "wos": 4164,
+        "openalex": 4512,
+        "n": 1113,
+        "ratio": 1.084
+      },
+      "2009": {
+        "wos": 4863,
+        "openalex": 5252,
+        "n": 1363,
+        "ratio": 1.08
+      },
+      "2010": {
+        "wos": 5641,
+        "openalex": 6073,
+        "n": 1641,
+        "ratio": 1.077
+      },
+      "2011": {
+        "wos": 6180,
+        "openalex": 6921,
+        "n": 1854,
+        "ratio": 1.12
+      },
+      "2012": {
+        "wos": 6260,
+        "openalex": 7225,
+        "n": 2116,
+        "ratio": 1.154
+      },
+      "2013": {
+        "wos": 6123,
+        "openalex": 7011,
+        "n": 2339,
+        "ratio": 1.145
+      },
+      "2014": {
+        "wos": 6092,
+        "openalex": 6934,
+        "n": 2555,
+        "ratio": 1.138
+      },
+      "2015": {
+        "wos": 5127,
+        "openalex": 6002,
+        "n": 2661,
+        "ratio": 1.171
+      }
+    },
+    "date_agreement": {
+      "overlap": 1284,
+      "notice_year_equal": 1210,
+      "notice_year_within_one": 1270,
+      "publication_year_equal": 1045
+    }
+  },
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:46:30.818208+00:00"
+}

@@ -1,0 +1,206 @@
+{
+  "article_years": 19351,
+  "articles": 2661,
+  "totals": {
+    "wos": 62965,
+    "openalex": 69461
+  },
+  "ratio_openalex_to_wos": 1.1032,
+  "share_exact": 0.5003,
+  "share_within_one": 0.7816,
+  "share_both_zero": 0.318,
+  "by_year": {
+    "1985": {
+      "wos": 0,
+      "openalex": 0,
+      "n": 1,
+      "ratio": null
+    },
+    "1986": {
+      "wos": 0,
+      "openalex": 0,
+      "n": 1,
+      "ratio": null
+    },
+    "1987": {
+      "wos": 2,
+      "openalex": 1,
+      "n": 2,
+      "ratio": 0.5
+    },
+    "1988": {
+      "wos": 2,
+      "openalex": 1,
+      "n": 3,
+      "ratio": 0.5
+    },
+    "1989": {
+      "wos": 1,
+      "openalex": 0,
+      "n": 3,
+      "ratio": 0.0
+    },
+    "1990": {
+      "wos": 1,
+      "openalex": 2,
+      "n": 4,
+      "ratio": 2.0
+    },
+    "1991": {
+      "wos": 5,
+      "openalex": 5,
+      "n": 6,
+      "ratio": 1.0
+    },
+    "1992": {
+      "wos": 25,
+      "openalex": 25,
+      "n": 8,
+      "ratio": 1.0
+    },
+    "1993": {
+      "wos": 22,
+      "openalex": 17,
+      "n": 8,
+      "ratio": 0.773
+    },
+    "1994": {
+      "wos": 16,
+      "openalex": 8,
+      "n": 9,
+      "ratio": 0.5
+    },
+    "1995": {
+      "wos": 64,
+      "openalex": 55,
+      "n": 15,
+      "ratio": 0.859
+    },
+    "1996": {
+      "wos": 143,
+      "openalex": 109,
+      "n": 20,
+      "ratio": 0.762
+    },
+    "1997": {
+      "wos": 192,
+      "openalex": 143,
+      "n": 32,
+      "ratio": 0.745
+    },
+    "1998": {
+      "wos": 208,
+      "openalex": 190,
+      "n": 51,
+      "ratio": 0.913
+    },
+    "1999": {
+      "wos": 402,
+      "openalex": 377,
+      "n": 73,
+      "ratio": 0.938
+    },
+    "2000": {
+      "wos": 565,
+      "openalex": 585,
+      "n": 120,
+      "ratio": 1.035
+    },
+    "2001": {
+      "wos": 1032,
+      "openalex": 1051,
+      "n": 180,
+      "ratio": 1.018
+    },
+    "2002": {
+      "wos": 1686,
+      "openalex": 1705,
+      "n": 244,
+      "ratio": 1.011
+    },
+    "2003": {
+      "wos": 1835,
+      "openalex": 1907,
+      "n": 317,
+      "ratio": 1.039
+    },
+    "2004": {
+      "wos": 2286,
+      "openalex": 2446,
+      "n": 426,
+      "ratio": 1.07
+    },
+    "2005": {
+      "wos": 2808,
+      "openalex": 3040,
+      "n": 555,
+      "ratio": 1.083
+    },
+    "2006": {
+      "wos": 3326,
+      "openalex": 3605,
+      "n": 728,
+      "ratio": 1.084
+    },
+    "2007": {
+      "wos": 3894,
+      "openalex": 4259,
+      "n": 903,
+      "ratio": 1.094
+    },
+    "2008": {
+      "wos": 4164,
+      "openalex": 4512,
+      "n": 1113,
+      "ratio": 1.084
+    },
+    "2009": {
+      "wos": 4863,
+      "openalex": 5252,
+      "n": 1363,
+      "ratio": 1.08
+    },
+    "2010": {
+      "wos": 5641,
+      "openalex": 6073,
+      "n": 1641,
+      "ratio": 1.077
+    },
+    "2011": {
+      "wos": 6180,
+      "openalex": 6921,
+      "n": 1854,
+      "ratio": 1.12
+    },
+    "2012": {
+      "wos": 6260,
+      "openalex": 7225,
+      "n": 2116,
+      "ratio": 1.154
+    },
+    "2013": {
+      "wos": 6123,
+      "openalex": 7011,
+      "n": 2339,
+      "ratio": 1.145
+    },
+    "2014": {
+      "wos": 6092,
+      "openalex": 6934,
+      "n": 2555,
+      "ratio": 1.138
+    },
+    "2015": {
+      "wos": 5127,
+      "openalex": 6002,
+      "n": 2661,
+      "ratio": 1.171
+    }
+  },
+  "date_agreement": {
+    "overlap": 1284,
+    "notice_year_equal": 1210,
+    "notice_year_within_one": 1270,
+    "publication_year_equal": 1045
+  }
+}

@@ -121,28 +121,29 @@ def request(url, path, json_response=True, timeout=40):
             until = json.loads(blocked.read_text())["until"]
             if time.time() < until:
                 raise RuntimeError(f"{host} rate limit: resume after {blocked.name}")
-        for attempt in range(5):
-            try:
-                with urllib.request.urlopen(
-                    urllib.request.Request(url, headers=headers), timeout=timeout
-                ) as response:
-                    payload = response.read()
-                break
-            except urllib.error.HTTPError as error:
-                if error.code == 429:
-                    seconds = _retry_after_seconds(error.headers.get("Retry-After"))
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(
+                urllib.request.Request(url, headers=headers), timeout=timeout
+            ) as response:
+                payload = response.read()
+            break
+        except urllib.error.HTTPError as error:
+            if error.code == 429:
+                seconds = _retry_after_seconds(error.headers.get("Retry-After"))
+                with NETWORK_LOCK:
                     CACHE.mkdir(parents=True, exist_ok=True)
                     blocked.write_text(
                         json.dumps({"until": time.time() + seconds, "seconds": seconds})
                     )
-                    raise
-                if error.code not in {500, 502, 503, 504} or attempt == 4:
-                    raise
-                time.sleep(min(2 ** (attempt + 1), 16))
-            except (TimeoutError, urllib.error.URLError):
-                if attempt == 4:
-                    raise
-                time.sleep(min(2 ** (attempt + 1), 16))
+                raise
+            if error.code not in {500, 502, 503, 504} or attempt == 4:
+                raise
+            time.sleep(min(2 ** (attempt + 1), 16))
+        except (TimeoutError, urllib.error.URLError):
+            if attempt == 4:
+                raise
+            time.sleep(min(2 ** (attempt + 1), 16))
     parsed = json.loads(payload) if json_response else payload
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(payload)

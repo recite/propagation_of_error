@@ -34,7 +34,7 @@ validation-fetch: targets
 pilot: targets
 	$(PY) -m scripts.openalex.02_histories --pilot
 	$(PY) -m scripts.openalex.03_pools --pilot
-	$(PY) -m scripts.openalex.04_candidates --pilot --budget-only
+	$(PY) -m scripts.openalex.04_candidates --pilot
 
 openalex-fetch: targets
 	$(PY) -m scripts.openalex.02_histories
