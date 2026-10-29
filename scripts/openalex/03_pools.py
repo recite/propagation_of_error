@@ -126,7 +126,7 @@ def main(offline, pilot, workers):
                 journal_id, year = futures[future]
                 try:
                     count, works, complete = future.result()
-                except FileNotFoundError as error:
+                except (FileNotFoundError, openalex.BudgetExhausted) as error:
                     failures.append(dict(journal_id=journal_id, year=year, error=str(error)))
                     continue
                 pid = pool_id(journal_id, year)

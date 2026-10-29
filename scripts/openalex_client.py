@@ -26,6 +26,17 @@ CACHE = ROOT / "private-data"
 USER_AGENT = "propagation-of-error/1.0 (https://github.com/recite/propagation_of_error)"
 NETWORK_LOCK = threading.Lock()
 MAILTO = "gsood07@gmail.com"
+BUDGET_CODES = {402, 403, 429}
+
+
+class BudgetExhausted(RuntimeError):
+    """The API refused the call for budget or rate reasons; resume later from the cache."""
+
+
+def _seconds_to_utc_midnight():
+    now = dt.datetime.now(dt.timezone.utc)
+    tomorrow = (now + dt.timedelta(days=1)).replace(hour=0, minute=5, second=0, microsecond=0)
+    return (tomorrow - now).total_seconds()
 
 
 def read_csv(path):
@@ -121,7 +132,7 @@ def request(url, path, json_response=True, timeout=40):
         if blocked.exists():
             until = json.loads(blocked.read_text())["until"]
             if time.time() < until:
-                raise RuntimeError(f"{host} rate limit: resume after {blocked.name}")
+                raise BudgetExhausted(f"{host} budget or rate limit: resume after {blocked.name}")
     for attempt in range(5):
         try:
             with urllib.request.urlopen(
@@ -130,14 +141,21 @@ def request(url, path, json_response=True, timeout=40):
                 payload = response.read()
             break
         except urllib.error.HTTPError as error:
-            if error.code == 429:
-                seconds = _retry_after_seconds(error.headers.get("Retry-After"))
+            if error.code in BUDGET_CODES:
+                # Daily budget exhausted or rate limited: block until the stated retry time,
+                # or until the next UTC midnight when OpenAlex's free budget resets.
+                header = error.headers.get("Retry-After")
+                seconds = _retry_after_seconds(header) if header else _seconds_to_utc_midnight()
                 with NETWORK_LOCK:
                     CACHE.mkdir(parents=True, exist_ok=True)
                     blocked.write_text(
-                        json.dumps({"until": time.time() + seconds, "seconds": seconds})
+                        json.dumps(
+                            {"until": time.time() + seconds, "seconds": seconds, "code": error.code}
+                        )
                     )
-                raise
+                raise BudgetExhausted(
+                    f"{host} returned {error.code}; retry after {seconds:.0f}s"
+                ) from error
             if error.code not in {500, 502, 503, 504} or attempt == 4:
                 raise
             time.sleep(min(2 ** (attempt + 1), 16))

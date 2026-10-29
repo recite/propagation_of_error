@@ -96,7 +96,7 @@ def main(offline, only, pilot, workers):
                 target = futures[future]
                 try:
                     rows, total = future.result()
-                except FileNotFoundError as error:
+                except (FileNotFoundError, openalex.BudgetExhausted) as error:
                     failures.append(dict(target_id=target["target_id"], error=str(error)))
                     continue
                 histories.extend(rows)

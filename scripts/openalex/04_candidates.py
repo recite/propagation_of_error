@@ -11,6 +11,7 @@ import concurrent.futures
 import importlib
 import json
 
+from scripts import openalex_client as openalex
 from scripts.research_pipeline import ROOT, Run, read_csv, unique, write_csv, write_json
 
 histories = importlib.import_module("scripts.openalex.02_histories")
@@ -52,7 +53,7 @@ def main(offline, pilot, workers):
             for done, future in enumerate(concurrent.futures.as_completed(futures), 1):
                 try:
                     series, total = future.result()
-                except FileNotFoundError as error:
+                except (FileNotFoundError, openalex.BudgetExhausted) as error:
                     failures.append(dict(target_id=futures[future]["target_id"], error=str(error)))
                     continue
                 rows.extend(series)
