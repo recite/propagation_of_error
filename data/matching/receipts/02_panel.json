@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "02_panel",
-  "started_at": "2026-10-29T03:52:34.029667+00:00",
+  "started_at": "2026-10-29T06:15:23.734346+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/02_panel.py"
   ],
   "python": "3.14.7",
-  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
   "inputs": [
     {
       "path": "data/matching/matches.csv",
@@ -43,8 +43,8 @@
   "outputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "399267275adf110a5e4abc614dc402165cd3cc109f14042691c6b7c53390092c",
-      "bytes": 58894
+      "sha256": "536508a062f6c4976ce493ae20f08aeb056682ac196a678609bdc1ca71ee2a21",
+      "bytes": 60305
     },
     {
       "path": "data/matching/stacks.csv",
@@ -68,24 +68,24 @@
   "code": [
     {
       "path": "scripts/matching/02_panel.py",
-      "sha256": "828435f521bb606d50d48594f98a0d1483e4bdb0e2c4606a85be979761b4e411",
-      "bytes": 6913
+      "sha256": "0f4a9e38815a7116997ddf5a3be1b9640167e4d15b98f2de536db386b8cc5550",
+      "bytes": 8383
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
-      "bytes": 6008
+      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
+      "bytes": 5978
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
-      "bytes": 6924
+      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
+      "bytes": 6925
     }
   ],
   "parents": [
     {
       "path": "data/matching/receipts/01_match.json",
-      "sha256": "7b4740c10012cde7a6e1898894595c4ec5ab76af157eeb4d47c3a40d89257b6b",
+      "sha256": "f40dc02c4800e24b52ebe40c5c537fca66c0ad9453a683677344fe7734508ebf",
       "bytes": 5498
     }
   ],
@@ -136,5 +136,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T03:52:34.471368+00:00"
+  "finished_at": "2026-10-29T06:15:24.216044+00:00"
 }

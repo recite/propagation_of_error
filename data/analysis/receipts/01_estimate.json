@@ -2,18 +2,18 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "01_estimate",
-  "started_at": "2026-10-29T03:54:45.424908+00:00",
+  "started_at": "2026-10-29T06:16:32.994224+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/01_estimate.py"
   ],
   "python": "3.14.7",
-  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "399267275adf110a5e4abc614dc402165cd3cc109f14042691c6b7c53390092c",
-      "bytes": 58894
+      "sha256": "536508a062f6c4976ce493ae20f08aeb056682ac196a678609bdc1ca71ee2a21",
+      "bytes": 60305
     },
     {
       "path": "data/matching/stacks.csv",
@@ -80,13 +80,13 @@
     },
     {
       "path": "R/analysis.R",
-      "sha256": "84288afdf0f455bac7186fa34bb53b53b4f24a95c0835aa95a84e4974e477f3b",
-      "bytes": 850
+      "sha256": "2186c26fd1f2eabdbfd0aca57c21048629f0b85535b12b0009d6d261fbf6e564",
+      "bytes": 880
     },
     {
       "path": "R/describe.R",
-      "sha256": "a9a955dd6c718144014b41bb2048af3e530ee4f2473108e4d269af55183e2a5b",
-      "bytes": 1214
+      "sha256": "06bac356d6afdc3d88533cb91e6edce17ed32b0fbac5b41af7e763378aefd937",
+      "bytes": 1218
     },
     {
       "path": "R/honest.R",
@@ -100,8 +100,8 @@
     },
     {
       "path": "R/plots.R",
-      "sha256": "a82324e8baa3451dc3bd915bee90932bca08a202a28e98e13d48471f072a3f83",
-      "bytes": 6869
+      "sha256": "98df9be962f08a6f6ce769a436ce00640dbdbaf8217947941555e5cc1bdee615",
+      "bytes": 7090
     },
     {
       "path": "R/reporting.R",
@@ -110,13 +110,13 @@
     },
     {
       "path": "R/sdid_cohorts.R",
-      "sha256": "c239ad05a3262ff9e0d664e5480bf79f07d77760c527b7a0d070da0775afd575",
-      "bytes": 3177
+      "sha256": "e9c3076fed1087734bb985be2f32498ef05f47ff836e806d145dba387c9b9687",
+      "bytes": 3205
     },
     {
       "path": "R/stacked.R",
-      "sha256": "3c3ff02087c4ef32f4ff13e961beaf6697eeed56fa9ff205c38a9c582e8b172e",
-      "bytes": 7309
+      "sha256": "70dd665f82c7f9692d919b5cd52cfee0cc1e4aaacfaa9766051c1c954ef74332",
+      "bytes": 7395
     },
     {
       "path": "R/synthetic_did.R",
@@ -125,15 +125,15 @@
     },
     {
       "path": "scripts/analysis/estimate.R",
-      "sha256": "f00decf34b49bd9afce8a51a73e738da55039f727f39556cc3f497a4bfb067d4",
-      "bytes": 5577
+      "sha256": "91689bada9066839ade214abbd03937cc92a4dd926d767254f8c70ea8e5dc20f",
+      "bytes": 5893
     }
   ],
   "outputs": [
     {
       "path": "data/analysis/estimates.csv",
-      "sha256": "52c98651ac35ec12dc0882781edebaaa64a168cca120a700191a632ff7613f47",
-      "bytes": 1623,
+      "sha256": "6195e51448db5401548422d5d3c641fcc025977e7f308df66bef8e07c3587a1e",
+      "bytes": 1621,
       "rows": 6
     },
     {
@@ -167,8 +167,8 @@
     },
     {
       "path": "data/analysis/leave_one_out.csv",
-      "sha256": "8d1d21552c5f656b0c378ab4a2c3c9fb3db3b50081dc9545b53ccda449b1f248",
-      "bytes": 6480,
+      "sha256": "b2e104c54c176a5548c46ec2cfb3c834b965f4c60f45d534443b3b7ccb88dbc6",
+      "bytes": 6564,
       "rows": 25
     },
     {
@@ -245,35 +245,35 @@
   "code": [
     {
       "path": "scripts/analysis/01_estimate.py",
-      "sha256": "ba3832dfe5bf07642cab9996ea7c8e474dd03983b4ba049b169dc6877944dc83",
-      "bytes": 1743
+      "sha256": "56e5427b742154b8244f37e7fb7fb62bc4e93925ae4e6755b87c75f2e3106dfa",
+      "bytes": 1819
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
-      "bytes": 6008
+      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
+      "bytes": 5978
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
-      "bytes": 6924
+      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
+      "bytes": 6925
     }
   ],
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "b296764381a575e0e0735fed3ccec7e78b48509a1fe8751fed53e4578d92b0f0",
+      "sha256": "d1b4b89ca52481a7a42042d3fc66932cb3d7ee34e62faab0cad7fb3050bcae0f",
       "bytes": 3895
     },
     {
       "path": "data/openalex/receipts/05_world_counts.json",
-      "sha256": "07fb3eb6a8eb2807f94b9f72ee534db35012353cbe4d6beec2eeb3bf06077119",
-      "bytes": 1864
+      "sha256": "1adfedcf620c0e0c5075368ce7c4cbe6bda6074be6355fe89377e4d535673825",
+      "bytes": 1880
     },
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "0bb8636bc30ad6e24bc0e81d140f49b205e1ad22d61a4b42431510da862df9dd",
-      "bytes": 5945
+      "sha256": "9a0f06e4a6518b0c22d038ad0cc0bb4282efc7ce6ea3dad5d1261cb60d71f1f5",
+      "bytes": 5946
     }
   ],
   "checks": [
@@ -306,5 +306,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T03:54:53.422293+00:00"
+  "finished_at": "2026-10-29T06:16:40.651069+00:00"
 }

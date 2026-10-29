@@ -23,8 +23,10 @@ theme_paper <- function(base_size = 10) {
 save_figure <- function(plot, name) {
   size <- figure_sizes[[name]]
   for (ext in c("pdf", "png")) {
-    ggplot2::ggsave(file.path("figs", paste0(name, ".", ext)), plot,
-      width = size[1], height = size[2], dpi = 200, device = if (ext == "pdf") grDevices::cairo_pdf else ext
+    ggplot2::ggsave(
+      file.path("figs", paste0(name, ".", ext)), plot,
+      width = size[1], height = size[2], dpi = 200,
+      device = if (ext == "pdf") grDevices::cairo_pdf else ext
     )
   }
   invisible(plot)
@@ -34,8 +36,14 @@ label_group <- function(treated) ifelse(treated == 1, "Retracted", "Comparison")
 
 plot_citation_paths <- function(paths) {
   long <- rbind(
-    data.frame(paths[c("treated", "event_time")], statistic = "Mean citations per year", value = paths$mean),
-    data.frame(paths[c("treated", "event_time")], statistic = "Median citations per year", value = paths$median)
+    data.frame(
+      paths[c("treated", "event_time")],
+      statistic = "Mean citations per year", value = paths$mean
+    ),
+    data.frame(
+      paths[c("treated", "event_time")],
+      statistic = "Median citations per year", value = paths$median
+    )
   )
   long$group <- label_group(long$treated)
   ends <- long[long$event_time == max(long$event_time), ]
@@ -43,11 +51,16 @@ plot_citation_paths <- function(paths) {
     ggplot2::geom_vline(xintercept = 0, colour = "#BBBBBB", linetype = "dashed", linewidth = .3) +
     ggplot2::geom_line(linewidth = .7) +
     ggplot2::geom_point(size = 1.6) +
-    ggplot2::geom_text(data = ends, ggplot2::aes(label = group), hjust = -.1, size = 3, show.legend = FALSE) +
+    ggplot2::geom_text(
+      data = ends, ggplot2::aes(label = group), hjust = -.1, size = 3, show.legend = FALSE
+    ) +
     ggplot2::facet_wrap(~statistic, scales = "free_y") +
-    ggplot2::scale_colour_manual(values = c(Retracted = plot_colours[["retracted"]],
-      Comparison = plot_colours[["comparison"]])) +
-    ggplot2::scale_x_continuous(breaks = seq(-3, 5), expand = ggplot2::expansion(mult = c(.05, .4))) +
+    ggplot2::scale_colour_manual(
+      values = c(Retracted = plot_colours[["retracted"]], Comparison = plot_colours[["comparison"]])
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = seq(-3, 5), expand = ggplot2::expansion(mult = c(.05, .4))
+    ) +
     ggplot2::labs(x = "Years from retraction (0 = retraction year)", y = NULL) +
     theme_paper()
 }
@@ -57,13 +70,19 @@ plot_event_study <- function(es) {
   ggplot2::ggplot(es, ggplot2::aes(event_time, percent)) +
     ggplot2::geom_hline(yintercept = 0, colour = "#BBBBBB", linewidth = .3) +
     ggplot2::geom_vline(xintercept = -.5, colour = "#BBBBBB", linetype = "dashed", linewidth = .3) +
-    ggplot2::geom_linerange(ggplot2::aes(ymin = percent_lower, ymax = percent_upper),
-      colour = plot_colours[["retracted"]], linewidth = .5) +
-    ggplot2::geom_point(ggplot2::aes(shape = kind), colour = plot_colours[["retracted"]], size = 2.2) +
+    ggplot2::geom_linerange(
+      ggplot2::aes(ymin = percent_lower, ymax = percent_upper),
+      colour = plot_colours[["retracted"]], linewidth = .5
+    ) +
+    ggplot2::geom_point(
+      ggplot2::aes(shape = kind), colour = plot_colours[["retracted"]], size = 2.2
+    ) +
     ggplot2::scale_shape_manual(values = c(estimate = 16, reference = 1)) +
     ggplot2::scale_x_continuous(breaks = seq(-3, 5)) +
-    ggplot2::labs(x = "Years from retraction (0 = retraction year)",
-      y = "Change in citations relative to matched articles (%)") +
+    ggplot2::labs(
+      x = "Years from retraction (0 = retraction year)",
+      y = "Change in citations relative to matched articles (%)"
+    ) +
     theme_paper()
 }
 
@@ -73,14 +92,21 @@ plot_heterogeneity <- function(h, labels) {
   h$row <- factor(paste(h$variable, h$group), levels = unique(paste(h$variable, h$group)))
   ggplot2::ggplot(h, ggplot2::aes(percent, row)) +
     ggplot2::geom_vline(xintercept = 0, colour = "#BBBBBB", linewidth = .3) +
-    ggplot2::geom_linerange(ggplot2::aes(xmin = percent_lower, xmax = percent_upper),
-      colour = plot_colours[["retracted"]], linewidth = .5) +
+    ggplot2::geom_linerange(
+      ggplot2::aes(xmin = percent_lower, xmax = percent_upper),
+      colour = plot_colours[["retracted"]], linewidth = .5
+    ) +
     ggplot2::geom_point(colour = plot_colours[["retracted"]], size = 2) +
     ggplot2::scale_y_discrete(labels = function(x) sub("^.* ", "", x)) +
     ggplot2::facet_grid(variable ~ ., scales = "free_y", space = "free_y", switch = "y") +
-    ggplot2::labs(x = "Change in citations relative to matched articles, years +1 to +3 (%)", y = NULL) +
+    ggplot2::labs(
+      x = "Change in citations relative to matched articles, years +1 to +3 (%)", y = NULL
+    ) +
     theme_paper() +
-    ggplot2::theme(strip.placement = "outside", strip.text.y.left = ggplot2::element_text(angle = 0, hjust = 1))
+    ggplot2::theme(
+      strip.placement = "outside",
+      strip.text.y.left = ggplot2::element_text(angle = 0, hjust = 1)
+    )
 }
 
 plot_retraction_rates <- function(rates) {
@@ -88,7 +114,9 @@ plot_retraction_rates <- function(rates) {
     ggplot2::geom_line(colour = plot_colours[["comparison"]], linewidth = .6) +
     ggplot2::geom_point(colour = plot_colours[["comparison"]], size = 1.6) +
     ggplot2::scale_x_continuous(breaks = seq(2000, 2020, 5)) +
-    ggplot2::labs(x = "Publication year", y = "Retracted research articles\nper 10,000 journal articles") +
+    ggplot2::labs(
+      x = "Publication year", y = "Retracted research articles\nper 10,000 journal articles"
+    ) +
     theme_paper()
 }
 
@@ -116,7 +144,10 @@ plot_sdid_paths <- function(paths, cohorts) {
   }))
   long <- rbind(
     data.frame(event_time = pooled$event_time, series = "Retracted", value = pooled$Retracted),
-    data.frame(event_time = pooled$event_time, series = "Synthetic comparison", value = pooled$`Synthetic comparison`)
+    data.frame(
+      event_time = pooled$event_time, series = "Synthetic comparison",
+      value = pooled$`Synthetic comparison`
+    )
   )
   ends <- long[long$event_time == max(long$event_time), ]
   ggplot2::ggplot(long, ggplot2::aes(event_time, value, colour = series)) +
@@ -124,9 +155,17 @@ plot_sdid_paths <- function(paths, cohorts) {
     ggplot2::geom_line(linewidth = .7) +
     ggplot2::geom_point(size = 1.6) +
     ggplot2::geom_text(data = ends, ggplot2::aes(label = series), hjust = -.1, size = 3) +
-    ggplot2::scale_colour_manual(values = c(Retracted = plot_colours[["retracted"]],
-      `Synthetic comparison` = plot_colours[["synthetic"]])) +
-    ggplot2::scale_x_continuous(breaks = -3:3, expand = ggplot2::expansion(mult = c(.05, .6))) +
-    ggplot2::labs(x = "Years from retraction (0 = retraction year)", y = "Mean citations per year") +
+    ggplot2::scale_colour_manual(
+      values = c(
+        Retracted = plot_colours[["retracted"]],
+        `Synthetic comparison` = plot_colours[["synthetic"]]
+      )
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = -3:3, expand = ggplot2::expansion(mult = c(.05, .6))
+    ) +
+    ggplot2::labs(
+      x = "Years from retraction (0 = retraction year)", y = "Mean citations per year"
+    ) +
     theme_paper()
 }

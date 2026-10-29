@@ -1,4 +1,5 @@
-# Adapted from recite/sig_fault tests/testthat/test-synthetic-did.R at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2
+# Adapted from recite/sig_fault tests/testthat/test-synthetic-did.R
+# at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2
 sdid_fixture <- function() {
   set.seed(51)
   y <- matrix(rpois(24 * 7, 12), 24, 7)
@@ -40,7 +41,9 @@ test_that("matrix construction rejects missing event times and late publications
   panel <- expand.grid(article_id = letters[1:4], event_time = -3:1, stringsAsFactors = FALSE)
   panel$citations <- 2
   panel$status <- "complete"
-  roster <- data.frame(article_id = letters[1:4], treated = c(0, 0, 1, 1), first_complete_event_time = -4L)
+  roster <- data.frame(
+    article_id = letters[1:4], treated = c(0, 0, 1, 1), first_complete_event_time = -4L
+  )
   setup <- sdid_matrix(panel, roster, -3:-1, 1L)
   expect_equal(dim(setup$y), c(4L, 4L))
   expect_error(sdid_matrix(panel[-1, ], roster, -3:-1, 1L))
@@ -56,7 +59,8 @@ test_that("cohort synthetic DiD recovers a planted additive change", {
       for (t in -3:3) {
         mu <- 10 + s + 2 * m + (t + 3) + if (m == 0L && t > 0) -3 else 0
         rows[[length(rows) + 1L]] <- data.frame(
-          stack_id = paste0("s", s), article_id = paste0("s", s, "_", m), treated = as.integer(m == 0L),
+          stack_id = paste0("s", s), article_id = paste0("s", s, "_", m),
+          treated = as.integer(m == 0L),
           weight = 1, event_time = t, year = 2012L + t, citations = mu + rnorm(1, 0, .3),
           status = "complete",
           publication_year = 2005L, retraction_year = 2012L

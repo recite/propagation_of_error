@@ -32,10 +32,14 @@ write_out(estimates, "estimates.csv")
 
 dynamic <- stack_event_study(panel, "Main")
 write_out(dynamic$estimates, "event_study.csv")
-write_out(stack_event_study(panel, "Additive (OLS)", poisson = FALSE)$estimates, "event_study_ols.csv")
+additive_dynamic <- stack_event_study(panel, "Additive (OLS)", poisson = FALSE)
+write_out(additive_dynamic$estimates, "event_study_ols.csv")
 write_out(pretrend_test(dynamic), "pretrends.csv")
 honest <- honest_did(dynamic)
-jsonlite::write_json(list(available = honest$available), file.path(out, "honest_status.json"), auto_unbox = TRUE)
+jsonlite::write_json(
+  list(available = honest$available), file.path(out, "honest_status.json"),
+  auto_unbox = TRUE
+)
 if (honest$available) {
   write_out(honest$results, "honest_did.csv")
   write_out(honest$original, "honest_original.csv")
@@ -51,11 +55,18 @@ write_out(heterogeneity, "heterogeneity.csv")
 
 leave_out <- list()
 for (cohort in sort(unique(panel$retraction_year))) {
-  leave_out[[length(leave_out) + 1L]] <- stack_fit(panel[panel$retraction_year != cohort, ],
-    paste("Drop retraction year", cohort))
+  leave_out[[length(leave_out) + 1L]] <- stack_fit(
+    panel[panel$retraction_year != cohort, ], paste("Drop retraction year", cohort)
+  )
 }
+field_labels <- c(
+  bls = "life sciences", hsc = "health sciences", phy = "physical sciences",
+  bt_env = "technology and environment", soc_hum = "social sciences and humanities"
+)
 for (field in sort(unique(panel$field))) {
-  leave_out[[length(leave_out) + 1L]] <- stack_fit(panel[panel$field != field, ], paste("Drop field", field))
+  leave_out[[length(leave_out) + 1L]] <- stack_fit(
+    panel[panel$field != field, ], paste("Drop field:", field_labels[[field]])
+  )
 }
 journal_year <- paste(stacks$journal_id, stacks$publication_year)
 mass <- names(which(table(journal_year) > 10L))
@@ -63,11 +74,13 @@ leave_out[[length(leave_out) + 1L]] <- stack_fit(
   panel[!paste(panel$journal_id, panel$publication_year) %in% mass, ],
   "Drop journal-years with more than ten retractions"
 )
-leave_out[[length(leave_out) + 1L]] <- stack_fit(panel[panel$prior_concern == 0L, ],
-  "Drop articles with a prior expression of concern")
+leave_out[[length(leave_out) + 1L]] <- stack_fit(
+  panel[panel$prior_concern == 0L, ], "Drop articles with a prior expression of concern"
+)
 top <- stacks$stack_id[stacks$pre_cumulative >= quantile(stacks$pre_cumulative, .99)]
-leave_out[[length(leave_out) + 1L]] <- stack_fit(panel[!panel$stack_id %in% top, ],
-  "Drop top 1% by pre-retraction citations")
+leave_out[[length(leave_out) + 1L]] <- stack_fit(
+  panel[!panel$stack_id %in% top, ], "Drop top 1% by pre-retraction citations"
+)
 leave_out <- do.call(rbind, leave_out)
 write_out(leave_out, "leave_one_out.csv")
 
@@ -79,10 +92,12 @@ journal_clustered <- {
   b <- unname(coef(fit)["treated_post"])
   se <- sqrt(vcov(fit)["treated_post", "treated_post"])
   g <- length(unique(x$journal_id[fixest::obs(fit)]))
-  data.frame(specification = "Journal-clustered", estimate = b, se = se, clusters = g,
-    lower = b - qt(.975, g - 1) * se, upper = b + qt(.975, g - 1) * se,
-    percent = 100 * expm1(b), percent_lower = 100 * expm1(b - qt(.975, g - 1) * se),
-    percent_upper = 100 * expm1(b + qt(.975, g - 1) * se))
+  half <- qt(.975, g - 1) * se
+  data.frame(
+    specification = "Journal-clustered", estimate = b, se = se, clusters = g,
+    lower = b - half, upper = b + half, percent = 100 * expm1(b),
+    percent_lower = 100 * expm1(b - half), percent_upper = 100 * expm1(b + half)
+  )
 }
 write_out(journal_clustered, "journal_clustered.csv")
 
@@ -102,8 +117,13 @@ write_out(stack_paths(panel), "citation_paths.csv")
 rates <- retraction_rates(frame, world)
 write_out(rates$by_publication_year, "retraction_rates.csv")
 write_out(rates$by_retraction_year, "retractions_by_year.csv")
-write_out(rbind(time_to_retraction(frame), time_to_retraction(frame, "field"),
-  time_to_retraction(frame, "reason_category")), "time_to_retraction.csv")
+write_out(
+  rbind(
+    time_to_retraction(frame), time_to_retraction(frame, "field"),
+    time_to_retraction(frame, "reason_category")
+  ),
+  "time_to_retraction.csv"
+)
 write_out(acknowledgment_summary(coding), "acknowledgment.csv")
 write_out(as.data.frame(table(reason = frame$reason_category)), "reasons.csv")
 
@@ -114,5 +134,7 @@ status <- list(
 )
 jsonlite::write_json(status, file.path(out, "status.json"), auto_unbox = TRUE, pretty = TRUE)
 writeLines(capture.output(sessionInfo()), file.path(out, "R-session.txt"))
-cat("Main estimate:", main$estimate$percent, "% [", main$estimate$percent_lower, ",",
-  main$estimate$percent_upper, "]\n")
+cat(
+  "Main estimate:", main$estimate$percent, "% [", main$estimate$percent_lower, ",",
+  main$estimate$percent_upper, "]\n"
+)

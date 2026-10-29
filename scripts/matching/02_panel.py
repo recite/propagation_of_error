@@ -74,7 +74,7 @@ def build(matches, treated, treated_index, candidate_index, candidates):
         r = int(t["retraction_year"])
         visible = matching.pre_event_histories({t["article_id"]: treated_index[t["article_id"]]}, r)
         pre_cum[t["article_id"]] = sum(visible[t["article_id"]].values())
-    rank = tercile([pre_cum[a] for a in grouped])
+    tercile_of = tercile([pre_cum[a] for a in grouped])
     rows, stacks, omissions = [], [], []
     for t in treated:
         aid = t["article_id"]
@@ -107,7 +107,7 @@ def build(matches, treated, treated_index, candidate_index, candidates):
             field=t["field"],
             prior_concern=t["prior_concern"],
             lag_years=t["lag_years"],
-            pre_tercile=rank(pre_cum[aid]),
+            pre_tercile=tercile_of(pre_cum[aid]),
             sdid_eligible=sdid,
         )
         stacks.append(

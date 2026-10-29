@@ -1,4 +1,5 @@
-# Adapted from recite/sig_fault R/journal_cohort.R at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2.
+# Adapted from recite/sig_fault R/journal_cohort.R at commit
+# 1efbfd2172879c93b9c8a5c31f601d1e53f976a2.
 # A stack is one retracted article with its matched same-journal-year comparison articles.
 # Fixed effects: one per article within its stack, and one per stack and event time, so each
 # stack supplies its own citation path and the contrast is treated minus matched controls.
@@ -68,9 +69,14 @@ summarise_coefficient <- function(fit, x, name, poisson, label) {
 stack_model <- function(panel, label = "Main", pre = -3:-1, post = 1:3, poisson = TRUE) {
   check_stacked_panel(panel)
   x <- stack_window(panel, pre, post)
-  fit <- fit_stacked(citations ~ treated_post | article_id^stack_id + stack_id^event_time, x, poisson)
+  fit <- fit_stacked(
+    citations ~ treated_post | article_id^stack_id + stack_id^event_time, x, poisson
+  )
   stopifnot("treated_post" %in% names(coef(fit)))
-  list(estimate = summarise_coefficient(fit, x, "treated_post", poisson, label), model = fit, panel = x)
+  list(
+    estimate = summarise_coefficient(fit, x, "treated_post", poisson, label),
+    model = fit, panel = x
+  )
 }
 
 stack_fit <- function(...) stack_model(...)$estimate
@@ -125,7 +131,9 @@ stack_heterogeneity <- function(panel, by, pre = -3:-1, post = 1:3, poisson = TR
   stopifnot(by %in% names(panel), !anyNA(panel[[by]]))
   x <- stack_window(panel, pre, post)
   x$group <- as.character(x[[by]])
-  fit <- fit_stacked(citations ~ i(group, treated_post) | article_id^stack_id + stack_id^event_time, x, poisson)
+  fit <- fit_stacked(
+    citations ~ i(group, treated_post) | article_id^stack_id + stack_id^event_time, x, poisson
+  )
   used <- x[fixest::obs(fit), ]
   df <- length(unique(used$article_id)) - 1L
   names <- grep("^group::", names(coef(fit)), value = TRUE)
@@ -134,7 +142,11 @@ stack_heterogeneity <- function(panel, by, pre = -3:-1, post = 1:3, poisson = TR
   equal <- fixest::wald(fit, keep = "group::", print = FALSE)
   data.frame(
     variable = by, group = sub("^group::(.*):treated_post$", "\\1", names),
-    stacks = as.vector(table(unique(used[c("stack_id", "group")])$group)[sub("^group::(.*):treated_post$", "\\1", names)]),
+    stacks = as.vector(
+      table(unique(used[c("stack_id", "group")])$group)[
+        sub("^group::(.*):treated_post$", "\\1", names)
+      ]
+    ),
     estimate = unname(b), se = unname(se), df = df,
     lower = unname(b - qt(.975, df) * se), upper = unname(b + qt(.975, df) * se),
     percent = if (poisson) 100 * expm1(unname(b)) else NA_real_,
@@ -153,13 +165,16 @@ weighted_median_count <- function(value, weight) {
 
 stack_paths <- function(panel) {
   check_stacked_panel(panel)
-  do.call(rbind, lapply(split(panel, list(panel$treated, panel$event_time), drop = TRUE), function(g) {
-    data.frame(
-      treated = g$treated[1], event_time = g$event_time[1], articles = nrow(g),
-      stacks = length(unique(g$stack_id)), sum_weights = sum(g$weight),
-      mean = weighted.mean(g$citations, g$weight),
-      median = weighted_median_count(g$citations, g$weight),
-      zero_share = weighted.mean(g$citations == 0, g$weight)
-    )
-  }))
+  do.call(rbind, lapply(
+    split(panel, list(panel$treated, panel$event_time), drop = TRUE),
+    function(g) {
+      data.frame(
+        treated = g$treated[1], event_time = g$event_time[1], articles = nrow(g),
+        stacks = length(unique(g$stack_id)), sum_weights = sum(g$weight),
+        mean = weighted.mean(g$citations, g$weight),
+        median = weighted_median_count(g$citations, g$weight),
+        zero_share = weighted.mean(g$citations == 0, g$weight)
+      )
+    }
+  ))
 }

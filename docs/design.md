@@ -99,3 +99,11 @@ author- or institution-level outcomes.
 ## Changes after this plan
 
 None yet. Any change is recorded here with its date and reason.
+
+- 2026-10-29: the pilot panel (200 articles drawn by the seeded order, used to size the
+  comparison pools and to measure caliper hit rates) was also used to run the estimation,
+  synthetic DiD, figure and table code end to end before the full citation pull. No rule
+  above was changed as a result; pilot estimates are not reported.
+- 2026-10-29: OpenAlex lists are ordered by citations when unsampled, so comparison pools
+  are drawn with the API's seeded random sample after a separate count query (20 per
+  pool). This is a measurement detail of the pre-specified pool rule, not a change to it.

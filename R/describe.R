@@ -4,7 +4,8 @@ retraction_rates <- function(frame, world) {
   by_publication$year <- as.integer(by_publication$year)
   by_publication$articles <- world$articles[match(by_publication$year, world$year)]
   stopifnot(!anyNA(by_publication$articles))
-  by_publication$per_ten_thousand <- 1e4 * by_publication$retracted_articles / by_publication$articles
+  by_publication$per_ten_thousand <-
+    1e4 * by_publication$retracted_articles / by_publication$articles
   by_retraction <- as.data.frame(table(frame$retraction_year), stringsAsFactors = FALSE)
   names(by_retraction) <- c("year", "retractions")
   by_retraction$year <- as.integer(by_retraction$year)

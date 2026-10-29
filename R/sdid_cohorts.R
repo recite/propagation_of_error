@@ -44,11 +44,16 @@ sdid_by_cohort <- function(panel, stacks, pre = -3:-1, post = 1:3, draws = 499L,
   w <- 1 / estimates$se^2
   pooled <- data.frame(
     pooling = c("inverse_variance", "equal_treated_weight"),
-    estimate = c(sum(w * estimates$estimate) / sum(w),
-      sum(estimates$treated * estimates$estimate) / sum(estimates$treated)),
-    se = c(sqrt(1 / sum(w)),
-      sqrt(sum((estimates$treated / sum(estimates$treated))^2 * estimates$se^2))),
-    cohorts = nrow(estimates), treated = sum(estimates$treated), comparison = sum(estimates$comparison)
+    estimate = c(
+      sum(w * estimates$estimate) / sum(w),
+      sum(estimates$treated * estimates$estimate) / sum(estimates$treated)
+    ),
+    se = c(
+      sqrt(1 / sum(w)),
+      sqrt(sum((estimates$treated / sum(estimates$treated))^2 * estimates$se^2))
+    ),
+    cohorts = nrow(estimates), treated = sum(estimates$treated),
+    comparison = sum(estimates$comparison)
   )
   pooled$lower <- pooled$estimate - qnorm(.975) * pooled$se
   pooled$upper <- pooled$estimate + qnorm(.975) * pooled$se

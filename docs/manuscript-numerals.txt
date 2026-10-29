@@ -1,0 +1,8 @@
+10,000  # per-10,000 rate unit in a caption
+100  # 2016 acknowledgment sample sizes, documented in data/wos_2016/README.md
+275  # 2016 acknowledgment sample size
+2000  # frame publication-year bound
+2019  # frame bound
+2005  # frame bound
+2022  # frame bound
+95  # confidence level

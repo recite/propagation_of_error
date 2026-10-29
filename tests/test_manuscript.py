@@ -11,7 +11,9 @@ LITERALS = ROOT / "docs/manuscript-numerals.txt"
 
 
 def body_text(tex):
-    text = re.sub(r"(?m)%.*$", "", tex)
+    text = tex.split("\\begin{document}", 1)[-1]
+    text = re.sub(r"(?m)%.*$", "", text)
+    text = re.sub(r"\\(vspace|setstretch|hypersetup)\{[^}]*\}", " ", text)
     text = re.sub(
         r"\\(cite[tp]?|citeauthor|ref|label|input|includegraphics|bibliography|href|url)"
         r"\*?(\[[^\]]*\])?\{[^}]*\}",
@@ -37,7 +39,7 @@ class ManuscriptTests(unittest.TestCase):
                 for line in LITERALS.read_text().splitlines()
                 if line.strip()
             }
-        numerals = re.findall(r"\d[\d,.]*", body_text(tex))
+        numerals = re.findall(r"\d(?:[\d,.]*\d)?", body_text(tex))
         stray = sorted(
             {n for n in numerals if not re.fullmatch(r"(19|20)\d\d", n) and n not in allowed}
         )

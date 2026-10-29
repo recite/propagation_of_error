@@ -2,13 +2,14 @@
   "schema_version": 1,
   "study": "openalex",
   "stage": "05_world_counts",
-  "started_at": "2026-10-29T03:54:44.760089+00:00",
+  "started_at": "2026-10-29T06:13:34.989450+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
-    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/05_world_counts.py"
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/05_world_counts.py",
+    "--offline"
   ],
   "python": "3.14.7",
-  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
   "inputs": [],
   "outputs": [
     {
@@ -21,18 +22,18 @@
   "code": [
     {
       "path": "scripts/openalex/05_world_counts.py",
-      "sha256": "fc9ea0498c18a8016294409bcc35e5c8c7665dcb6410f360cf2a8cc82b93b3bc",
-      "bytes": 1301
+      "sha256": "f1d1fc56eb233802ca6a58ae14035ef1f68a3dc487d6c60333c448d49982c5e1",
+      "bytes": 1475
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
-      "bytes": 6008
+      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
+      "bytes": 5978
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
-      "bytes": 6924
+      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
+      "bytes": 6925
     }
   ],
   "parents": [],
@@ -46,7 +47,7 @@
   "sources": [
     {
       "path": "private-data/openalex/world_counts/c1/c142a7e4d162ebbbd14ef53024391e800dab181e51a198000e7c51f4a57312ad.json",
-      "cache_hit": false,
+      "cache_hit": true,
       "url": "https://api.openalex.org/works?filter=type%3Aarticle%2Cprimary_location.source.type%3Ajournal&group_by=publication_year&mailto=gsood07%40gmail.com",
       "retrieved_at": "2026-10-29T03:54:45.332451+00:00",
       "sha256": "76f2591c0c2e4f113cc13da01e90da34b0944a5ef2da71dcb802b66972fa9421",
@@ -56,5 +57,5 @@
   "metrics": {},
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T03:54:45.335204+00:00"
+  "finished_at": "2026-10-29T06:13:35.001834+00:00"
 }

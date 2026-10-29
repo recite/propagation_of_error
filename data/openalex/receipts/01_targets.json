@@ -2,13 +2,14 @@
   "schema_version": 1,
   "study": "openalex",
   "stage": "01_targets",
-  "started_at": "2026-10-29T03:44:00.675438+00:00",
+  "started_at": "2026-10-29T06:13:32.673307+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
-    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/01_targets.py"
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/01_targets.py",
+    "--offline"
   ],
   "python": "3.14.7",
-  "git_commit": "07398bc39312a0cd8b79a4b06bec5501d958d5a9",
+  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
   "inputs": [
     {
       "path": "data/retraction_watch/sample.csv",
@@ -72,30 +73,30 @@
   "code": [
     {
       "path": "scripts/openalex/01_targets.py",
-      "sha256": "f1a6c6191ee3342652a669299ccba368669699a49e92be200ba4c5f3d013945a",
-      "bytes": 6101
+      "sha256": "52c879c5d5374c4ad58ef2e0f2bc7b290c5ea27430580b7457ec0b3ff7cc0125",
+      "bytes": 6547
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
-      "bytes": 6008
+      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
+      "bytes": 5978
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
-      "bytes": 6924
+      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
+      "bytes": 6925
     }
   ],
   "parents": [
     {
       "path": "data/retraction_watch/receipts/03_sample.json",
-      "sha256": "16f1e912e8962d33270c539c78ceb7d3f7508e0746bf234eb52d515b20477654",
+      "sha256": "e5e4ac2483a6bd42d01168d26506726d58aef0323ac2c38bc29b49ce7afc6fb5",
       "bytes": 2642
     },
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "0bb8636bc30ad6e24bc0e81d140f49b205e1ad22d61a4b42431510da862df9dd",
-      "bytes": 5945
+      "sha256": "9a0f06e4a6518b0c22d038ad0cc0bb4282efc7ce6ea3dad5d1261cb60d71f1f5",
+      "bytes": 5946
     }
   ],
   "checks": [
@@ -1938,5 +1939,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T03:44:01.067156+00:00"
+  "finished_at": "2026-10-29T06:13:33.089195+00:00"
 }

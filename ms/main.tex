@@ -1,0 +1,187 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{fontspec}
+\usepackage{microtype,booktabs,graphicx,amsmath,longtable,array,adjustbox,float}
+\usepackage[round,authoryear]{natbib}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl,setspace}
+\setstretch{1.15}
+\setlength{\emergencystretch}{2em}
+\graphicspath{{../figs/}}
+\input{../tabs/macros.tex}
+\title{Propagation of Error: Citations to Retracted Research}
+\author{Ken Cor \and Gaurav Sood}
+\date{October 2026}
+\hypersetup{pdfauthor={Ken Cor and Gaurav Sood},pdftitle={Propagation of Error: Citations to Retracted Research}}
+\widowpenalty=10000
+\clubpenalty=10000
+\begin{document}
+\maketitle
+\begin{abstract}
+\noindent A retraction is the strongest public signal that an article should not be relied on. We estimate how citations to retracted articles change after retraction by comparing each of \Stacks{} retracted research articles, published 2000--2019 and retracted 2005--2022, with up to five articles from the same journal and publication year matched on pre-retraction citations. Citation histories through 2025 come from OpenAlex for retracted and comparison articles alike. In the three complete years after the retraction year, citations to retracted articles were \MainPercent\% (95\% interval [\MainLower, \MainUpper]\%) relative to the path of their comparison articles, and the gap widens with time from retraction. Retracted articles continue to be cited: the mean retracted article received \RetractedMeanAfter{} citations three years after retraction, and in a 2016 sample of citing passages \AckAfterUnack{} of \AckAfterCoded{} post-retraction citations recorded no concern with the cited article. The earlier draft of this paper, which had no comparison group and omitted every year in which an article received no citations, understated the decline.
+\end{abstract}
+\vspace{1em}
+\noindent\textbf{Keywords:} retractions; citation analysis; scientific self-correction; difference-in-differences; synthetic control
+
+\newpage
+\section{Introduction}
+Citations transmit trust. Unless the citing author says otherwise, a citation tells the reader that the cited data, method or result can be used. When the cited article has been retracted, that signal is false, and the error propagates: a reader may build on the point, cite the retracted article for it in turn, or carry it into a meta-analysis. The 2005 \textit{Cancer Research} report that stem cells spontaneously transform into cancerous cells in culture was retracted in 2010 after the result failed to replicate and cross-contamination emerged as the likely cause \citep{rubio2005spontaneous,de2010retraction}; it was cited more than three hundred times after that, mostly as evidence \citep{firinci2011mesenchymal,kosaka2012therapeutic,chang2013safety}.
+
+This paper asks two questions. How much does a retraction reduce citations to the retracted article, relative to what the article would otherwise have received? And when retracted articles are cited afterward, how often does the citing passage record the retraction?
+
+The first question needs a comparison. Citations to any article rise for a few years after publication and then fall, and most retractions happen two to three years after publication, near the peak. A before-and-after comparison therefore confounds the retraction with the ordinary life cycle of citations. We follow the matched-control design of \citet{furman2012} and \citet{azoulay2015}: each retracted article is paired with articles from the same journal and publication year with similar citations before the retraction, and the outcome is the retracted article's proportional change relative to its own comparison articles. We estimate it on every Retraction Watch retraction of a research article that meets our frame rules (\Frame{} articles), with citation histories through 2025 from OpenAlex measured identically for both arms, and we pre-registered the rules in the repository before estimating anything.
+
+The second question is answered with a hand-coded sample of citing passages collected in 2016 for the earlier version of this paper, which we retain as historical coding. The companion paper examines the same questions for methodological critiques that do not lead to retraction \citep{cor2026}.
+
+\section{Prior evidence}
+Three facts about retractions are well established. Retractions have grown faster than the literature \citep{steen2011retractions,grieneisen2012comprehensive}. Most are for misconduct or serious error rather than honest mistakes \citep{bozzo2017retractions,singh2014comprehensive}. And retracted articles keep being cited, usually without any mention of the retraction, in samples spanning biomedicine, radiation oncology and case reports \citep{pfeifer1990continued,budd1998phenomena,bar2017post,hamilton2019continued,luwel2018schon,hsiao2021}. Citing authors who are unfamiliar with a field or rely on prominent journals are more likely to cite retracted work \citep{woo2024}.
+
+The size of the citation penalty is less settled. With matched controls, \citet{furman2012} find that citations to retracted biomedical articles fall by more than half, \citet{lu2013} find a penalty that spreads to the retracted authors' other work, and \citet{azoulay2015} find a smaller penalty on related but unretracted articles that is larger after misconduct. Our contribution is scale and openness: a census of eligible retractions across fields rather than a biomedical sample, open data so the result can be rebuilt, and a design that reports its own pre-trends, heterogeneity and sensitivity.
+
+\section{Data}
+\subsection{Retracted articles}
+The retraction registry is the Retraction Watch database, which Crossref publishes as an open file \citep{retractionwatch2026}. Our snapshot holds \Retractions{} retraction records. We keep one record per original DOI (the earliest retraction), require the original to be a research article or clinical study published 2000--2019 and retracted 2005--2022 at least two years after publication, so that at least one complete pre-retraction year exists, and require the DOI to resolve to one OpenAlex journal article whose publication year agrees with Retraction Watch's within a year. The sample-flow table in the appendix lists every step. The frame has \Frame{} articles, of which \Resolved{} resolve. Retraction Watch's reasons are grouped literally: \MisconductShare\% carry a fabrication, manipulation, paper-mill or peer-review label, \DuplicationShare\% a plagiarism or duplication label, and \ErrorShare\% an error or unreliability label; the rest state an investigation or little else. The median article was retracted \MedianLag{} years after publication (mean \MeanLag), and \LagFourPlusPercent\% took four years or more.
+
+\subsection{Citations}
+The outcome is the number of articles and reviews citing an article in each year, from the article's publication year through 2025, from OpenAlex \citep{priem2022}. Years with no citations are zeros, not missing. Comparison articles are measured with the same query. We validated the measure against the Web of Science export used in the earlier draft: for \WosArticleYears{} article-years covering the same articles over 2009--2015, OpenAlex counts are \WosOpenAlexRatio{} times the Web of Science counts, agree exactly in \WosExactShare\% of article-years and within one citation in \WosWithinOneShare\%. For the \WosOverlap{} articles in both the 2016 sample and the frame, the Retraction Watch retraction year equals the Web of Science notice year in \WosNoticeYearAgreement\%.
+
+\subsection{Comparison articles}
+For each retracted article we draw a seeded random sample of twenty articles from the same OpenAlex journal and publication year, excluding any that OpenAlex or Retraction Watch flags, and match on two quantities measured strictly before the retraction year: the logarithm of one plus cumulative citations, and the logarithm of one plus citations in the year before retraction. Both are standardized within the pool, a candidate must be within one standard deviation on each, and the five nearest are kept with equal weight. \Matched{} retracted articles find at least one comparison article (\Controls{} distinct comparison articles); \Unmatched{} have no candidate within the caliper and are reported, not dropped. Matching uses no information from the retraction year onward, and a test in the repository perturbs post-retraction outcomes and checks that the matches do not change.
+
+\subsection{Acknowledgment coding}
+In 2016 we sampled 100 articles citing a retracted article before or in its retraction year and 275 citing one afterward, located the passages, and coded whether the citing text noted any concern with the cited article. We keep that coding as it was made; the appendix gives the full accounting.
+
+\section{Design}
+Each retracted article and its comparison articles form a stack. The main estimate is a Poisson quasi-maximum-likelihood regression of annual citations on an indicator for a retracted article in the post-retraction years, with a fixed effect for each article within its stack and for each stack and event year, so every stack supplies its own citation path and the coefficient is the retracted article's proportional change relative to its matched articles \citep{wooldridge2023,chen2024,berge2018}. The pre-period is up to three years before retraction and the post-period is years one to three after; the retraction year is reported separately because it is only partly exposed. Comparison articles receive weight one over the number of matches in their stack. Standard errors are clustered by article, because a comparison article can serve several stacks.
+
+The dynamic version replaces the indicator with event-year interactions, with the year before retraction as the reference, which displays the pre-trend and the shape of the response. An additive version estimates the same contrast in citations per year. A synthetic difference-in-differences estimate by retraction-year cohort \citep{arkhangelsky2021} re-weights the comparison articles and the pre-years to fit the retracted articles' pre-period path, for the stacks with three complete years on each side, with whole-article bootstrap intervals. The pre-specified heterogeneity splits are reason, field, pre-retraction citation tercile, years to retraction, and a prior expression of concern. The repository's pre-analysis plan fixes all of these choices.
+
+\section{Results}
+\subsection{Citations fall after retraction and keep falling}
+Figure~\ref{fig:paths} shows mean and median citations per year by years from retraction for retracted and comparison articles. The two groups track each other before retraction, as the matching intends. In the year before retraction the mean retracted article received \RetractedMeanBefore{} citations and the mean comparison article \ComparisonMeanBefore. Three years after retraction the means were \RetractedMeanAfter{} and \ComparisonMeanAfter. The median retracted article went from \RetractedMedianBefore{} citations to \RetractedMedianAfter, and \RetractedZeroAfter\% of retracted articles received no citations three years after retraction, against \ComparisonZeroAfter\% of comparison articles.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{citation_paths}
+\caption{Citations per year to retracted articles and their matched comparison articles, by years from retraction. Means and medians over articles, weighting each comparison article by one over the number of matches in its stack; the comparison articles come from the same journal and publication year as the retracted article and were matched on citations before the retraction year. No intervals are drawn: the panel is a census of the matched articles.}
+\label{fig:paths}
+\end{figure}
+
+The main model puts the change at \MainPercent\% (95\% interval [\MainLower, \MainUpper]\%) over years one to three after retraction (Table~\ref{tab:estimates}). Extending the post-period to five years gives \FivePercent\% [\FiveLower, \FiveUpper]\%. In citations per year, the additive model gives \AdditiveEstimate{} [\AdditiveLower, \AdditiveUpper] fewer citations per year. The event-year estimates in Figure~\ref{fig:event} show the time path: \EventMinusThree\% and \EventMinusTwo\% in the two years before the reference year, with a joint test of the two pre-period coefficients giving $p = \PretrendP$; \EventZero\% in the retraction year; \EventOne\% one year after; and \EventFive\% [\EventFiveLower, \EventFiveUpper]\% five years after.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{event_study}
+\caption{Change in citations to retracted articles relative to matched comparison articles, by years from retraction. Poisson coefficients with article-within-stack and stack-by-year fixed effects, converted to percent; the year before retraction is the reference (open circle). Bars are 95\% intervals from standard errors clustered by article.}
+\label{fig:event}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Change in citations to retracted articles relative to matched comparison articles. PPML rows report the percent change implied by the Poisson coefficient; the OLS row reports citations per year. Intervals are 95\%, clustered by article.}
+\label{tab:estimates}
+\adjustbox{max width=\linewidth}{\input{../tabs/estimates.tex}}
+\end{table}
+
+\subsection{Synthetic difference-in-differences}
+Within each retraction-year cohort, the synthetic difference-in-differences estimate re-weights the comparison articles to match the retracted articles' pre-period path. Pooled by inverse variance over \SdidCohorts{} cohorts and \SdidTreated{} retracted articles with three complete years on each side, the change is \SdidEstimate{} citations per year (95\% interval [\SdidLower, \SdidUpper]); the cohort estimates are in the appendix.
+
+\subsection{Who is penalized}
+Table~\ref{tab:heterogeneity} reports the main contrast by reason for retraction, field, pre-retraction citation tercile, years to retraction, and a prior expression of concern, with a joint test of equality within each split.
+
+\begin{table}[H]
+\centering
+\caption{Change in citations relative to matched comparison articles, years one to three after retraction, by pre-specified groups. Each block is one Poisson model with group-specific post-retraction coefficients; the $p$-value is a joint Wald test of equal coefficients within the block. Intervals are 95\%, clustered by article.}
+\label{tab:heterogeneity}
+\adjustbox{max width=\linewidth}{\input{../tabs/heterogeneity.tex}}
+\end{table}
+
+\subsection{Robustness}
+Table~\ref{tab:robustness} drops each retraction-year cohort, each field, journal-years with more than ten retractions, articles with a prior expression of concern, and the top one percent of articles by pre-retraction citations, and clusters by journal instead of article. The leave-one-out estimates stay close to the main estimate.
+
+\begin{table}[H]
+\centering
+\caption{Main contrast under leave-one-out and alternative clustering. Each row refits the main model on the stated subsample. Intervals are 95\%.}
+\label{tab:robustness}
+\adjustbox{max width=\linewidth}{\input{../tabs/robustness.tex}}
+\end{table}
+
+\subsection{Post-retraction citations rarely record the retraction}
+Of the \AckAfterCoded{} located citing passages written after the retraction year, \AckAfterUnack{} recorded no concern with the cited article (\AckAfterPercent\%, 95\% Wilson interval [\AckAfterLower, \AckAfterUpper]\%). Before the retraction year the share was \AckBeforePercent\% (\AckBeforeUnack{} of \AckBeforeCoded), as expected when nothing was yet public. Table~\ref{tab:acknowledgment} gives the full accounting, including passages that could not be located.
+
+\begin{table}[H]
+\centering
+\caption{Hand coding, from 2016, of whether a citing passage recorded a concern with the cited retracted article, by whether the citing article appeared before, in, or after the retraction year. Intervals are 95\% Wilson intervals for the share with no concern recorded.}
+\label{tab:acknowledgment}
+\adjustbox{max width=\linewidth}{\input{../tabs/acknowledgment.tex}}
+\end{table}
+
+\section{What the earlier design missed}
+The 2021 draft of this paper estimated a within-article change with no comparison group and dropped every article-year in which the article received no citations. Table~\ref{tab:legacy} re-estimates that control-free design on the new sample and on the corrected 2016 Web of Science panel. Without comparison articles the post-retraction change is \LegacyOpenAlexPercent\% on the OpenAlex sample and \LegacyWosPercent\% on the \LegacyWosArticles{} Web of Science articles. The comparison articles are what turn the ordinary decline of an ageing article into a retraction effect.
+
+\begin{table}[H]
+\centering
+\caption{The control-free design of the earlier draft, re-estimated with zero years included: a post-retraction indicator and a linear trend with article fixed effects, retracted articles only. Intervals are 95\%, clustered by article.}
+\label{tab:legacy}
+\adjustbox{max width=\linewidth}{\input{../tabs/legacy_comparison.tex}}
+\end{table}
+
+\section{Discussion}
+Retraction works, partly. Relative to comparable articles, a retracted article loses a large share of the citations it would have received, and the loss grows over the following years. But the retracted article is not forgotten: three years on, the mean retracted article still collects \RetractedMeanAfter{} citations a year, and in the 2016 sample almost none of the citing passages mentioned the retraction. Both facts can hold at once. A penalty is a comparison with a counterfactual; continued citation is a level.
+
+The causal reading requires that the matched comparison articles follow the citation path the retracted article would have followed absent retraction. Matching on journal, year and pre-retraction citations makes that assumption plausible, and the flat pre-period coefficients are evidence for it, not proof. Articles are not retracted at random: an article under investigation may already be losing citations before the notice, which would make the measured penalty an upper bound on the effect of the notice itself. Reason labels are a notice's stated grounds, not an adjudication, and the acknowledgment sample is small and dated.
+
+Two uses follow. For bibliometrics, a count of citations to a retracted article measures nothing about the retraction until it is set against a comparison. For publishers and tool builders, the continued citations are avoidable: the retraction registry we used is open, and checking a reference list against it is a few lines of code.
+
+\clearpage
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\clearpage
+\appendix
+\section{Sample flow}
+\begin{table}[H]
+\centering
+\caption{From the Retraction Watch snapshot to the analysed stacks.}
+\adjustbox{max width=\linewidth}{\input{../tabs/sample_flow.tex}}
+\end{table}
+
+\section{Event-year estimates}
+\begin{table}[H]
+\centering
+\caption{Event-year coefficients from Figure~\ref{fig:event}, in percent.}
+\adjustbox{max width=\linewidth}{\input{../tabs/event_study.tex}}
+\end{table}
+
+\section{Synthetic difference-in-differences by cohort}
+\begin{table}[H]
+\centering
+\caption{Synthetic difference-in-differences by retraction-year cohort: stacks with three complete pre- and post-retraction years, donors are the cohort's matched comparison articles, intervals from a whole-article bootstrap. The last column is the equal-weight difference-in-differences on the same matrix.}
+\adjustbox{max width=\linewidth}{\input{../tabs/sdid.tex}}
+\end{table}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{sdid_paths}
+\caption{Mean citations per year to retracted articles and the synthetic comparison path, pooled over cohorts with weights equal to the number of retracted articles.}
+\end{figure}
+
+\section{Measurement comparison}
+\begin{table}[H]
+\centering
+\caption{Citations per year to the same articles in the 2016 Web of Science export and in OpenAlex, 2009--2015.}
+\adjustbox{max width=\linewidth}{\input{../tabs/source_comparison.tex}}
+\end{table}
+
+\section{Retraction rates and timing}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{retraction_rates}
+\caption{Frame articles per 10,000 OpenAlex journal articles, by publication year. Later cohorts have had less time to be retracted within the 2005--2022 window.}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{time_to_retraction}
+\caption{Years from publication to retraction for the frame articles.}
+\end{figure}
+\end{document}

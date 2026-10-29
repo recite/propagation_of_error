@@ -2,18 +2,18 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "02_sdid",
-  "started_at": "2026-10-29T03:54:53.469242+00:00",
+  "started_at": "2026-10-29T06:15:31.732691+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/02_sdid.py"
   ],
   "python": "3.14.7",
-  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "399267275adf110a5e4abc614dc402165cd3cc109f14042691c6b7c53390092c",
-      "bytes": 58894
+      "sha256": "536508a062f6c4976ce493ae20f08aeb056682ac196a678609bdc1ca71ee2a21",
+      "bytes": 60305
     },
     {
       "path": "data/matching/stacks.csv",
@@ -40,8 +40,8 @@
     },
     {
       "path": "R/sdid_cohorts.R",
-      "sha256": "c239ad05a3262ff9e0d664e5480bf79f07d77760c527b7a0d070da0775afd575",
-      "bytes": 3177
+      "sha256": "e9c3076fed1087734bb985be2f32498ef05f47ff836e806d145dba387c9b9687",
+      "bytes": 3205
     },
     {
       "path": "scripts/analysis/sdid.R",
@@ -84,24 +84,24 @@
   "code": [
     {
       "path": "scripts/analysis/02_sdid.py",
-      "sha256": "4ce019beaaa58590afc6f09036f7d72794ab6eded4e6ae19ef3b1807dc965d0d",
-      "bytes": 1018
+      "sha256": "ee65d29e2226fecd7d18fedaf38fa3f4584f4671158eafb92ff461eea7def115",
+      "bytes": 1183
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
-      "bytes": 6008
+      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
+      "bytes": 5978
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
-      "bytes": 6924
+      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
+      "bytes": 6925
     }
   ],
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "b296764381a575e0e0735fed3ccec7e78b48509a1fe8751fed53e4578d92b0f0",
+      "sha256": "d1b4b89ca52481a7a42042d3fc66932cb3d7ee34e62faab0cad7fb3050bcae0f",
       "bytes": 3895
     }
   ],
@@ -118,5 +118,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T03:55:19.722747+00:00"
+  "finished_at": "2026-10-29T06:15:58.814817+00:00"
 }
