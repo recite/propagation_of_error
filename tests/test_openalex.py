@@ -34,6 +34,10 @@ class HistoryArtifactTests(unittest.TestCase):
 
     def test_resolution_and_retraction_flags(self):
         targets = read_csv(ROOT / "data/openalex/targets.csv")
-        eligible = [t for t in targets if t["article_id"] and t["resolution"] == "resolved" and not t["frame_exclusion"]]
+        eligible = [
+            t
+            for t in targets
+            if t["article_id"] and t["resolution"] == "resolved" and not t["frame_exclusion"]
+        ]
         self.assertGreater(len(eligible), 8000)
         self.assertGreater(sum(t["is_retracted"] == "1" for t in eligible) / len(eligible), 0.9)

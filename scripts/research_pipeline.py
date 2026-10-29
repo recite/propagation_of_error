@@ -1,6 +1,7 @@
 """Receipted stages: every run records inputs, code, sources, checks and outputs.
 
-Adapted from recite/sig_fault scripts/research_pipeline.py at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2.
+Adapted from recite/sig_fault scripts/research_pipeline.py
+at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2.
 """
 
 import csv
@@ -53,9 +54,7 @@ def count_rows(path):
 
 def fingerprint(path):
     path = Path(path)
-    result = dict(
-        path=str(path.relative_to(ROOT)), sha256=digest(path), bytes=path.stat().st_size
-    )
+    result = dict(path=str(path.relative_to(ROOT)), sha256=digest(path), bytes=path.stat().st_size)
     if path.suffix == ".csv" and "private-data" not in path.parts:
         result["rows"] = count_rows(path)
     return result
@@ -158,9 +157,7 @@ def verify_receipt(path, visiting=None):
     record = json.loads(Path(path).read_text())
     if record["status"] != "complete":
         raise ValueError("Upstream stage is incomplete: " + str(path))
-    for item in (
-        record["inputs"] + record["outputs"] + record["code"] + record.get("parents", [])
-    ):
+    for item in record["inputs"] + record["outputs"] + record["code"] + record.get("parents", []):
         file = ROOT / item["path"]
         if not file.exists() or digest(file) != item["sha256"]:
             raise ValueError("Stale or changed artifact: " + item["path"])

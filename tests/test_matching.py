@@ -9,14 +9,28 @@ histories = importlib.import_module("scripts.openalex.02_histories")
 
 
 def fixture():
-    treated = [dict(article_id="t1", journal_id="J", openalex_year="2010", retraction_year="2014")]
+    treated = [
+        dict(
+            article_id="t1",
+            journal_id="J",
+            openalex_year="2010",
+            retraction_year="2014",
+        )
+    ]
     pools = [dict(pool_id="p", journal_id="J", year="2010")]
     candidates = [dict(candidate_id=f"c{i}", pool_id="p", exclusion="") for i in range(1, 8)]
     candidates.append(dict(candidate_id="c8", pool_id="p", exclusion="openalex_is_retracted"))
     series = {"t1": {2010: 5, 2011: 10, 2012: 12, 2013: 11, 2014: 9, 2015: 4}}
     levels = {"c1": 11, "c2": 10, "c3": 13, "c4": 9, "c5": 12, "c6": 40, "c7": 1}
     for cid, level in levels.items():
-        series[cid] = {2010: level // 2, 2011: level, 2012: level, 2013: level, 2014: level, 2015: level}
+        series[cid] = {
+            2010: level // 2,
+            2011: level,
+            2012: level,
+            2013: level,
+            2014: level,
+            2015: level,
+        }
     series["c8"] = dict(series["c1"])
     return treated, pools, candidates, series
 
@@ -25,14 +39,18 @@ class MatchTests(unittest.TestCase):
     def test_post_event_outcomes_cannot_change_matches(self):
         treated, pools, candidates, series = fixture()
         before = matching.match(treated, pools, candidates, series, series, k=5)
-        perturbed = {k: {y: (n * 10 if y >= 2014 else n) for y, n in v.items()} for k, v in series.items()}
+        perturbed = {
+            k: {y: (n * 10 if y >= 2014 else n) for y, n in v.items()} for k, v in series.items()
+        }
         after = matching.match(treated, pools, candidates, perturbed, perturbed, k=5)
         self.assertEqual(before[0], after[0])
         self.assertEqual(before[1], after[1])
 
     def test_caliper_excludes_distant_candidates_and_ranks_the_rest(self):
         treated, pools, candidates, series = fixture()
-        matches, scored, exclusions, balance = matching.match(treated, pools, candidates, series, series, k=5)
+        matches, scored, exclusions, balance = matching.match(
+            treated, pools, candidates, series, series, k=5
+        )
         chosen = [m["control_id"] for m in matches]
         self.assertNotIn("c6", chosen)
         self.assertNotIn("c7", chosen)
@@ -75,4 +93,6 @@ class MatchArtifactTests(unittest.TestCase):
             by_member.setdefault((r["stack_id"], r["article_id"]), []).append(int(r["event_time"]))
         for key, times in by_member.items():
             self.assertEqual(times, list(range(min(times), max(times) + 1)), key)
-        self.assertTrue(all(int(r["year"]) >= int(r["publication_year"]) for r in rows if r["treated"] == "1"))
+        self.assertTrue(
+            all(int(r["year"]) >= int(r["publication_year"]) for r in rows if r["treated"] == "1")
+        )

@@ -1,9 +1,9 @@
 {
-  "targets": 2687,
-  "only": "wos",
-  "pilot": false,
-  "article_years": 46715,
-  "citations": 97082,
-  "before_publication": 203,
+  "targets": 189,
+  "only": "all",
+  "pilot": true,
+  "article_years": 2392,
+  "citations": 5358,
+  "before_publication": 7,
   "after_cutoff": 0
 }

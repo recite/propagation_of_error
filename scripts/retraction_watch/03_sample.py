@@ -19,8 +19,15 @@ DATA = ROOT / "data/retraction_watch"
 SEED = 20261028
 FLOOR = 20
 JOURNAL_YEAR_CAP = 10
-SAMPLE_FIELDS = ["article_id", "stratum", "stratum_size", "stratum_sample_size",
-                 "inclusion_probability", "sample_order", "pilot"]
+SAMPLE_FIELDS = [
+    "article_id",
+    "stratum",
+    "stratum_size",
+    "stratum_sample_size",
+    "inclusion_probability",
+    "sample_order",
+    "pilot",
+]
 
 
 def stratified_sample(frame, size, seed, floor=FLOOR, cap=JOURNAL_YEAR_CAP):
@@ -52,11 +59,15 @@ def stratified_sample(frame, size, seed, floor=FLOOR, cap=JOURNAL_YEAR_CAP):
                 continue
             journal_year[jy] += 1
             taken += 1
-            sample.append(dict(
-                article_id=row["article_id"], stratum=f"{key[0]}/{key[1]}",
-                stratum_size=len(cells[key]), stratum_sample_size=allocation[key],
-                inclusion_probability=allocation[key] / len(cells[key]),
-            ))
+            sample.append(
+                dict(
+                    article_id=row["article_id"],
+                    stratum=f"{key[0]}/{key[1]}",
+                    stratum_size=len(cells[key]),
+                    stratum_sample_size=allocation[key],
+                    inclusion_probability=allocation[key] / len(cells[key]),
+                )
+            )
     rng.shuffle(sample)
     for order, row in enumerate(sample, 1):
         row["sample_order"] = order
@@ -67,9 +78,17 @@ def census(frame, seed):
     rng = random.Random(seed)
     rows = sorted(frame, key=lambda r: r["article_id"])
     rng.shuffle(rows)
-    return [dict(article_id=r["article_id"], stratum=f"{r['retraction_year']}/{r['field']}",
-                 stratum_size="", stratum_sample_size="", inclusion_probability=1.0,
-                 sample_order=order) for order, r in enumerate(rows, 1)]
+    return [
+        dict(
+            article_id=r["article_id"],
+            stratum=f"{r['retraction_year']}/{r['field']}",
+            stratum_size="",
+            stratum_sample_size="",
+            inclusion_probability=1.0,
+            sample_order=order,
+        )
+        for order, r in enumerate(rows, 1)
+    ]
 
 
 def main(size, pilot):
@@ -85,15 +104,24 @@ def main(size, pilot):
             row["pilot"] = int(row["sample_order"] <= pilot)
         unique(sample, ["article_id"])
         run.check("sample_size", abs(len(sample) - size) <= 0.1 * size, len(sample))
-        run.check("every_cell_represented",
-                  {r["stratum"] for r in sample} == {f"{r['retraction_year']}/{r['field']}" for r in frame},
-                  "strata")
+        run.check(
+            "every_cell_represented",
+            {r["stratum"] for r in sample}
+            == {f"{r['retraction_year']}/{r['field']}" for r in frame},
+            "strata",
+        )
         write_csv(DATA / "sample.csv", sample, SAMPLE_FIELDS)
 
         run.output(DATA / "sample.csv")
-        summary = dict(seed=SEED, requested=size, drawn=len(sample), pilot=pilot, floor=FLOOR,
-                       journal_year_cap=JOURNAL_YEAR_CAP,
-                       by_field=dict(collections.Counter(r["stratum"].split("/")[1] for r in sample)))
+        summary = dict(
+            seed=SEED,
+            requested=size,
+            drawn=len(sample),
+            pilot=pilot,
+            floor=FLOOR,
+            journal_year_cap=JOURNAL_YEAR_CAP,
+            by_field=dict(collections.Counter(r["stratum"].split("/")[1] for r in sample)),
+        )
         write_json(DATA / "sampling.json", summary)
 
         run.output(DATA / "sampling.json")

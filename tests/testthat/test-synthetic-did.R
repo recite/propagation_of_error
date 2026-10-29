@@ -57,7 +57,8 @@ test_that("cohort synthetic DiD recovers a planted additive change", {
         mu <- 10 + s + 2 * m + (t + 3) + if (m == 0L && t > 0) -3 else 0
         rows[[length(rows) + 1L]] <- data.frame(
           stack_id = paste0("s", s), article_id = paste0("s", s, "_", m), treated = as.integer(m == 0L),
-          weight = 1, event_time = t, year = 2012L + t, citations = mu, status = "complete",
+          weight = 1, event_time = t, year = 2012L + t, citations = mu + rnorm(1, 0, .3),
+          status = "complete",
           publication_year = 2005L, retraction_year = 2012L
         )
       }
@@ -66,6 +67,8 @@ test_that("cohort synthetic DiD recovers a planted additive change", {
   panel <- do.call(rbind, rows)
   stacks <- data.frame(stack_id = paste0("s", 1:6), retraction_year = 2012L, sdid_eligible = 1L)
   out <- sdid_by_cohort(panel, stacks, draws = 10L)
-  expect_equal(out$cohorts$estimate, -3, tolerance = 1e-6)
-  expect_equal(out$pooled$estimate, c(-3, -3), tolerance = 1e-6)
+  expect_equal(out$cohorts$estimate, -3, tolerance = .2)
+  expect_equal(out$cohorts$did_estimate, -3, tolerance = .2)
+  expect_equal(out$pooled$estimate, rep(out$cohorts$estimate, 2))
+  expect_equal(nrow(out$weights), 24L)
 })

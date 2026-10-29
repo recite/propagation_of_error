@@ -34,11 +34,27 @@ FILES = {
     "legacy_panel.csv": "utf-8",
 }
 ARTICLE_FIELDS = [
-    "index", "doi", "accession", "title", "journal", "publication_year", "notice_year",
-    "notice_doi", "notice_accession", "notice_article_year", "wos_categories", "research_areas",
+    "index",
+    "doi",
+    "accession",
+    "title",
+    "journal",
+    "publication_year",
+    "notice_year",
+    "notice_doi",
+    "notice_accession",
+    "notice_article_year",
+    "wos_categories",
+    "research_areas",
 ]
 COUNT_FIELDS = ["index", "year", "citations", "citing_records", "complete"]
-ACK_FIELDS = ["sample", "index", "years_from_notice", "acknowledged", "retraction_year_citation"]
+ACK_FIELDS = [
+    "sample",
+    "index",
+    "years_from_notice",
+    "acknowledged",
+    "retraction_year_citation",
+]
 
 
 def read_rows(name):
@@ -58,14 +74,22 @@ def tidy_articles(notices, articles):
     rows = []
     for notice in notices:
         article = matched[notice["index"]]
-        rows.append(dict(
-            index=notice["index"], doi=openalex.normalize_doi(article["DI"]),
-            accession=article["UT"], title=article["TI"], journal=article["SO"],
-            publication_year=int(article["PY"]), notice_year=int(notice["PY"]),
-            notice_doi=openalex.normalize_doi(notice["DI"]), notice_accession=notice["UT"],
-            notice_article_year=notice["year"], wos_categories=article["WC"],
-            research_areas=article["SC"],
-        ))
+        rows.append(
+            dict(
+                index=notice["index"],
+                doi=openalex.normalize_doi(article["DI"]),
+                accession=article["UT"],
+                title=article["TI"],
+                journal=article["SO"],
+                publication_year=int(article["PY"]),
+                notice_year=int(notice["PY"]),
+                notice_doi=openalex.normalize_doi(notice["DI"]),
+                notice_accession=notice["UT"],
+                notice_article_year=notice["year"],
+                wos_categories=article["WC"],
+                research_areas=article["SC"],
+            )
+        )
     return rows
 
 
@@ -100,9 +124,15 @@ def tidy_counts(articles, citing):
     rows = []
     for index, start in sorted(published.items(), key=lambda x: int(x[0])):
         for year in range(start, 2017):
-            rows.append(dict(index=index, year=year, citations=distinct[(index, year)],
-                             citing_records=records[(index, year)],
-                             complete=int(year <= LAST_COMPLETE_YEAR)))
+            rows.append(
+                dict(
+                    index=index,
+                    year=year,
+                    citations=distinct[(index, year)],
+                    citing_records=records[(index, year)],
+                    complete=int(year <= LAST_COMPLETE_YEAR),
+                )
+            )
     return rows, dropped
 
 
@@ -111,8 +141,15 @@ def tidy_acknowledgment(pre, post):
     for sample, source in [("pre", pre), ("post", post)]:
         for row in source:
             code = {"1": 0, "0": 1, "NA": ""}[row["approving"]]
-            rows.append(dict(sample=sample, index=row["index"], years_from_notice=int(row["diff"]),
-                             acknowledged=code, retraction_year_citation=int(int(row["diff"]) == 0)))
+            rows.append(
+                dict(
+                    sample=sample,
+                    index=row["index"],
+                    years_from_notice=int(row["diff"]),
+                    acknowledged=code,
+                    retraction_year_citation=int(int(row["diff"]) == 0),
+                )
+            )
     return rows
 
 
@@ -135,15 +172,26 @@ def legacy_check(counts, articles):
             same_d += row["citations"]
     total = pre + post + same
     return dict(
-        draft=dict(total=total, before_notice_year=pre, notice_year=same, after_notice_year=post,
-                   share_after=round(post / total, 4)),
-        distinct=dict(total=pre_d + post_d + same_d, before_notice_year=pre_d, notice_year=same_d,
-                      after_notice_year=post_d, share_after=round(post_d / (pre_d + post_d + same_d), 4)),
+        draft=dict(
+            total=total,
+            before_notice_year=pre,
+            notice_year=same,
+            after_notice_year=post,
+            share_after=round(post / total, 4),
+        ),
+        distinct=dict(
+            total=pre_d + post_d + same_d,
+            before_notice_year=pre_d,
+            notice_year=same_d,
+            after_notice_year=post_d,
+            share_after=round(post_d / (pre_d + post_d + same_d), 4),
+        ),
         zero_article_years=sum(1 for r in counts if r["citations"] == 0 and r["complete"]),
         article_years=sum(1 for r in counts if r["complete"]),
         articles=len(articles),
-        never_cited=sum(1 for index in notice if not any(
-            r["citations"] for r in counts if r["index"] == index)),
+        never_cited=sum(
+            1 for index in notice if not any(r["citations"] for r in counts if r["index"] == index)
+        ),
     )
 
 
@@ -152,8 +200,11 @@ def main():
         manifest = {}
         for name, encoding in FILES.items():
             path = run.input(DATA / name)
-            manifest[name] = dict(sha256=openalex.sha256(path.read_bytes()), bytes=path.stat().st_size,
-                                  encoding=encoding or "latin-1 (zip member)")
+            manifest[name] = dict(
+                sha256=openalex.sha256(path.read_bytes()),
+                bytes=path.stat().st_size,
+                encoding=encoding or "latin-1 (zip member)",
+            )
         notices = read_rows("retraction_notices.csv")
         articles_raw = read_rows("retracted_articles.csv")
         citing = read_rows("retracted_article_citations.zip")
@@ -161,41 +212,86 @@ def main():
         pre = read_rows("acknowledgment_pre.csv")
         post = read_rows("acknowledgment_post.csv")
         notice_citations = read_rows("retraction_notice_citations.csv")
-        for name, rows, expected in [("notices", notices, 3029), ("articles", articles_raw, 3052),
-                                     ("citing", citing, 73565), ("reasons", reasons, 95),
-                                     ("acknowledgment_pre", pre, 100), ("acknowledgment_post", post, 275),
-                                     ("notice_citations", notice_citations, 1897)]:
+        for name, rows, expected in [
+            ("notices", notices, 3029),
+            ("articles", articles_raw, 3052),
+            ("citing", citing, 73565),
+            ("reasons", reasons, 95),
+            ("acknowledgment_pre", pre, 100),
+            ("acknowledgment_post", post, 275),
+            ("notice_citations", notice_citations, 1897),
+        ]:
             run.check(f"rows_{name}", len(rows) == expected, len(rows))
         unique(notices, ["index"])
         unique(articles_raw, ["index"])
-        run.check("every_notice_has_one_matched_article",
-                  {r["index"] for r in notices} == {r["index"] for r in articles_raw if r["final_filter"] == "1"},
-                  "final_filter == 1")
+        run.check(
+            "every_notice_has_one_matched_article",
+            {r["index"] for r in notices}
+            == {r["index"] for r in articles_raw if r["final_filter"] == "1"},
+            "final_filter == 1",
+        )
         articles = tidy_articles(notices, articles_raw)
         counts, dropped = tidy_counts(articles, citing)
         acknowledgment = tidy_acknowledgment(pre, post)
-        reason_rows = [dict(index=r["index"], reason=r["reason"], reason_label=r["reason_label"],
-                            notes=r["notes"]) for r in reasons]
+        reason_rows = [
+            dict(
+                index=r["index"],
+                reason=r["reason"],
+                reason_label=r["reason_label"],
+                notes=r["notes"],
+            )
+            for r in reasons
+        ]
         check = legacy_check(counts, articles)
         check["dropped_citing_records"] = dict(dropped)
-        run.check("draft_total_citations", check["draft"]["total"] == 73564, check["draft"]["total"])
-        run.check("draft_post_citations", check["draft"]["after_notice_year"] == 22932,
-                  check["draft"]["after_notice_year"])
-        run.check("draft_pre_citations", check["draft"]["before_notice_year"] == 39792,
-                  check["draft"]["before_notice_year"])
-        run.check("panel_is_rectangular",
-                  len(counts) == sum(2017 - r["publication_year"] for r in articles), len(counts))
+        run.check(
+            "draft_total_citations",
+            check["draft"]["total"] == 73564,
+            check["draft"]["total"],
+        )
+        run.check(
+            "draft_post_citations",
+            check["draft"]["after_notice_year"] == 22932,
+            check["draft"]["after_notice_year"],
+        )
+        run.check(
+            "draft_pre_citations",
+            check["draft"]["before_notice_year"] == 39792,
+            check["draft"]["before_notice_year"],
+        )
+        run.check(
+            "panel_is_rectangular",
+            len(counts) == sum(2017 - r["publication_year"] for r in articles),
+            len(counts),
+        )
         TIDY.mkdir(parents=True, exist_ok=True)
         write_csv(TIDY / "articles.csv", articles, ARTICLE_FIELDS)
         write_csv(TIDY / "citing_counts.csv", counts, COUNT_FIELDS)
         write_csv(TIDY / "acknowledgment.csv", acknowledgment, ACK_FIELDS)
-        write_csv(TIDY / "reasons.csv", reason_rows, ["index", "reason", "reason_label", "notes"])
+        write_csv(
+            TIDY / "reasons.csv",
+            reason_rows,
+            ["index", "reason", "reason_label", "notes"],
+        )
         write_json(TIDY / "legacy_check.json", check)
-        write_json(DATA / "manifest.json", dict(
-            files=manifest, retrieved="August 2016 Web of Science exports; see data/wos_2016/README.md",
-            dropped_duplicate_of_reasons_file="data/06_are_retracted_articles_retracted/retracted_article_sample.csv (byte-identical to retraction_reasons.csv; removed)",
-        ))
-        for name in ["articles.csv", "citing_counts.csv", "acknowledgment.csv", "reasons.csv", "legacy_check.json"]:
+        write_json(
+            DATA / "manifest.json",
+            dict(
+                files=manifest,
+                retrieved="August 2016 Web of Science exports; see data/wos_2016/README.md",
+                dropped_duplicate_of_reasons_file=(
+                    "data/06_are_retracted_articles_retracted/retracted_article_sample.csv "
+                    "(byte-identical to retraction_reasons.csv; removed)"
+                ),
+            ),
+        )
+        for name in [
+            "articles.csv",
+            "citing_counts.csv",
+            "acknowledgment.csv",
+            "reasons.csv",
+            "legacy_check.json",
+        ]:
             run.output(TIDY / name)
         run.output(DATA / "manifest.json")
         run.record["metrics"] = check

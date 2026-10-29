@@ -30,8 +30,9 @@ test_that("stacked Poisson recovers a planted proportional post-retraction chang
 
 test_that("stacked coefficient equals an explicit dummy regression", {
   x <- stack_window(stack_fixture(effect = .7), -3:-1, 1:3)
-  explicit <- glm(citations ~ treated_post + factor(paste(article_id, stack_id)) +
-    factor(paste(stack_id, event_time)), data = x, family = poisson(), weights = weight)
+  # Quasi-likelihood: stats::glm warns about non-integer outcomes; the estimate is unaffected.
+  explicit <- suppressWarnings(glm(citations ~ treated_post + factor(paste(article_id, stack_id)) +
+    factor(paste(stack_id, event_time)), data = x, family = poisson(), weights = weight))
   fit <- stack_fit(x, post = 1:3)
   expect_equal(fit$estimate, unname(coef(explicit)["treated_post"]), tolerance = 1e-6)
 })

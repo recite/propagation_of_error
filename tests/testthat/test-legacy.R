@@ -6,7 +6,9 @@ test_that("the control-free legacy model reproduces the draft's sign on the corr
   x$article_id <- as.character(x$index)
   x$treated <- 1L
   fit <- legacy_within_model(x, "WoS 2016, zero-padded")
-  expect_equal(fit$articles, 3029L)
+  # Articles published in 2016 have no complete year in the export and cannot contribute.
+  expect_equal(fit$articles, sum(articles$publication_year <= 2015L))
+  expect_equal(nrow(articles), 3029L)
   expect_lt(fit$estimate, 0)
   expect_lt(fit$upper, 0)
 })

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "study": "openalex",
+  "stage": "05_world_counts",
+  "started_at": "2026-10-29T03:54:44.760089+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/05_world_counts.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "inputs": [],
+  "outputs": [
+    {
+      "path": "data/openalex/world_counts.csv",
+      "sha256": "e6b6f4140fd5fce1a65b1a2bc5d406f577a801fa25dffb3e516ae0776cf255c2",
+      "bytes": 2320,
+      "rows": 200
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/openalex/05_world_counts.py",
+      "sha256": "fc9ea0498c18a8016294409bcc35e5c8c7665dcb6410f360cf2a8cc82b93b3bc",
+      "bytes": 1301
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
+      "bytes": 6008
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
+      "bytes": 6924
+    }
+  ],
+  "parents": [],
+  "checks": [
+    {
+      "name": "years_cover_frame",
+      "passed": true,
+      "detail": 200
+    }
+  ],
+  "sources": [
+    {
+      "path": "private-data/openalex/world_counts/c1/c142a7e4d162ebbbd14ef53024391e800dab181e51a198000e7c51f4a57312ad.json",
+      "cache_hit": false,
+      "url": "https://api.openalex.org/works?filter=type%3Aarticle%2Cprimary_location.source.type%3Ajournal&group_by=publication_year&mailto=gsood07%40gmail.com",
+      "retrieved_at": "2026-10-29T03:54:45.332451+00:00",
+      "sha256": "76f2591c0c2e4f113cc13da01e90da34b0944a5ef2da71dcb802b66972fa9421",
+      "bytes": 12988
+    }
+  ],
+  "metrics": {},
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:54:45.335204+00:00"
+}

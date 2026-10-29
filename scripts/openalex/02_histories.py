@@ -1,6 +1,7 @@
 """Annual citation counts for every resolved target, zero-padded through 2025.
 
-Usage: python3 -m scripts.openalex.02_histories [--offline] [--only wos|frame] [--pilot] [--workers 4]
+Usage: python3 -m scripts.openalex.02_histories [--offline] [--only wos|frame] [--pilot]
+       [--workers 4]
 Output: data/openalex/histories.csv.gz, history_totals.csv
 
 The outcome is the OpenAlex count of citing articles and reviews by publication year
@@ -11,7 +12,6 @@ never differ in measurement.
 from __future__ import annotations
 
 import argparse
-import collections
 import concurrent.futures
 import csv
 import gzip
@@ -24,8 +24,16 @@ DATA = ROOT / "data/openalex"
 LAST_YEAR = 2025
 CUTOFF = f"{LAST_YEAR}-12-31"
 HISTORY_FIELDS = ["target_id", "year", "citations"]
-TOTAL_FIELDS = ["target_id", "work_id", "first_year", "api_count", "sum_counts",
-                "before_publication", "after_cutoff", "complete"]
+TOTAL_FIELDS = [
+    "target_id",
+    "work_id",
+    "first_year",
+    "api_count",
+    "sum_counts",
+    "before_publication",
+    "after_cutoff",
+    "complete",
+]
 
 
 def pad(counts, first_year, last_year=LAST_YEAR):
@@ -40,9 +48,16 @@ def acquire(run, target):
     counts, api_count = openalex.group_by_year(run, target["work_id"], cutoff=CUTOFF)
     first_year = int(target["openalex_year"])
     series, before, after = pad(counts, first_year)
-    total = dict(target_id=target["target_id"], work_id=target["work_id"], first_year=first_year,
-                 api_count=api_count, sum_counts=sum(counts.values()), before_publication=before,
-                 after_cutoff=after, complete=int(sum(counts.values()) == api_count))
+    total = dict(
+        target_id=target["target_id"],
+        work_id=target["work_id"],
+        first_year=first_year,
+        api_count=api_count,
+        sum_counts=sum(counts.values()),
+        before_publication=before,
+        after_cutoff=after,
+        complete=int(sum(counts.values()) == api_count),
+    )
     return [dict(target_id=target["target_id"], year=y, citations=n) for y, n in series], total
 
 
@@ -67,7 +82,11 @@ def main(offline, only, pilot, workers):
         elif only == "frame":
             targets = [t for t in targets if t["article_id"] and not t["frame_exclusion"]]
         else:
-            targets = [t for t in targets if t["wos_index"] or (t["article_id"] and not t["frame_exclusion"])]
+            targets = [
+                t
+                for t in targets
+                if t["wos_index"] or (t["article_id"] and not t["frame_exclusion"])
+            ]
         if pilot:
             targets = [t for t in targets if t["pilot"] == "1"]
         histories, totals, failures = [], [], []
@@ -88,16 +107,24 @@ def main(offline, only, pilot, workers):
         histories.sort(key=lambda r: (r["target_id"], r["year"]))
         unique(histories, ["target_id", "year"])
         run.check("all_requested_histories_retrieved", not failures, failures[:5])
-        run.check("grouped_counts_match_api_totals", all(t["complete"] for t in totals),
-                  sum(1 for t in totals if not t["complete"]))
+        run.check(
+            "grouped_counts_match_api_totals",
+            all(t["complete"] for t in totals),
+            sum(1 for t in totals if not t["complete"]),
+        )
         write_gzip_csv(DATA / "histories.csv.gz", histories, HISTORY_FIELDS)
         write_csv(DATA / "history_totals.csv", totals, TOTAL_FIELDS)
         run.output(DATA / "histories.csv.gz")
         run.output(DATA / "history_totals.csv")
-        summary = dict(targets=len(targets), only=only or "all", pilot=pilot,
-                       article_years=len(histories), citations=sum(t["sum_counts"] for t in totals),
-                       before_publication=sum(t["before_publication"] for t in totals),
-                       after_cutoff=sum(t["after_cutoff"] for t in totals))
+        summary = dict(
+            targets=len(targets),
+            only=only or "all",
+            pilot=pilot,
+            article_years=len(histories),
+            citations=sum(t["sum_counts"] for t in totals),
+            before_publication=sum(t["before_publication"] for t in totals),
+            after_cutoff=sum(t["after_cutoff"] for t in totals),
+        )
         write_json(DATA / "histories_summary.json", summary)
         run.output(DATA / "histories_summary.json")
         run.record["metrics"] = summary

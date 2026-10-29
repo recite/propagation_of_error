@@ -1,7 +1,8 @@
 """Cached, receipted HTTP access to OpenAlex and other public sources.
 
 Adapted from recite/sig_fault scripts/pilot.py (request helpers) and
-scripts/i4r_sources.py::fetch (rate-limit handling) at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2.
+scripts/i4r_sources.py::fetch (rate-limit handling) at commit
+ 1efbfd2172879c93b9c8a5c31f601d1e53f976a2.
 """
 
 from __future__ import annotations

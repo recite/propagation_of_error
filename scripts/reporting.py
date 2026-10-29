@@ -1,4 +1,5 @@
-# Adapted from recite/sig_fault scripts/reporting.py at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2
+# Adapted from recite/sig_fault scripts/reporting.py
+# at commit 1efbfd2172879c93b9c8a5c31f601d1e53f976a2
 """Presentation formatting for counts; analytical files retain numeric values."""
 
 from decimal import Decimal

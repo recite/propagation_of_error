@@ -23,18 +23,29 @@ def main(offline, pilot, workers):
         candidates = [c for c in read_csv(DATA / "candidates.csv") if not c["exclusion"]]
         if pilot:
             targets = read_csv(DATA / "targets.csv")
-            pilot_keys = {(t["journal_id"], t["openalex_year"]) for t in targets
-                          if t["pilot"] == "1" and t["resolution"] == "resolved" and not t["frame_exclusion"]}
-            pools = {p["pool_id"] for p in read_csv(DATA / "pools.csv")
-                     if (p["journal_id"], p["year"]) in pilot_keys}
+            pilot_keys = {
+                (t["journal_id"], t["openalex_year"])
+                for t in targets
+                if t["pilot"] == "1" and t["resolution"] == "resolved" and not t["frame_exclusion"]
+            }
+            pools = {
+                p["pool_id"]
+                for p in read_csv(DATA / "pools.csv")
+                if (p["journal_id"], p["year"]) in pilot_keys
+            }
             candidates = [c for c in candidates if c["pool_id"] in pools]
         seen, work = set(), []
         for c in candidates:
             if c["candidate_id"] in seen:
                 continue
             seen.add(c["candidate_id"])
-            work.append(dict(target_id=c["candidate_id"], work_id=c["work_id"],
-                             openalex_year=c["publication_year"]))
+            work.append(
+                dict(
+                    target_id=c["candidate_id"],
+                    work_id=c["work_id"],
+                    openalex_year=c["publication_year"],
+                )
+            )
         rows, totals, failures = [], [], []
         with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
             futures = {executor.submit(histories.acquire, run, t): t for t in work}
@@ -52,14 +63,23 @@ def main(offline, pilot, workers):
         totals.sort(key=lambda r: r["target_id"])
         unique(rows, ["target_id", "year"])
         run.check("all_candidate_histories_retrieved", not failures, failures[:5])
-        run.check("grouped_counts_match_api_totals", all(t["complete"] for t in totals),
-                  sum(1 for t in totals if not t["complete"]))
-        histories.write_gzip_csv(DATA / "candidate_histories.csv.gz", rows, histories.HISTORY_FIELDS)
+        run.check(
+            "grouped_counts_match_api_totals",
+            all(t["complete"] for t in totals),
+            sum(1 for t in totals if not t["complete"]),
+        )
+        histories.write_gzip_csv(
+            DATA / "candidate_histories.csv.gz", rows, histories.HISTORY_FIELDS
+        )
         write_csv(DATA / "candidate_totals.csv", totals, histories.TOTAL_FIELDS)
         run.output(DATA / "candidate_histories.csv.gz")
         run.output(DATA / "candidate_totals.csv")
-        summary = dict(candidates=len(work), pilot=pilot, article_years=len(rows),
-                       citations=sum(t["sum_counts"] for t in totals))
+        summary = dict(
+            candidates=len(work),
+            pilot=pilot,
+            article_years=len(rows),
+            citations=sum(t["sum_counts"] for t in totals),
+        )
         write_json(DATA / "candidates_summary.json", summary)
         run.output(DATA / "candidates_summary.json")
         run.record["metrics"] = summary

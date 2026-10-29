@@ -26,8 +26,16 @@ DATA = ROOT / "data/matching"
 OPENALEX = ROOT / "data/openalex"
 MATCH_FIELDS = ["article_id", "control_id", "rank", "distance", "weight"]
 CANDIDATE_FIELDS = ["article_id", "candidate_id", "distance", "eligible", "reason"]
-BALANCE_FIELDS = ["article_id", "control_id", "cumulative_smd", "last_year_smd",
-                  "treated_cumulative", "control_cumulative", "treated_last_year", "control_last_year"]
+BALANCE_FIELDS = [
+    "article_id",
+    "control_id",
+    "cumulative_smd",
+    "last_year_smd",
+    "treated_cumulative",
+    "control_cumulative",
+    "treated_last_year",
+    "control_last_year",
+]
 
 
 def history_index(rows):
@@ -39,7 +47,10 @@ def history_index(rows):
 
 def pre_event_histories(index, retraction_year):
     """Citation years strictly before the retraction year; nothing later is visible."""
-    return {tid: {y: n for y, n in series.items() if y < retraction_year} for tid, series in index.items()}
+    return {
+        tid: {y: n for y, n in series.items() if y < retraction_year}
+        for tid, series in index.items()
+    }
 
 
 def pre_inputs(series, retraction_year):
@@ -63,18 +74,29 @@ def match(treated, pools, candidates, treated_index, candidate_index, k=5, calip
         if pid is None:
             exclusions.append(dict(record, reason="pool_not_retrieved"))
             continue
-        visible_t = pre_event_histories({t["article_id"]: treated_index.get(t["article_id"], {})}, r)
+        visible_t = pre_event_histories(
+            {t["article_id"]: treated_index.get(t["article_id"], {})}, r
+        )
         tv = pre_inputs(visible_t[t["article_id"]], r)
         if tv is None:
             exclusions.append(dict(record, reason="incomplete_pre_citations"))
             continue
         pool = []
         for c in pool_candidates.get(pid, []):
-            visible_c = pre_event_histories({c["candidate_id"]: candidate_index.get(c["candidate_id"], {})}, r)
+            visible_c = pre_event_histories(
+                {c["candidate_id"]: candidate_index.get(c["candidate_id"], {})}, r
+            )
             cv = pre_inputs(visible_c[c["candidate_id"]], r)
             if cv is None:
-                scored.append(dict(record, candidate_id=c["candidate_id"], distance="", eligible="no",
-                                   reason="incomplete_pre_citations"))
+                scored.append(
+                    dict(
+                        record,
+                        candidate_id=c["candidate_id"],
+                        distance="",
+                        eligible="no",
+                        reason="incomplete_pre_citations",
+                    )
+                )
                 continue
             pool.append((c, cv))
         if not pool:
@@ -87,8 +109,15 @@ def match(treated, pools, candidates, treated_index, candidate_index, k=5, calip
         accepted = []
         for j, (c, cv) in enumerate(pool):
             valid = bool((np.abs(delta[j]) <= caliper + 1e-12).all())
-            scored.append(dict(record, candidate_id=c["candidate_id"], distance=float(distance[j]),
-                               eligible="yes" if valid else "no", reason="" if valid else "citation_caliper"))
+            scored.append(
+                dict(
+                    record,
+                    candidate_id=c["candidate_id"],
+                    distance=float(distance[j]),
+                    eligible="yes" if valid else "no",
+                    reason="" if valid else "citation_caliper",
+                )
+            )
             if valid:
                 accepted.append((float(distance[j]), c["candidate_id"], j))
         best = sorted(accepted)[:k]
@@ -96,13 +125,27 @@ def match(treated, pools, candidates, treated_index, candidate_index, k=5, calip
             exclusions.append(dict(record, reason="no_match_within_caliper"))
             continue
         for rank, (dist, cid, j) in enumerate(best, 1):
-            matches.append(dict(record, control_id=cid, rank=rank, distance=dist, weight=1 / len(best)))
-            balance.append(dict(record, control_id=cid, cumulative_smd=float(delta[j, 0]),
-                                last_year_smd=float(delta[j, 1]),
-                                treated_cumulative=float(np.expm1(raw[0, 0])),
-                                control_cumulative=float(np.expm1(raw[j + 1, 0])),
-                                treated_last_year=float(np.expm1(raw[0, 1])),
-                                control_last_year=float(np.expm1(raw[j + 1, 1]))))
+            matches.append(
+                dict(
+                    record,
+                    control_id=cid,
+                    rank=rank,
+                    distance=dist,
+                    weight=1 / len(best),
+                )
+            )
+            balance.append(
+                dict(
+                    record,
+                    control_id=cid,
+                    cumulative_smd=float(delta[j, 0]),
+                    last_year_smd=float(delta[j, 1]),
+                    treated_cumulative=float(np.expm1(raw[0, 0])),
+                    control_cumulative=float(np.expm1(raw[j + 1, 0])),
+                    treated_last_year=float(np.expm1(raw[0, 1])),
+                    control_last_year=float(np.expm1(raw[j + 1, 1])),
+                )
+            )
     return matches, scored, exclusions, balance
 
 
@@ -121,29 +164,48 @@ def main(k, caliper):
         pools = read_csv(OPENALEX / "pools.csv")
         candidates = read_csv(OPENALEX / "candidates.csv")
         treated_index = history_index(histories.read_gzip_csv(OPENALEX / "histories.csv.gz"))
-        candidate_index = history_index(histories.read_gzip_csv(OPENALEX / "candidate_histories.csv.gz"))
-        matches, scored, exclusions, balance = match(treated, pools, candidates, treated_index,
-                                                     candidate_index, k, caliper)
+        candidate_index = history_index(
+            histories.read_gzip_csv(OPENALEX / "candidate_histories.csv.gz")
+        )
+        matches, scored, exclusions, balance = match(
+            treated, pools, candidates, treated_index, candidate_index, k, caliper
+        )
         unique(matches, ["article_id", "control_id"])
         matched = {m["article_id"] for m in matches}
-        run.check("every_treated_matched_or_excluded",
-                  len(matched) + len(exclusions) == len(treated),
-                  dict(treated=len(treated), matched=len(matched), excluded=len(exclusions)))
+        run.check(
+            "every_treated_matched_or_excluded",
+            len(matched) + len(exclusions) == len(treated),
+            dict(treated=len(treated), matched=len(matched), excluded=len(exclusions)),
+        )
         write_csv(DATA / "matches.csv", matches, MATCH_FIELDS)
         write_csv(DATA / "match_candidates.csv", scored, CANDIDATE_FIELDS)
         write_csv(DATA / "match_exclusions.csv", exclusions, ["article_id", "reason"])
         write_csv(DATA / "match_balance.csv", balance, BALANCE_FIELDS)
         summary = dict(
-            controls_per_treated=k, caliper=caliper, treated=len(treated), matched=len(matched),
+            controls_per_treated=k,
+            caliper=caliper,
+            treated=len(treated),
+            matched=len(matched),
             controls=len({m["control_id"] for m in matches}),
             exclusions=dict(collections.Counter(e["reason"] for e in exclusions)),
-            matches_per_treated=dict(collections.Counter(collections.Counter(m["article_id"] for m in matches).values())),
-            mean_abs_cumulative_smd=float(np.mean([abs(b["cumulative_smd"]) for b in balance])) if balance else None,
-            mean_abs_last_year_smd=float(np.mean([abs(b["last_year_smd"]) for b in balance])) if balance else None,
+            matches_per_treated=dict(
+                collections.Counter(collections.Counter(m["article_id"] for m in matches).values())
+            ),
+            mean_abs_cumulative_smd=(
+                float(np.mean([abs(b["cumulative_smd"]) for b in balance])) if balance else None
+            ),
+            mean_abs_last_year_smd=(
+                float(np.mean([abs(b["last_year_smd"]) for b in balance])) if balance else None
+            ),
         )
         write_json(DATA / "match_summary.json", summary)
-        for name in ["matches.csv", "match_candidates.csv", "match_exclusions.csv", "match_balance.csv",
-                     "match_summary.json"]:
+        for name in [
+            "matches.csv",
+            "match_candidates.csv",
+            "match_exclusions.csv",
+            "match_balance.csv",
+            "match_summary.json",
+        ]:
             run.output(DATA / name)
         run.record["metrics"] = summary
         print(json.dumps(summary, indent=1))

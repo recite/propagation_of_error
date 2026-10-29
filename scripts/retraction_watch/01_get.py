@@ -18,10 +18,26 @@ URL = "https://gitlab.com/crossref/retraction-watch-data/-/raw/main/retraction_w
 CACHE = ROOT / "private-data/retraction_watch/retraction_watch.csv"
 SNAPSHOT = ROOT / "data/retraction_watch/snapshot.json"
 FIELDS = [
-    "Record ID", "Title", "Subject", "Institution", "Journal", "Publisher", "Country",
-    "Author", "URLS", "ArticleType", "RetractionDate", "RetractionDOI",
-    "RetractionPubMedID", "OriginalPaperDate", "OriginalPaperDOI",
-    "OriginalPaperPubMedID", "RetractionNature", "Reason", "Paywalled", "Notes",
+    "Record ID",
+    "Title",
+    "Subject",
+    "Institution",
+    "Journal",
+    "Publisher",
+    "Country",
+    "Author",
+    "URLS",
+    "ArticleType",
+    "RetractionDate",
+    "RetractionDOI",
+    "RetractionPubMedID",
+    "OriginalPaperDate",
+    "OriginalPaperDOI",
+    "OriginalPaperPubMedID",
+    "RetractionNature",
+    "Reason",
+    "Paywalled",
+    "Notes",
 ]
 
 
@@ -45,13 +61,23 @@ def main(offline):
         rows = read_snapshot()
         natures = collections.Counter(r["RetractionNature"] for r in rows)
         run.check("snapshot_rows", len(rows) > 50000, len(rows))
-        run.check("retraction_nature_values", set(natures) <= {
-            "Retraction", "Correction", "Expression of concern", "Reinstatement"}, dict(natures))
-        write_json(SNAPSHOT, dict(
-            url=URL, retrieved_at=source["retrieved_at"], sha256=source["sha256"],
-            bytes=source["bytes"], rows=len(rows), rows_by_nature=dict(natures),
-            cache_path=str(CACHE.relative_to(ROOT)),
-        ))
+        run.check(
+            "retraction_nature_values",
+            set(natures) <= {"Retraction", "Correction", "Expression of concern", "Reinstatement"},
+            dict(natures),
+        )
+        write_json(
+            SNAPSHOT,
+            dict(
+                url=URL,
+                retrieved_at=source["retrieved_at"],
+                sha256=source["sha256"],
+                bytes=source["bytes"],
+                rows=len(rows),
+                rows_by_nature=dict(natures),
+                cache_path=str(CACHE.relative_to(ROOT)),
+            ),
+        )
         run.output(SNAPSHOT)
         print(f"Snapshot: {len(rows)} rows, {natures['Retraction']} retractions")
 

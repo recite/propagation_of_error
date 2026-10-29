@@ -7,5 +7,5 @@ test_that("historical coding counts and Wilson intervals are reproduced", {
   notice <- s[s$period == "notice_year", ]
   expect_equal(before$sampled + notice$sampled, 100)
   expect_equal(notice$sampled, 42)
-  expect_equal(unname(wilson_interval(234, 256)), c(0.8757, 0.9426), tolerance = 1e-3)
+  expect_equal(unname(wilson_interval(234, 256)), c(0.8734, 0.9426), tolerance = 1e-3)
 })

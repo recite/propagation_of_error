@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "study": "analysis",
+  "stage": "01_estimate",
+  "started_at": "2026-10-29T03:54:45.424908+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/01_estimate.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "inputs": [
+    {
+      "path": "data/matching/panel.csv.gz",
+      "sha256": "399267275adf110a5e4abc614dc402165cd3cc109f14042691c6b7c53390092c",
+      "bytes": 58894
+    },
+    {
+      "path": "data/matching/stacks.csv",
+      "sha256": "e635767edb07ed12e863670d64c219770c25b020f9d2b141dad83a94997ff2ee",
+      "bytes": 16091,
+      "rows": 175
+    },
+    {
+      "path": "data/matching/panel_exclusions.csv",
+      "sha256": "970b5f3c33829cc80cce0d6235fabcee55ef8b1cd5137ec0f943fd2cfbb8275e",
+      "bytes": 16,
+      "rows": 0
+    },
+    {
+      "path": "data/matching/sample_flow.csv",
+      "sha256": "2534017f0e1f3f3495ec313c6b38b5876b5670b692e88309924a678b75ac9ca4",
+      "bytes": 404,
+      "rows": 6
+    },
+    {
+      "path": "data/openalex/world_counts.csv",
+      "sha256": "e6b6f4140fd5fce1a65b1a2bc5d406f577a801fa25dffb3e516ae0776cf255c2",
+      "bytes": 2320,
+      "rows": 200
+    },
+    {
+      "path": "data/wos_2016/tidy/articles.csv",
+      "sha256": "bb7f16da1aa0d504e02e9c41173bad8745d7a8983ffb0b65fe743540d0d6a1ac",
+      "bytes": 1057169,
+      "rows": 3029
+    },
+    {
+      "path": "data/wos_2016/tidy/citing_counts.csv",
+      "sha256": "3836b6c323cdf06db9639c0b14794d07832a25fbe8be7b7acbe036e316e1dad1",
+      "bytes": 411277,
+      "rows": 25955
+    },
+    {
+      "path": "data/wos_2016/tidy/acknowledgment.csv",
+      "sha256": "4a6382d0722c9b2c5f14d896211e47d8afe6d3a80c9fbba451691f21f692b917",
+      "bytes": 5732,
+      "rows": 375
+    },
+    {
+      "path": "data/wos_2016/tidy/reasons.csv",
+      "sha256": "e98a6f96deaad047041fbbfbed2ac83e55445fdeac492682265230c042a5191b",
+      "bytes": 7436,
+      "rows": 95
+    },
+    {
+      "path": "data/wos_2016/tidy/legacy_check.json",
+      "sha256": "b501a9feef7335fa1cdeda5eb72422118b0e390503386bd48308e55824bba4b5",
+      "bytes": 507
+    },
+    {
+      "path": "data/wos_2016/manifest.json",
+      "sha256": "ca6318d27a3b81b02c268a931675826ed5ee33203ba8342d93b08b4eadc21f75",
+      "bytes": 2175
+    },
+    {
+      "path": "R/acknowledgment.R",
+      "sha256": "6252809d12157f7dd1067c8e7e37fbd682efbbe001f97820a4165e80b99193d3",
+      "bytes": 1154
+    },
+    {
+      "path": "R/analysis.R",
+      "sha256": "84288afdf0f455bac7186fa34bb53b53b4f24a95c0835aa95a84e4974e477f3b",
+      "bytes": 850
+    },
+    {
+      "path": "R/describe.R",
+      "sha256": "a9a955dd6c718144014b41bb2048af3e530ee4f2473108e4d269af55183e2a5b",
+      "bytes": 1214
+    },
+    {
+      "path": "R/honest.R",
+      "sha256": "cfcdccc057b205f08c8fb4c2e7fb0c8118ac4045bf5b972d13f9c97d3d6ed745",
+      "bytes": 1407
+    },
+    {
+      "path": "R/legacy.R",
+      "sha256": "bb94e6dba714efa4f61264660161e3b48354afcf5d04b0025c0b0891a80ee1e6",
+      "bytes": 1491
+    },
+    {
+      "path": "R/plots.R",
+      "sha256": "a82324e8baa3451dc3bd915bee90932bca08a202a28e98e13d48471f072a3f83",
+      "bytes": 6869
+    },
+    {
+      "path": "R/reporting.R",
+      "sha256": "b44a6971a213db141648a5b133ffc84c15511f2ccdbea8197a0a766e3d3ec270",
+      "bytes": 422
+    },
+    {
+      "path": "R/sdid_cohorts.R",
+      "sha256": "c239ad05a3262ff9e0d664e5480bf79f07d77760c527b7a0d070da0775afd575",
+      "bytes": 3177
+    },
+    {
+      "path": "R/stacked.R",
+      "sha256": "3c3ff02087c4ef32f4ff13e961beaf6697eeed56fa9ff205c38a9c582e8b172e",
+      "bytes": 7309
+    },
+    {
+      "path": "R/synthetic_did.R",
+      "sha256": "001d57042f01dff243fc671e57b3aad9d03f16ccaa370342f9f78ddb1648a951",
+      "bytes": 4663
+    },
+    {
+      "path": "scripts/analysis/estimate.R",
+      "sha256": "f00decf34b49bd9afce8a51a73e738da55039f727f39556cc3f497a4bfb067d4",
+      "bytes": 5577
+    }
+  ],
+  "outputs": [
+    {
+      "path": "data/analysis/estimates.csv",
+      "sha256": "52c98651ac35ec12dc0882781edebaaa64a168cca120a700191a632ff7613f47",
+      "bytes": 1623,
+      "rows": 6
+    },
+    {
+      "path": "data/analysis/event_study.csv",
+      "sha256": "65a0c733f409296b429e8595679985770a5892091b5e672fa29918e4fc7eb9b9",
+      "bytes": 1430,
+      "rows": 9
+    },
+    {
+      "path": "data/analysis/event_study_ols.csv",
+      "sha256": "0bf7da6488b8c904b3f68c61c4af539e74a40672898c83f865af697035be6057",
+      "bytes": 1018,
+      "rows": 9
+    },
+    {
+      "path": "data/analysis/pretrends.csv",
+      "sha256": "dca0c9efc52e9d1040704f1e52259ec828f07a24ff065b7988f99373b543fe6e",
+      "bytes": 122,
+      "rows": 1
+    },
+    {
+      "path": "data/analysis/honest_status.json",
+      "sha256": "428c444dc042646c44b765e6befd708b4bcfb899e98b5dcfe47e46c4dd041411",
+      "bytes": 19
+    },
+    {
+      "path": "data/analysis/heterogeneity.csv",
+      "sha256": "5bf612a42836951b44526f4f7b5eff6159be1fffe691fbc80824c2d3e53407ff",
+      "bytes": 3270,
+      "rows": 18
+    },
+    {
+      "path": "data/analysis/leave_one_out.csv",
+      "sha256": "8d1d21552c5f656b0c378ab4a2c3c9fb3db3b50081dc9545b53ccda449b1f248",
+      "bytes": 6480,
+      "rows": 25
+    },
+    {
+      "path": "data/analysis/journal_clustered.csv",
+      "sha256": "a9f098d5acdd04a76837d7159fa11747a07f4b0a47ab63d9a675db4f8bf2aaf1",
+      "bytes": 254,
+      "rows": 1
+    },
+    {
+      "path": "data/analysis/legacy_estimates.csv",
+      "sha256": "e9e7b9043c5987b4689dcc249f2860917771eba2d94bef0f2b1ec719d4ff1040",
+      "bytes": 697,
+      "rows": 2
+    },
+    {
+      "path": "data/analysis/citation_paths.csv",
+      "sha256": "8ab1f1baa3af8c52ea3f0273c673c273392c1396b02fa4905c1dd5706c3069ae",
+      "bytes": 1107,
+      "rows": 18
+    },
+    {
+      "path": "data/analysis/retraction_rates.csv",
+      "sha256": "f7d73f531bf3f43a8ee0aae2d176bf185d9be521ac68f61706df52edfe2ed417",
+      "bytes": 740,
+      "rows": 20
+    },
+    {
+      "path": "data/analysis/retractions_by_year.csv",
+      "sha256": "f28b3ee7a4f686773c715fdb796e424964207de4341a373170b5025b7b6066f9",
+      "bytes": 183,
+      "rows": 18
+    },
+    {
+      "path": "data/analysis/time_to_retraction.csv",
+      "sha256": "27013baa632688322f639f829d931f61bda1711a1ad3740137407be8559a3662",
+      "bytes": 608,
+      "rows": 10
+    },
+    {
+      "path": "data/analysis/acknowledgment.csv",
+      "sha256": "b38eddb03540e72d770f746f764bc8da41ae9f3c382701c8d28169e549e63a34",
+      "bytes": 308,
+      "rows": 3
+    },
+    {
+      "path": "data/analysis/reasons.csv",
+      "sha256": "3930928eb5d0a1769456d823af334b151ec721b85ca9249d6c997490038fa455",
+      "bytes": 78,
+      "rows": 4
+    },
+    {
+      "path": "data/analysis/status.json",
+      "sha256": "c1b692600baa7e713609229d6a952bd2c42ebf482bbc39fcdbbba1f16309dc73",
+      "bytes": 132
+    },
+    {
+      "path": "data/analysis/R-session.txt",
+      "sha256": "e53f72ec71c89a82aa17809c1070dd4c338dc9efbed41d93061f7ad7ca026c8b",
+      "bytes": 1783
+    },
+    {
+      "path": "data/analysis/honest_did.csv",
+      "sha256": "5f2696930c9267299dc9686c958c3740793c28abcc50226ea4916cc5b710f91c",
+      "bytes": 318,
+      "rows": 5
+    },
+    {
+      "path": "data/analysis/honest_original.csv",
+      "sha256": "24a5187534ecdb97ebe857fdf7cb7efc712ddf037d18e3ac3483738cfec59e36",
+      "bytes": 78,
+      "rows": 1
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/analysis/01_estimate.py",
+      "sha256": "ba3832dfe5bf07642cab9996ea7c8e474dd03983b4ba049b169dc6877944dc83",
+      "bytes": 1743
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
+      "bytes": 6008
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
+      "bytes": 6924
+    }
+  ],
+  "parents": [
+    {
+      "path": "data/matching/receipts/02_panel.json",
+      "sha256": "b296764381a575e0e0735fed3ccec7e78b48509a1fe8751fed53e4578d92b0f0",
+      "bytes": 3895
+    },
+    {
+      "path": "data/openalex/receipts/05_world_counts.json",
+      "sha256": "07fb3eb6a8eb2807f94b9f72ee534db35012353cbe4d6beec2eeb3bf06077119",
+      "bytes": 1864
+    },
+    {
+      "path": "data/wos_2016/receipts/01_import.json",
+      "sha256": "0bb8636bc30ad6e24bc0e81d140f49b205e1ad22d61a4b42431510da862df9dd",
+      "bytes": 5945
+    }
+  ],
+  "checks": [
+    {
+      "name": "model_converged",
+      "passed": true,
+      "detail": {
+        "stacks": 175,
+        "treated": 159,
+        "comparison": 707,
+        "observations": 4831,
+        "converged": true,
+        "honest_available": true
+      }
+    },
+    {
+      "name": "stacks_match_panel",
+      "passed": true,
+      "detail": 175
+    }
+  ],
+  "sources": [],
+  "metrics": {
+    "stacks": 175,
+    "treated": 159,
+    "comparison": 707,
+    "observations": 4831,
+    "converged": true,
+    "honest_available": true
+  },
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:54:53.422293+00:00"
+}

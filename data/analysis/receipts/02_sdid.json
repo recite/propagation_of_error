@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "study": "analysis",
+  "stage": "02_sdid",
+  "started_at": "2026-10-29T03:54:53.469242+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/02_sdid.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "inputs": [
+    {
+      "path": "data/matching/panel.csv.gz",
+      "sha256": "399267275adf110a5e4abc614dc402165cd3cc109f14042691c6b7c53390092c",
+      "bytes": 58894
+    },
+    {
+      "path": "data/matching/stacks.csv",
+      "sha256": "e635767edb07ed12e863670d64c219770c25b020f9d2b141dad83a94997ff2ee",
+      "bytes": 16091,
+      "rows": 175
+    },
+    {
+      "path": "data/matching/panel_exclusions.csv",
+      "sha256": "970b5f3c33829cc80cce0d6235fabcee55ef8b1cd5137ec0f943fd2cfbb8275e",
+      "bytes": 16,
+      "rows": 0
+    },
+    {
+      "path": "data/matching/sample_flow.csv",
+      "sha256": "2534017f0e1f3f3495ec313c6b38b5876b5670b692e88309924a678b75ac9ca4",
+      "bytes": 404,
+      "rows": 6
+    },
+    {
+      "path": "R/synthetic_did.R",
+      "sha256": "001d57042f01dff243fc671e57b3aad9d03f16ccaa370342f9f78ddb1648a951",
+      "bytes": 4663
+    },
+    {
+      "path": "R/sdid_cohorts.R",
+      "sha256": "c239ad05a3262ff9e0d664e5480bf79f07d77760c527b7a0d070da0775afd575",
+      "bytes": 3177
+    },
+    {
+      "path": "scripts/analysis/sdid.R",
+      "sha256": "a9484da7ccbe491c902823a5ce4558d78a51f0dbe5695c31a682e89bb316ad2c",
+      "bytes": 853
+    }
+  ],
+  "outputs": [
+    {
+      "path": "data/analysis/sdid_cohorts.csv",
+      "sha256": "5e325355d93c38a9fcb60a76e3745998cb229b7a69f7c9157a0cd26fe96c0097",
+      "bytes": 3508,
+      "rows": 13
+    },
+    {
+      "path": "data/analysis/sdid_pooled.csv",
+      "sha256": "da42794a8af0c542e791b7ceddbd194453b21df496a31170e311e9a3988c9171",
+      "bytes": 284,
+      "rows": 2
+    },
+    {
+      "path": "data/analysis/sdid_paths.csv",
+      "sha256": "fc722216ca3ddea7a296db3587fe06285d4ff77026db66e103785ecb03870de1",
+      "bytes": 6992,
+      "rows": 78
+    },
+    {
+      "path": "data/analysis/sdid_weights.csv",
+      "sha256": "0720f1912296d45c930ea2465aad1b4b40a00582c19c56ebbdddc5f525f02bf2",
+      "bytes": 25647,
+      "rows": 567
+    },
+    {
+      "path": "data/analysis/sdid_draws.csv",
+      "sha256": "9c89738fd639b838b02429574889501a2c289d787157f4a9df3a1f9ce38ff027",
+      "bytes": 18742,
+      "rows": 650
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/analysis/02_sdid.py",
+      "sha256": "4ce019beaaa58590afc6f09036f7d72794ab6eded4e6ae19ef3b1807dc965d0d",
+      "bytes": 1018
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
+      "bytes": 6008
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
+      "bytes": 6924
+    }
+  ],
+  "parents": [
+    {
+      "path": "data/matching/receipts/02_panel.json",
+      "sha256": "b296764381a575e0e0735fed3ccec7e78b48509a1fe8751fed53e4578d92b0f0",
+      "bytes": 3895
+    }
+  ],
+  "checks": [
+    {
+      "name": "cohorts_estimated",
+      "passed": true,
+      "detail": 13
+    }
+  ],
+  "sources": [],
+  "metrics": {
+    "cohorts": 13
+  },
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:55:19.722747+00:00"
+}

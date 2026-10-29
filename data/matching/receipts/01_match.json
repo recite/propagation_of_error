@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "study": "matching",
+  "stage": "01_match",
+  "started_at": "2026-10-29T03:52:33.437994+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/01_match.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "42ae87ef9c540c1fd6151b603c702f2f4903a47b",
+  "inputs": [
+    {
+      "path": "data/openalex/histories.csv.gz",
+      "sha256": "61025a1014a9976208dd9e9d1b560909a678a128f82208e7452dfb12cb08865c",
+      "bytes": 8346
+    },
+    {
+      "path": "data/openalex/history_totals.csv",
+      "sha256": "89c98c16788c88d00764b7f5185e296169d1549241eb409a21728a9192eefe36",
+      "bytes": 12831,
+      "rows": 189
+    },
+    {
+      "path": "data/openalex/histories_summary.json",
+      "sha256": "2bb90e9de52cdeb3d269441e6459ad81de9d1aac5339c1502f4eea2fbaf9bd49",
+      "bytes": 149
+    },
+    {
+      "path": "data/openalex/pools.csv",
+      "sha256": "0086f5872a6dbee29a57ae303f572219e7c6b3eea171d52be84ff16139fb85b4",
+      "bytes": 17415,
+      "rows": 173
+    },
+    {
+      "path": "data/openalex/candidates.csv",
+      "sha256": "7c9d8354f608609651c37e91fffa4ec5ef691ee715b4bd459509569283d609af",
+      "bytes": 788385,
+      "rows": 3451
+    },
+    {
+      "path": "data/openalex/pools_summary.json",
+      "sha256": "79fa576a87265dde1658a58e2ca8dda98424549c00809c637617321295f0f3ef",
+      "bytes": 273
+    },
+    {
+      "path": "data/openalex/candidate_histories.csv.gz",
+      "sha256": "11cf312aa154a32e63f7bf5e6023bc0266c99caae5b7248b58f3bf87565312aa",
+      "bytes": 149136
+    },
+    {
+      "path": "data/openalex/candidate_totals.csv",
+      "sha256": "86989155efadc414045c671face5a31def9ce5308892bb98180de1e8f8a16102",
+      "bytes": 230732,
+      "rows": 3369
+    },
+    {
+      "path": "data/openalex/candidates_summary.json",
+      "sha256": "13062c1671bb9c7587e1b31f16f91c779896b99c1619d6c63e3664aeebb6dcf4",
+      "bytes": 91
+    },
+    {
+      "path": "data/retraction_watch/frame.csv",
+      "sha256": "b890569fa5482e9f242dccdc00a10ec055908c93511a4f35adb111180b04c5f6",
+      "bytes": 4490030,
+      "rows": 9555
+    },
+    {
+      "path": "data/retraction_watch/exclusions.csv",
+      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
+      "bytes": 2697439,
+      "rows": 63315
+    },
+    {
+      "path": "data/retraction_watch/frame_summary.json",
+      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
+      "bytes": 1162
+    }
+  ],
+  "outputs": [
+    {
+      "path": "data/matching/matches.csv",
+      "sha256": "b16447227abd52b6deaf4706fb6128249526f3a3555df0e2e68598291286e4af",
+      "bytes": 47350,
+      "rows": 801
+    },
+    {
+      "path": "data/matching/match_candidates.csv",
+      "sha256": "f5a83b10407cfcbb88e801973275cce5fd728242972e25cf4a440b093fca2bbf",
+      "bytes": 252999,
+      "rows": 3666
+    },
+    {
+      "path": "data/matching/match_exclusions.csv",
+      "sha256": "f88c8b50e251be0382cb0be97671f4506a78cfcb73bc9aa2f8486831034a1f89",
+      "bytes": 333434,
+      "rows": 8788
+    },
+    {
+      "path": "data/matching/match_balance.csv",
+      "sha256": "4767f3cb63a96564cd9fad1bb4ee57c88bd9ace6929f15488bf11da98d7ad357",
+      "bytes": 86322,
+      "rows": 801
+    },
+    {
+      "path": "data/matching/match_summary.json",
+      "sha256": "cbf4b99f219b22fdbbb5c72351bd5a5e6147a9d85bc4a41a52cdfe8fc6f2213e",
+      "bytes": 424
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/matching/01_match.py",
+      "sha256": "b575256840c6854a8f6d420f473cd6abcc810243503811d5931ce33099dbdf64",
+      "bytes": 8155
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
+      "bytes": 6008
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
+      "bytes": 6924
+    }
+  ],
+  "parents": [
+    {
+      "path": "data/openalex/receipts/02_histories.json",
+      "sha256": "671c5ab977289a9f045e63cf7cbd752f3e352097c8a619ffef4159262f6bfc32",
+      "bytes": 100594
+    },
+    {
+      "path": "data/openalex/receipts/03_pools.json",
+      "sha256": "1cba813a4986295eed3452b7f19ad6c58c20975391d4df06eba16b389f36edd2",
+      "bytes": 198813
+    },
+    {
+      "path": "data/openalex/receipts/04_candidates.json",
+      "sha256": "b1aa9bf29700338612cc5ca6bc43043093f25e818ed57024caf19d6ee0c2b21c",
+      "bytes": 1747383
+    },
+    {
+      "path": "data/retraction_watch/receipts/02_frame.json",
+      "sha256": "ddbfd895838a67532fa73e6bf1e28f8f08add092af8c4ab10727444dc0fbfbfb",
+      "bytes": 4176
+    }
+  ],
+  "checks": [
+    {
+      "name": "every_treated_matched_or_excluded",
+      "passed": true,
+      "detail": {
+        "treated": 8963,
+        "matched": 175,
+        "excluded": 8788
+      }
+    }
+  ],
+  "sources": [],
+  "metrics": {
+    "controls_per_treated": 5,
+    "caliper": 1.0,
+    "treated": 8963,
+    "matched": 175,
+    "controls": 777,
+    "exclusions": {
+      "pool_not_retrieved": 7409,
+      "incomplete_pre_citations": 1365,
+      "no_match_within_caliper": 14
+    },
+    "matches_per_treated": {
+      "5": 141,
+      "3": 6,
+      "4": 15,
+      "1": 8,
+      "2": 5
+    },
+    "mean_abs_cumulative_smd": 0.2802459196858253,
+    "mean_abs_last_year_smd": 0.2631530404005899
+  },
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:52:33.940320+00:00"
+}

@@ -1,0 +1,21 @@
+{
+  "controls_per_treated": 5,
+  "caliper": 1.0,
+  "treated": 8963,
+  "matched": 175,
+  "controls": 777,
+  "exclusions": {
+    "pool_not_retrieved": 7409,
+    "incomplete_pre_citations": 1365,
+    "no_match_within_caliper": 14
+  },
+  "matches_per_treated": {
+    "5": 141,
+    "3": 6,
+    "4": 15,
+    "1": 8,
+    "2": 5
+  },
+  "mean_abs_cumulative_smd": 0.2802459196858253,
+  "mean_abs_last_year_smd": 0.2631530404005899
+}
