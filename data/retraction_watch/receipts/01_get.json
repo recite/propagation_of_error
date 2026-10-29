@@ -2,14 +2,14 @@
   "schema_version": 1,
   "study": "retraction_watch",
   "stage": "01_get",
-  "started_at": "2026-10-29T03:34:19.579128+00:00",
+  "started_at": "2026-10-29T03:37:59.134945+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/retraction_watch/01_get.py",
     "--offline"
   ],
   "python": "3.14.7",
-  "git_commit": "42390c8a1a018b9e8aab39240ffa93815c0d53b1",
+  "git_commit": "80eebbf85991614320d633035f485f39da595a2c",
   "inputs": [],
   "outputs": [
     {
@@ -26,8 +26,8 @@
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "d4cb31d68c9c262358ffc1fce6f4cc2a9834eda1e9c481eb4bd1471efa47f864",
-      "bytes": 5552
+      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
+      "bytes": 6008
     },
     {
       "path": "scripts/openalex_client.py",
@@ -57,5 +57,5 @@
   "metrics": {},
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T03:34:20.046227+00:00"
+  "finished_at": "2026-10-29T03:37:59.583544+00:00"
 }

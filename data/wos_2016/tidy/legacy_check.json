@@ -1,0 +1,24 @@
+{
+  "draft": {
+    "total": 73564,
+    "before_notice_year": 39792,
+    "notice_year": 10840,
+    "after_notice_year": 22932,
+    "share_after": 0.3117
+  },
+  "distinct": {
+    "total": 73553,
+    "before_notice_year": 39786,
+    "notice_year": 10839,
+    "after_notice_year": 22928,
+    "share_after": 0.3117
+  },
+  "zero_article_years": 9872,
+  "article_years": 22926,
+  "articles": 3029,
+  "never_cited": 509,
+  "dropped_citing_records": {
+    "after_export_year": 1,
+    "duplicate_accession": 11
+  }
+}

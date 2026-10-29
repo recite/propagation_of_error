@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "study": "wos_2016",
+  "stage": "01_import",
+  "started_at": "2026-10-29T03:38:01.021310+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/wos/01_import.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "80eebbf85991614320d633035f485f39da595a2c",
+  "inputs": [
+    {
+      "path": "data/wos_2016/retraction_notices.csv",
+      "sha256": "e528906e42350f20fb8fa8fcd229daf5ee22f79b6c0038e386eb842c3c32f3ce",
+      "bytes": 2331799,
+      "rows": 3029
+    },
+    {
+      "path": "data/wos_2016/retracted_articles.csv",
+      "sha256": "211bdf946d7221fc6cacd145fe2560bcc8d36cb0e75e83220ddc590396acb0b4",
+      "bytes": 6904875,
+      "rows": 3052
+    },
+    {
+      "path": "data/wos_2016/retracted_article_citations.zip",
+      "sha256": "de5cdfe44c0c1e1e430a1697fe5e6b9d28494e93d0967b16bd6fc8df8535e076",
+      "bytes": 41138830
+    },
+    {
+      "path": "data/wos_2016/retraction_notice_citations.csv",
+      "sha256": "18cd283341319e341832f686ab7fb03f8f437d809a3c299af1ae7a86034b9f64",
+      "bytes": 3155764,
+      "rows": 1897
+    },
+    {
+      "path": "data/wos_2016/retraction_reasons.csv",
+      "sha256": "10c587859f6f671d06fda64d95db1eb90ba3757968974654f27739ac547be46c",
+      "bytes": 7967,
+      "rows": 95
+    },
+    {
+      "path": "data/wos_2016/acknowledgment_pre.csv",
+      "sha256": "1b44c3513b727d809f984d107889a539cb0b23c5aa8920dedaf07828049907cb",
+      "bytes": 936,
+      "rows": 100
+    },
+    {
+      "path": "data/wos_2016/acknowledgment_post.csv",
+      "sha256": "13b6a003bf407c001b6cd18369911f0e327c10963cc6b43da45acb26420dda66",
+      "bytes": 2320,
+      "rows": 275
+    },
+    {
+      "path": "data/wos_2016/date_checks.csv",
+      "sha256": "10cef42fad9a3dc10dca85a8889deefb12241f4f8ca3c9a2936caff241df0973",
+      "bytes": 1453991,
+      "rows": 300
+    },
+    {
+      "path": "data/wos_2016/wos_codebook.csv",
+      "sha256": "5dbccfe736fd2fbfb23ed929b9e03985585d1519e97ec91233f0ecd6c889b76c",
+      "bytes": 2447,
+      "rows": 66
+    },
+    {
+      "path": "data/wos_2016/journal_impact_factor.csv",
+      "sha256": "f048ff8ed3e30eebc95161d68f1e30085078cefdde1c942ff0ad617641062de0",
+      "bytes": 680116,
+      "rows": 11990
+    },
+    {
+      "path": "data/wos_2016/legacy_panel.csv",
+      "sha256": "228153a04e79a66b8b293676f0c98469d4adb69b997407d5a6e06357a61dc55e",
+      "bytes": 751087,
+      "rows": 12511
+    }
+  ],
+  "outputs": [
+    {
+      "path": "data/wos_2016/tidy/articles.csv",
+      "sha256": "bb7f16da1aa0d504e02e9c41173bad8745d7a8983ffb0b65fe743540d0d6a1ac",
+      "bytes": 1057169,
+      "rows": 3029
+    },
+    {
+      "path": "data/wos_2016/tidy/citing_counts.csv",
+      "sha256": "3836b6c323cdf06db9639c0b14794d07832a25fbe8be7b7acbe036e316e1dad1",
+      "bytes": 411277,
+      "rows": 25955
+    },
+    {
+      "path": "data/wos_2016/tidy/acknowledgment.csv",
+      "sha256": "4a6382d0722c9b2c5f14d896211e47d8afe6d3a80c9fbba451691f21f692b917",
+      "bytes": 5732,
+      "rows": 375
+    },
+    {
+      "path": "data/wos_2016/tidy/reasons.csv",
+      "sha256": "e98a6f96deaad047041fbbfbed2ac83e55445fdeac492682265230c042a5191b",
+      "bytes": 7436,
+      "rows": 95
+    },
+    {
+      "path": "data/wos_2016/tidy/legacy_check.json",
+      "sha256": "b501a9feef7335fa1cdeda5eb72422118b0e390503386bd48308e55824bba4b5",
+      "bytes": 507
+    },
+    {
+      "path": "data/wos_2016/manifest.json",
+      "sha256": "ca6318d27a3b81b02c268a931675826ed5ee33203ba8342d93b08b4eadc21f75",
+      "bytes": 2175
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/wos/01_import.py",
+      "sha256": "8c1a50699af32f47110625f406547da04003108a0e9ff72d71099227f89d1587",
+      "bytes": 9568
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
+      "bytes": 6008
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "02a73746d67eeff619c08862a35df2be5c95fd8c1894145cccc30e3c2b7b0c5c",
+      "bytes": 6961
+    }
+  ],
+  "parents": [],
+  "checks": [
+    {
+      "name": "rows_notices",
+      "passed": true,
+      "detail": 3029
+    },
+    {
+      "name": "rows_articles",
+      "passed": true,
+      "detail": 3052
+    },
+    {
+      "name": "rows_citing",
+      "passed": true,
+      "detail": 73565
+    },
+    {
+      "name": "rows_reasons",
+      "passed": true,
+      "detail": 95
+    },
+    {
+      "name": "rows_acknowledgment_pre",
+      "passed": true,
+      "detail": 100
+    },
+    {
+      "name": "rows_acknowledgment_post",
+      "passed": true,
+      "detail": 275
+    },
+    {
+      "name": "rows_notice_citations",
+      "passed": true,
+      "detail": 1897
+    },
+    {
+      "name": "every_notice_has_one_matched_article",
+      "passed": true,
+      "detail": "final_filter == 1"
+    },
+    {
+      "name": "draft_total_citations",
+      "passed": true,
+      "detail": 73564
+    },
+    {
+      "name": "draft_post_citations",
+      "passed": true,
+      "detail": 22932
+    },
+    {
+      "name": "draft_pre_citations",
+      "passed": true,
+      "detail": 39792
+    },
+    {
+      "name": "panel_is_rectangular",
+      "passed": true,
+      "detail": 25955
+    }
+  ],
+  "sources": [],
+  "metrics": {
+    "draft": {
+      "total": 73564,
+      "before_notice_year": 39792,
+      "notice_year": 10840,
+      "after_notice_year": 22932,
+      "share_after": 0.3117
+    },
+    "distinct": {
+      "total": 73553,
+      "before_notice_year": 39786,
+      "notice_year": 10839,
+      "after_notice_year": 22928,
+      "share_after": 0.3117
+    },
+    "zero_article_years": 9872,
+    "article_years": 22926,
+    "articles": 3029,
+    "never_cited": 509,
+    "dropped_citing_records": {
+      "after_export_year": 1,
+      "duplicate_accession": 11
+    }
+  },
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:38:03.013373+00:00"
+}

@@ -39,13 +39,25 @@ def unique(rows, keys):
     openalex.unique(rows, keys)
 
 
+def count_rows(path):
+    """Data rows of a CSV; legacy exports are not all UTF-8, and a hash still freezes them."""
+    csv.field_size_limit(1 << 30)
+    for encoding in ("utf-8", "latin-1"):
+        try:
+            with Path(path).open(newline="", encoding=encoding) as stream:
+                return sum(1 for _ in csv.DictReader(stream))
+        except UnicodeDecodeError:
+            continue
+    raise UnicodeDecodeError("csv", b"", 0, 0, str(path))
+
+
 def fingerprint(path):
     path = Path(path)
     result = dict(
         path=str(path.relative_to(ROOT)), sha256=digest(path), bytes=path.stat().st_size
     )
     if path.suffix == ".csv" and "private-data" not in path.parts:
-        result["rows"] = len(read_csv(path))
+        result["rows"] = count_rows(path)
     return result
 
 
