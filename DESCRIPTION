@@ -1,0 +1,28 @@
+Package: propagationoferror
+Type: Project
+Title: Propagation of Error: Citations to Retracted Research
+Version: 0.1.0
+Authors@R: c(
+    person("Ken", "Cor", role = "aut"),
+    person("Gaurav", "Sood", role = c("aut", "cre"), email = "gsood07@gmail.com"))
+Description: Reproducible analysis of citations to retracted articles before and
+    after retraction, using Retraction Watch for the retraction registry, OpenAlex
+    for citation histories and matched never-retracted comparison articles, and a
+    2016 Web of Science snapshot for measurement validation.
+Encoding: UTF-8
+Imports:
+    fixest,
+    ggplot2,
+    jsonlite,
+    sandwich,
+    synthdid
+Suggests:
+    HonestDiD,
+    lintr,
+    renv,
+    styler,
+    testthat
+Remotes:
+    synth-inference/synthdid@70c1ce3eac58e28c30b67435ca377bb48baa9b8a,
+    asheshrambachan/HonestDiD
+Config/testthat/edition: 3

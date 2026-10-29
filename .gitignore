@@ -1,14 +1,19 @@
-dev/
-present/
-
-# Folder config file
-[Dd]esktop.ini
-
-# tex
-.aux
-.bbl
-.blg
-.log
-
-#
 .DS_Store
+.Rhistory
+.RData
+.Rproj.user/
+renv/library/
+renv/staging/
+tmp/
+ms/*.aux
+ms/*.log
+ms/*.out
+ms/*.fls
+ms/*.fdb_latexmk
+ms/*.synctex.gz
+ms/*.bbl
+ms/*.blg
+ms/*.xdv
+private-data/
+__pycache__/
+.ruff_cache/

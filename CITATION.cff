@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "Please cite the paper when using these materials."
+type: dataset
+title: "Propagation of Error: Citations to Retracted Research"
+authors:
+  - family-names: Cor
+    given-names: Ken
+  - family-names: Sood
+    given-names: Gaurav
+repository-code: "https://github.com/recite/propagation_of_error"
+url: "https://github.com/recite/propagation_of_error"
+version: 0.1.0
+date-released: "2026-10-28"
+preferred-citation:
+  type: report
+  title: "Propagation of Error: Citations to Retracted Research"
+  authors:
+    - family-names: Cor
+      given-names: Ken
+    - family-names: Sood
+      given-names: Gaurav
+  year: 2026
+  url: "https://github.com/recite/propagation_of_error/blob/main/ms/main.pdf"

@@ -1,0 +1,113 @@
+reason,category,snapshot_count
+Concerns/Issues about Referencing/Attributions,duplication,15364
+Duplication of/in Image,duplication,5749
+Euphemisms for Plagiarism,duplication,3833
+Duplication of/in Article,duplication,3727
+Plagiarism of/in Article,duplication,2901
+Euphemisms for Duplication,duplication,2380
+Plagiarism of Text,duplication,2226
+Duplication of Data,duplication,1149
+Plagiarism of Image,duplication,882
+Plagiarism of Data,duplication,658
+Duplication of Text,duplication,502
+Taken from Dissertation/Thesis,duplication,374
+Salami Slicing,duplication,33
+Taken via Translation,duplication,11
+Unreliable Results and/or Conclusions,error,22113
+Concerns/Issues about Data,error,15988
+Concerns/Issues about Results and/or Conclusions,error,10080
+Concerns/Issues about Image,error,3672
+Original Data and/or Images not Provided and/or not Available,error,2639
+Unreliable Data,error,2413
+Error in Data,error,2157
+Error in Image,error,1573
+Error in Results and/or Conclusions,error,1500
+Error in Analyses,error,1497
+Error in Text,error,1323
+Error in Methods,error,1317
+Results Not Reproducible,error,959
+Unreliable Image,error,283
+Concerns/Issues about Methods,error,253
+Cites Retracted Work,error,238
+Error in Materials,error,206
+Contamination of Cell Lines/Tissues,error,175
+Doing the Right Thing,error,142
+Error in Cell Lines/Tissues,error,98
+Contamination of Materials,error,84
+Error by Third Party,error,49
+Compromised Peer Review,misconduct,11998
+Paper Mill,misconduct,11798
+Computer-Aided Content or Computer-Generated Content,misconduct,9337
+Rogue Editor,misconduct,3638
+Misconduct by Author,misconduct,1948
+Falsification/Fabrication of Data,misconduct,1741
+Misconduct - Official Investigation(s) and/or Finding(s),misconduct,1670
+Manipulation of Images,misconduct,1442
+False/Forged Authorship,misconduct,923
+Falsification/Fabrication of Image,misconduct,562
+Investigation by ORI,misconduct,305
+False/Forged Affiliation,misconduct,202
+Falsification/Fabrication of Results,misconduct,119
+Misconduct by Third Party,misconduct,51
+Manipulation of Results,misconduct,48
+Manipulation of Data,misconduct,30
+Taken via Peer Review,misconduct,23
+Hoax Paper,misconduct,16
+Euphemisms for Misconduct,misconduct,11
+Misconduct by Company/Institution,misconduct,8
+Sabotage of Materials/Methods,misconduct,1
+Investigation by Journal/Publisher,other,32446
+Investigation by Third Party,other,18143
+Notice - Limited or No Information,other,12118
+Concerns/Issues about Peer Review,other,11737
+Date of Article and/or Notice Unknown,other,7030
+Breach of Policy by Author,other,4794
+Removed,other,4076
+Objections by Author(s),other,3987
+Investigation by Company/Institution,other,3841
+Author Unresponsive,other,3455
+Concerns/Issues about Authorship/Affiliation,other,3188
+Lack of IRB/IACUC Approval and/or Compliance,other,2667
+Upgrade/Update of Prior Notice(s),other,2500
+Updated to Retraction,other,2138
+Concerns/Issues about Third Party Involvement,other,1965
+Concerns/Issues about Article,other,1938
+Informed/Patient Consent - None/Withdrawn,other,1611
+Error by Journal/Publisher,other,1242
+Retract and Replace,other,1060
+Conflict of Interest,other,954
+Duplication of Content through Error by Journal/Publisher,other,891
+Objections by Third Party,other,837
+Concerns/Issues about Human Subject Welfare,other,805
+Copyright Claims,other,715
+Ethical Violations by Author,other,696
+Lack of Approval from Author,other,594
+Withdrawn to Publish in Different Journal,other,495
+Lack of Approval from Third Party,other,462
+Legal Reasons and/or Threats,other,453
+Withdrawn as Out of Date,other,363
+Notice - Lack of,other,362
+Civil Proceedings,other,345
+Lack of Approval from Company/Institution,other,304
+Notice - Unable to Access via current resources,other,208
+Temporary Removal,other,193
+Complaints about Author,other,112
+Bias Issues or Lack of Balance,other,107
+Miscommunication with/by Author,other,106
+Publishing Ban,other,82
+Criminal Proceedings,other,78
+Concerns/Issues about Animal Welfare,other,61
+Updated to Correction,other,48
+Transfer of Copyright and/or Ownership,other,43
+Not Presented at Conference,other,40
+Objections by Company/Institution,other,29
+Ethical Violations by Company/Institution/Third Party,other,29
+No Further Action,other,26
+Miscommunication with/by Journal/Publisher,other,20
+Miscommunication with/by Third Party,other,13
+Nonpayment of Fees and/or Refusal to Pay,other,12
+Miscommunication with/by Company/Institution,other,12
+Complaints about Third Party,other,10
+Updated to Expression of Concern,other,9
+Complaints about Company/Institution,other,5
+EOC Lifted,other,5
