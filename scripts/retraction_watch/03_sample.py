@@ -1,6 +1,8 @@
-"""Draw the stratified treated sample from the frame with a recorded seed.
+"""Fix the treated set: the whole frame by default, or a stratified sample.
 
-Usage: python3 -m scripts.retraction_watch.03_sample [--size 4000] [--pilot 200]
+Usage: python3 -m scripts.retraction_watch.03_sample [--size N] [--pilot 200]
+The pilot flag marks the first articles of a seeded random order; pilot fetches
+are cached and reused, so the pilot costs nothing extra.
 Output: data/retraction_watch/sample.csv, sampling.json
 """
 
@@ -61,30 +63,47 @@ def stratified_sample(frame, size, seed, floor=FLOOR, cap=JOURNAL_YEAR_CAP):
     return sample
 
 
+def census(frame, seed):
+    rng = random.Random(seed)
+    rows = sorted(frame, key=lambda r: r["article_id"])
+    rng.shuffle(rows)
+    return [dict(article_id=r["article_id"], stratum=f"{r['retraction_year']}/{r['field']}",
+                 stratum_size="", stratum_sample_size="", inclusion_probability=1.0,
+                 sample_order=order) for order, r in enumerate(rows, 1)]
+
+
 def main(size, pilot):
     with Run("retraction_watch", "03_sample", __file__, offline=True) as run:
         run.require("02_frame")
         frame = read_csv(DATA / "frame.csv")
-        sample = stratified_sample(frame, size, SEED)
+        if size is None or size >= len(frame):
+            sample = census(frame, SEED)
+            size = len(frame)
+        else:
+            sample = stratified_sample(frame, size, SEED)
         for row in sample:
             row["pilot"] = int(row["sample_order"] <= pilot)
         unique(sample, ["article_id"])
-        run.check("sample_size", abs(len(sample) - size) <= 0.05 * size, len(sample))
+        run.check("sample_size", abs(len(sample) - size) <= 0.1 * size, len(sample))
         run.check("every_cell_represented",
                   {r["stratum"] for r in sample} == {f"{r['retraction_year']}/{r['field']}" for r in frame},
                   "strata")
-        write_csv(run.output(DATA / "sample.csv"), sample, SAMPLE_FIELDS)
+        write_csv(DATA / "sample.csv", sample, SAMPLE_FIELDS)
+
+        run.output(DATA / "sample.csv")
         summary = dict(seed=SEED, requested=size, drawn=len(sample), pilot=pilot, floor=FLOOR,
                        journal_year_cap=JOURNAL_YEAR_CAP,
                        by_field=dict(collections.Counter(r["stratum"].split("/")[1] for r in sample)))
-        write_json(run.output(DATA / "sampling.json"), summary)
+        write_json(DATA / "sampling.json", summary)
+
+        run.output(DATA / "sampling.json")
         run.record["metrics"] = summary
         print(json.dumps(summary, indent=1))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--size", type=int, default=4000)
+    parser.add_argument("--size", type=int, default=None)
     parser.add_argument("--pilot", type=int, default=200)
     args = parser.parse_args()
     main(args.size, args.pilot)

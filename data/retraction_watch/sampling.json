@@ -1,0 +1,15 @@
+{
+  "seed": 20261028,
+  "requested": 9555,
+  "drawn": 9555,
+  "pilot": 200,
+  "floor": 20,
+  "journal_year_cap": 10,
+  "by_field": {
+    "bls": 5166,
+    "hsc": 1480,
+    "phy": 1756,
+    "bt_env": 871,
+    "soc_hum": 282
+  }
+}

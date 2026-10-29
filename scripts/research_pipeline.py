@@ -13,7 +13,7 @@ import sys
 import threading
 from pathlib import Path
 
-from scripts import openalex
+from scripts import openalex_client as openalex
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -79,7 +79,7 @@ class Run:
             unresolved=[],
             status="running",
         )
-        for path in [Path(script), Path(__file__), ROOT / "scripts/openalex.py"]:
+        for path in [Path(script), Path(__file__), ROOT / "scripts/openalex_client.py"]:
             self.record["code"].append(fingerprint(path.resolve()))
 
     def __enter__(self):

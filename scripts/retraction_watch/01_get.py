@@ -11,7 +11,7 @@ import collections
 import csv
 import json
 
-from scripts import openalex
+from scripts import openalex_client as openalex
 from scripts.research_pipeline import ROOT, Run, write_json
 
 URL = "https://gitlab.com/crossref/retraction-watch-data/-/raw/main/retraction_watch.csv"
@@ -30,7 +30,8 @@ def read_snapshot():
     csv.field_size_limit(1 << 30)
     with CACHE.open(encoding="utf-8", errors="replace", newline="") as stream:
         reader = csv.DictReader(stream)
-        if reader.fieldnames != FIELDS:
+        # The published CSV ends every line with a trailing comma, hence one empty name.
+        if [f for f in reader.fieldnames if f] != FIELDS:
             raise ValueError("Unexpected Retraction Watch columns: " + str(reader.fieldnames))
         return list(reader)
 

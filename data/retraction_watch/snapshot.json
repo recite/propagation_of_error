@@ -1,0 +1,14 @@
+{
+  "url": "https://gitlab.com/crossref/retraction-watch-data/-/raw/main/retraction_watch.csv",
+  "retrieved_at": "2026-10-05T21:40:26.424607+00:00",
+  "sha256": "d507d66babec5a635f1a69db0a4b4ad0ad04c6e3f491cbc3136eae75ecc6aa62",
+  "bytes": 67151140,
+  "rows": 72870,
+  "rows_by_nature": {
+    "Retraction": 67440,
+    "Correction": 1540,
+    "Expression of concern": 3728,
+    "Reinstatement": 162
+  },
+  "cache_path": "private-data/retraction_watch/retraction_watch.csv"
+}

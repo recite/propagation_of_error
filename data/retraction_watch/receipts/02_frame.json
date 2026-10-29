@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "study": "retraction_watch",
+  "stage": "02_frame",
+  "started_at": "2026-10-29T03:34:20.138304+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/retraction_watch/02_frame.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "42390c8a1a018b9e8aab39240ffa93815c0d53b1",
+  "inputs": [
+    {
+      "path": "data/retraction_watch/snapshot.json",
+      "sha256": "e07a14bd5763199d19dd62161c297293ffc495e781731fd28e0fb4583122508e",
+      "bytes": 475
+    },
+    {
+      "path": "private-data/retraction_watch/retraction_watch.csv",
+      "sha256": "d507d66babec5a635f1a69db0a4b4ad0ad04c6e3f491cbc3136eae75ecc6aa62",
+      "bytes": 67151140
+    },
+    {
+      "path": "data/retraction_watch/reason_categories.csv",
+      "sha256": "6e643d8e987cae2e661c7d48c96a872c83d888aca9c851a7e719018bbd051f77",
+      "bytes": 4581,
+      "rows": 112
+    }
+  ],
+  "outputs": [
+    {
+      "path": "data/retraction_watch/frame.csv",
+      "sha256": "b890569fa5482e9f242dccdc00a10ec055908c93511a4f35adb111180b04c5f6",
+      "bytes": 4490030,
+      "rows": 9555
+    },
+    {
+      "path": "data/retraction_watch/exclusions.csv",
+      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
+      "bytes": 2697439,
+      "rows": 63315
+    },
+    {
+      "path": "data/retraction_watch/frame_summary.json",
+      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
+      "bytes": 1162
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/retraction_watch/02_frame.py",
+      "sha256": "20c36a012bf821b1874aa0ab7f48d513a9f3b19532b85166800497e7d19b4d64",
+      "bytes": 8135
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "d4cb31d68c9c262358ffc1fce6f4cc2a9834eda1e9c481eb4bd1471efa47f864",
+      "bytes": 5552
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "02a73746d67eeff619c08862a35df2be5c95fd8c1894145cccc30e3c2b7b0c5c",
+      "bytes": 6961
+    }
+  ],
+  "parents": [
+    {
+      "path": "data/retraction_watch/receipts/01_get.json",
+      "sha256": "35246a9e93758679ed4534e729991c74ccec7b4acb69339e183219e0c73e2e29",
+      "bytes": 1597
+    }
+  ],
+  "checks": [
+    {
+      "name": "snapshot_hash",
+      "passed": true,
+      "detail": "d507d66babec5a635f1a69db0a4b4ad0ad04c6e3f491cbc3136eae75ecc6aa62"
+    },
+    {
+      "name": "frame_plus_exclusions_cover_snapshot",
+      "passed": true,
+      "detail": {
+        "frame": 9555,
+        "excluded": 63315
+      }
+    },
+    {
+      "name": "frame_size",
+      "passed": true,
+      "detail": 9555
+    },
+    {
+      "name": "fields_assigned",
+      "passed": true,
+      "detail": 0
+    }
+  ],
+  "sources": [],
+  "metrics": {
+    "frame": 9555,
+    "exclusions": {
+      "not_retraction": 5430,
+      "no_original_doi": 5884,
+      "retracted_too_soon": 15453,
+      "duplicate_retraction": 161,
+      "outside_window": 34741,
+      "article_type": 1646
+    },
+    "by_retraction_year": {
+      "2005": 23,
+      "2006": 61,
+      "2007": 57,
+      "2008": 107,
+      "2009": 198,
+      "2010": 210,
+      "2011": 314,
+      "2012": 344,
+      "2013": 381,
+      "2014": 402,
+      "2015": 506,
+      "2016": 570,
+      "2017": 599,
+      "2018": 664,
+      "2019": 802,
+      "2020": 1007,
+      "2021": 1716,
+      "2022": 1594
+    },
+    "by_field": {
+      "hsc": 1480,
+      "bls": 5166,
+      "bt_env": 871,
+      "phy": 1756,
+      "soc_hum": 282
+    },
+    "by_reason_category": {
+      "misconduct": 3922,
+      "other": 693,
+      "duplication": 3130,
+      "error": 1810
+    },
+    "by_lag": {
+      "2": 2243,
+      "3": 2005,
+      "4": 1446,
+      "5": 928,
+      "6": 644,
+      "7": 529,
+      "8": 428,
+      "9": 310,
+      "10": 1022
+    },
+    "rules": {
+      "publication_years": [
+        2000,
+        2019
+      ],
+      "retraction_years": [
+        2005,
+        2022
+      ],
+      "minimum_lag": 2,
+      "article_types": [
+        "Clinical Study",
+        "Research Article"
+      ]
+    }
+  },
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:34:21.365450+00:00"
+}

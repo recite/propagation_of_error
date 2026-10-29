@@ -1,0 +1,70 @@
+{
+  "frame": 9555,
+  "exclusions": {
+    "not_retraction": 5430,
+    "no_original_doi": 5884,
+    "retracted_too_soon": 15453,
+    "duplicate_retraction": 161,
+    "outside_window": 34741,
+    "article_type": 1646
+  },
+  "by_retraction_year": {
+    "2005": 23,
+    "2006": 61,
+    "2007": 57,
+    "2008": 107,
+    "2009": 198,
+    "2010": 210,
+    "2011": 314,
+    "2012": 344,
+    "2013": 381,
+    "2014": 402,
+    "2015": 506,
+    "2016": 570,
+    "2017": 599,
+    "2018": 664,
+    "2019": 802,
+    "2020": 1007,
+    "2021": 1716,
+    "2022": 1594
+  },
+  "by_field": {
+    "hsc": 1480,
+    "bls": 5166,
+    "bt_env": 871,
+    "phy": 1756,
+    "soc_hum": 282
+  },
+  "by_reason_category": {
+    "misconduct": 3922,
+    "other": 693,
+    "duplication": 3130,
+    "error": 1810
+  },
+  "by_lag": {
+    "2": 2243,
+    "3": 2005,
+    "4": 1446,
+    "5": 928,
+    "6": 644,
+    "7": 529,
+    "8": 428,
+    "9": 310,
+    "10": 1022
+  },
+  "rules": {
+    "publication_years": [
+      2000,
+      2019
+    ],
+    "retraction_years": [
+      2005,
+      2022
+    ],
+    "minimum_lag": 2,
+    "article_types": [
+      "Clinical Study",
+      "Research Article"
+    ]
+  }
+}

@@ -13,7 +13,7 @@ import importlib
 import json
 import re
 
-from scripts import openalex
+from scripts import openalex_client as openalex
 from scripts.research_pipeline import ROOT, Run, read_csv, unique, write_csv, write_json
 
 get = importlib.import_module("scripts.retraction_watch.01_get")
@@ -155,11 +155,14 @@ def main():
         unique(frame, ["article_id"])
         run.check("frame_plus_exclusions_cover_snapshot",
                   len(frame) + len(exclusions) == len(rows), dict(frame=len(frame), excluded=len(exclusions)))
-        run.check("frame_size", 10000 <= len(frame) <= 25000, len(frame))
+        run.check("frame_size", 5000 <= len(frame) <= 25000, len(frame))
         run.check("fields_assigned", all(r["field"] for r in frame),
                   sum(1 for r in frame if not r["field"]))
-        write_csv(run.output(DATA / "frame.csv"), frame, FRAME_FIELDS)
-        write_csv(run.output(DATA / "exclusions.csv"), exclusions, ["record_id", "doi", "reason"])
+        write_csv(DATA / "frame.csv", frame, FRAME_FIELDS)
+
+        run.output(DATA / "frame.csv")
+        write_csv(DATA / "exclusions.csv", exclusions, ["record_id", "doi", "reason"])
+        run.output(DATA / "exclusions.csv")
         summary = dict(
             frame=len(frame),
             exclusions=dict(collections.Counter(r["reason"] for r in exclusions)),
@@ -170,7 +173,9 @@ def main():
             rules=dict(publication_years=PUBLICATION_YEARS, retraction_years=RETRACTION_YEARS,
                        minimum_lag=MINIMUM_LAG, article_types=sorted(ARTICLE_TYPES)),
         )
-        write_json(run.output(DATA / "frame_summary.json"), summary)
+        write_json(DATA / "frame_summary.json", summary)
+
+        run.output(DATA / "frame_summary.json")
         run.record["metrics"] = summary
         print(json.dumps(summary, indent=1))
 

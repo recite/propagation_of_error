@@ -13,8 +13,8 @@ first and re-copied here, so the two repositories do not drift.
 | `R/synthetic_did.R` | `R/synthetic_did.R` | roster column `flag` renamed `treated`; time column `event_time` |
 | `R/stacked.R` | `R/journal_cohort.R` | stratum is the matched stack; fixed effects `article_id^stack_id + stack_id^event_time`; weights |
 | `R/analysis.R` | `R/analysis.R` | kept `wilson_interval`, `annual_summary` only |
-| `scripts/research_pipeline.py` | `scripts/research_pipeline.py` | no dependency on `pilot.py`; data dir `data/<study>`; fetch through `scripts/openalex.py` |
-| `scripts/openalex.py` | `scripts/pilot.py` helpers and `scripts/i4r_sources.py::fetch` | merged request with cache, 429 retry-after file, batched DOI lookup, grouped annual counts |
+| `scripts/research_pipeline.py` | `scripts/research_pipeline.py` | no dependency on `pilot.py`; data dir `data/<study>`; fetch through `scripts/openalex_client.py` |
+| `scripts/openalex_client.py` | `scripts/pilot.py` helpers and `scripts/i4r_sources.py::fetch` | merged request with cache, 429 retry-after file, batched DOI lookup, grouped annual counts |
 | `scripts/citation_history.py` | `scripts/citation_history.py` | takes a resolved work id; adds `annual_counts` |
 | `scripts/matching/match.py` | `scripts/i4r_match.py` | no text distance; pre-event histories only; event-time panel |
 | `tests/testthat/test-synthetic-did.R` | same | column names |

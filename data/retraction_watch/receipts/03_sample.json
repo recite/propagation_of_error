@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "study": "retraction_watch",
+  "stage": "03_sample",
+  "started_at": "2026-10-29T03:34:42.058014+00:00",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/retraction_watch/03_sample.py"
+  ],
+  "python": "3.14.7",
+  "git_commit": "42390c8a1a018b9e8aab39240ffa93815c0d53b1",
+  "inputs": [
+    {
+      "path": "data/retraction_watch/frame.csv",
+      "sha256": "b890569fa5482e9f242dccdc00a10ec055908c93511a4f35adb111180b04c5f6",
+      "bytes": 4490030,
+      "rows": 9555
+    },
+    {
+      "path": "data/retraction_watch/exclusions.csv",
+      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
+      "bytes": 2697439,
+      "rows": 63315
+    },
+    {
+      "path": "data/retraction_watch/frame_summary.json",
+      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
+      "bytes": 1162
+    }
+  ],
+  "outputs": [
+    {
+      "path": "data/retraction_watch/sample.csv",
+      "sha256": "7365349c963d09d349b5a8180854e20af51fc9140783e422490444abf5641a78",
+      "bytes": 384927,
+      "rows": 9555
+    },
+    {
+      "path": "data/retraction_watch/sampling.json",
+      "sha256": "6d9b507c9895c33b8063210761968042c986a54eeee339775236936b7269d9e6",
+      "bytes": 228
+    }
+  ],
+  "code": [
+    {
+      "path": "scripts/retraction_watch/03_sample.py",
+      "sha256": "08b6c55ae47e466121b2c0e0b2e4a214f8aa6492efc0c7f45141efbb55a77e51",
+      "bytes": 4323
+    },
+    {
+      "path": "scripts/research_pipeline.py",
+      "sha256": "d4cb31d68c9c262358ffc1fce6f4cc2a9834eda1e9c481eb4bd1471efa47f864",
+      "bytes": 5552
+    },
+    {
+      "path": "scripts/openalex_client.py",
+      "sha256": "02a73746d67eeff619c08862a35df2be5c95fd8c1894145cccc30e3c2b7b0c5c",
+      "bytes": 6961
+    }
+  ],
+  "parents": [
+    {
+      "path": "data/retraction_watch/receipts/02_frame.json",
+      "sha256": "518ea9921b0a23ae654d4f83d52cbedba9598fb74b48e0102fc9529b0ce7ca19",
+      "bytes": 4176
+    }
+  ],
+  "checks": [
+    {
+      "name": "sample_size",
+      "passed": true,
+      "detail": 9555
+    },
+    {
+      "name": "every_cell_represented",
+      "passed": true,
+      "detail": "strata"
+    }
+  ],
+  "sources": [],
+  "metrics": {
+    "seed": 20261028,
+    "requested": 9555,
+    "drawn": 9555,
+    "pilot": 200,
+    "floor": 20,
+    "journal_year_cap": 10,
+    "by_field": {
+      "bls": 5166,
+      "hsc": 1480,
+      "phy": 1756,
+      "bt_env": 871,
+      "soc_hum": 282
+    }
+  },
+  "unresolved": [],
+  "status": "complete",
+  "finished_at": "2026-10-29T03:34:42.233534+00:00"
+}
