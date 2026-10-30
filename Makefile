@@ -2,7 +2,7 @@ RSCRIPT ?= Rscript
 PY ?= python3
 WORKERS ?= 8
 
-.PHONY: rebuild restore wos rw rw-fetch targets targets-fetch validation validation-fetch pilot openalex-fetch openalex match analysis sdid figures tables manuscript paper format lint test check ci-docker clean
+.PHONY: submission rebuild restore wos rw rw-fetch targets targets-fetch validation validation-fetch pilot openalex-fetch openalex match analysis sdid figures tables manuscript paper format lint test check ci-docker clean
 
 restore:
 	$(RSCRIPT) --vanilla -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv", repos = "https://cloud.r-project.org"); renv::load(project = getwd()); renv::restore(prompt = FALSE)'
@@ -98,6 +98,17 @@ ci-docker:
 		-v r_renv_cache:/root/.cache/R/renv \
 		-e RENV_CONFIG_REPOS_OVERRIDE=https://packagemanager.posit.co/cran/latest \
 		rocker/verse:4.6.0 bash -c "apt-get update && apt-get install -y python3-pip && pip3 install --break-system-packages -r requirements.txt && tlmgr install latexmk fontspec booktabs float caption natbib xurl setspace adjustbox microtype && make restore check"
+
+# A self-contained bundle for journal submission: the manuscript with every table and the
+# bibliography inlined, figures beside it, and the PDF.
+submission: manuscript
+	rm -rf submission && mkdir -p submission/figs
+	cd ms && latexpand --expand-bbl main.bbl main.tex > ../submission/main.tex
+	sed -i '' 's#\\graphicspath{{../figs/}}#\\graphicspath{{figs/}}#' submission/main.tex
+	cp figs/*.pdf submission/figs/ && cp ms/main.pdf submission/main.pdf
+	cd submission && latexmk -xelatex -interaction=nonstopmode -halt-on-error -quiet main.tex > /dev/null && latexmk -c -quiet > /dev/null 2>&1
+	cd submission && zip -qr ../submission.zip main.tex main.pdf figs
+	@echo "submission.zip written"
 
 clean:
 	cd ms && latexmk -C main.tex

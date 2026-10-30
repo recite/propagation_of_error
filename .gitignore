@@ -17,3 +17,5 @@ ms/*.xdv
 private-data/
 __pycache__/
 .ruff_cache/
+submission/
+submission.zip
