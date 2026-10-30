@@ -190,10 +190,10 @@ We find that citations to retracted research fall sharply relative to comparable
 
 \clearpage
 \appendix
-\renewcommand{\thefigure}{A\arabic{figure}}
-\renewcommand{\thetable}{A\arabic{table}}
-\setcounter{figure}{0}
-\setcounter{table}{0}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\renewcommand{\thefigure}{\thesection\arabic{figure}}
+\renewcommand{\thetable}{\thesection\arabic{table}}
 \section{Sample flow}
 \begin{table}[H]
 \centering

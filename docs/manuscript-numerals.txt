@@ -44,6 +44,5 @@
 2010  # Rubio retraction year, introduction
 2015  # end of the 2016 Web of Science citation data
 100  # Darsee publications, quoted (stewart1987integrity)
-0  # counter resets in the appendix preamble
 07  # corresponding author email, title page
 718  # page of yi2015comment, quoted
