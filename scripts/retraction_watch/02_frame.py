@@ -106,6 +106,7 @@ def field_group(subjects):
 def build_frame(rows, mapping):
     """Apply the frame rules in order; every dropped record keeps its first reason."""
     frame, exclusions = [], []
+    short_lag = collections.Counter()
     concerns = collections.defaultdict(list)
     for row in rows:
         if row["RetractionNature"] == "Expression of concern":
@@ -149,12 +150,15 @@ def build_frame(rows, mapping):
         ):
             exclusions.append(dict(record, reason="outside_window"))
             continue
-        if first_date.year - published.year < MINIMUM_LAG:
-            exclusions.append(dict(record, reason="retracted_too_soon"))
-            continue
         types = split_list(first["ArticleType"])
         if not ARTICLE_TYPES & set(types):
             exclusions.append(dict(record, reason="article_type"))
+            continue
+        # Research articles retracted within two years of publication are counted before they
+        # are dropped: the frame's time-to-retraction figures are conditional on this rule.
+        if first_date.year - published.year < MINIMUM_LAG:
+            short_lag[first_date.year - published.year] += 1
+            exclusions.append(dict(record, reason="retracted_too_soon"))
             continue
         reasons = split_list(first["Reason"])
         subjects = split_list(first["Subject"])
@@ -180,7 +184,7 @@ def build_frame(rows, mapping):
                 prior_concern=int(any(d < first_date for d in concerns.get(doi, []))),
             )
         )
-    return frame, exclusions
+    return frame, exclusions, dict(short_lag)
 
 
 def main():
@@ -196,7 +200,7 @@ def main():
         mapping_rows = read_csv(run.input(DATA / "reason_categories.csv"))
         mapping = {r["reason"]: r["category"] for r in mapping_rows}
         rows = get.read_snapshot()
-        frame, exclusions = build_frame(rows, mapping)
+        frame, exclusions, short_lag = build_frame(rows, mapping)
         unique(frame, ["doi"])
         unique(frame, ["article_id"])
         run.check(
@@ -218,6 +222,7 @@ def main():
         summary = dict(
             frame=len(frame),
             exclusions=dict(collections.Counter(r["reason"] for r in exclusions)),
+            retracted_within_two_years={str(k): v for k, v in sorted(short_lag.items())},
             by_retraction_year=dict(
                 sorted(collections.Counter(r["retraction_year"] for r in frame).items())
             ),

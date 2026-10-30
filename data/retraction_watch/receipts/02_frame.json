@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "retraction_watch",
   "stage": "02_frame",
-  "started_at": "2026-10-29T18:34:56.830441+00:00",
+  "started_at": "2026-10-30T02:35:29.970482+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/retraction_watch/02_frame.py"
   ],
   "python": "3.14.7",
-  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
+  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
   "inputs": [
     {
       "path": "data/retraction_watch/snapshot.json",
@@ -36,21 +36,21 @@
     },
     {
       "path": "data/retraction_watch/exclusions.csv",
-      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
-      "bytes": 2697439,
+      "sha256": "30480500cbdc9009e97027fb57bf59baee2316112c242fc2820a0b74473fefdc",
+      "bytes": 2640787,
       "rows": 63315
     },
     {
       "path": "data/retraction_watch/frame_summary.json",
-      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
-      "bytes": 1162
+      "sha256": "f5446c49ffa717db31fd1fdbd4982b664865ab26ce6cae358c764cc245b1c431",
+      "bytes": 1230
     }
   ],
   "code": [
     {
       "path": "scripts/retraction_watch/02_frame.py",
-      "sha256": "e913d5fe07fea301ff045a0e8f66afd053255c5d63067e074ea7257cea4e56d8",
-      "bytes": 8731
+      "sha256": "f206b84c45525117b05c07b145eba7cd293018e9f08de4d91e85c2837eba6840",
+      "bytes": 9134
     },
     {
       "path": "scripts/research_pipeline.py",
@@ -66,7 +66,7 @@
   "parents": [
     {
       "path": "data/retraction_watch/receipts/01_get.json",
-      "sha256": "e6acc5c3fae899fb613be9187f1a09abc50a2ba3c2f564afe4608e657d838483",
+      "sha256": "fa2c036646920be2f0138e65b950eb4f1005cd1fab2920152cce54a3beee1cd9",
       "bytes": 1597
     }
   ],
@@ -101,10 +101,14 @@
     "exclusions": {
       "not_retraction": 5430,
       "no_original_doi": 5884,
-      "retracted_too_soon": 15453,
+      "retracted_too_soon": 6011,
       "duplicate_retraction": 161,
       "outside_window": 34741,
-      "article_type": 1646
+      "article_type": 11088
+    },
+    "retracted_within_two_years": {
+      "0": 2820,
+      "1": 3191
     },
     "by_retraction_year": {
       "2005": 23,
@@ -168,5 +172,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T18:34:57.913918+00:00"
+  "finished_at": "2026-10-30T02:35:31.051343+00:00"
 }

@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "validation",
   "stage": "02_compare",
-  "started_at": "2026-10-29T03:46:30.324082+00:00",
+  "started_at": "2026-10-30T03:27:24.025450+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/wos/02_compare.py"
   ],
   "python": "3.14.7",
-  "git_commit": "07398bc39312a0cd8b79a4b06bec5501d958d5a9",
+  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
   "inputs": [
     {
       "path": "data/wos_2016/tidy/articles.csv",
@@ -46,19 +46,19 @@
     },
     {
       "path": "data/openalex/histories.csv.gz",
-      "sha256": "cabefd01bf67f2a95c3ce4c77a6f4e0df4378991127f9eafbc65f516e1c3d15c",
-      "bytes": 141554
+      "sha256": "b8859939326959473df6cba8c40dbae9b00c8d62578b276af1497cb7954d959a",
+      "bytes": 469377
     },
     {
       "path": "data/openalex/history_totals.csv",
-      "sha256": "435193931352aae2545752977709efd424d7efea03d2035375d9a066a2b3923a",
-      "bytes": 167901,
-      "rows": 2687
+      "sha256": "55d9559b2d9b1f77daaae698a8c88547078bc31475f9e42553a834d8f3dad142",
+      "bytes": 688415,
+      "rows": 10414
     },
     {
       "path": "data/openalex/histories_summary.json",
-      "sha256": "fbe3eb66d67395e83f4f872193f4036b9f1237159da1ed45185fd2f3c8845e29",
-      "bytes": 155
+      "sha256": "e4862947c453d6546ce9e15ea78a756da861b9f671018cf8f35998345c6fac0a",
+      "bytes": 158
     },
     {
       "path": "data/retraction_watch/frame.csv",
@@ -68,14 +68,14 @@
     },
     {
       "path": "data/retraction_watch/exclusions.csv",
-      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
-      "bytes": 2697439,
+      "sha256": "30480500cbdc9009e97027fb57bf59baee2316112c242fc2820a0b74473fefdc",
+      "bytes": 2640787,
       "rows": 63315
     },
     {
       "path": "data/retraction_watch/frame_summary.json",
-      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
-      "bytes": 1162
+      "sha256": "f5446c49ffa717db31fd1fdbd4982b664865ab26ce6cae358c764cc245b1c431",
+      "bytes": 1230
     }
   ],
   "outputs": [
@@ -100,35 +100,35 @@
   "code": [
     {
       "path": "scripts/wos/02_compare.py",
-      "sha256": "ca1a208e1d80374810b18653c8fce6263bbd09c065baacdc1aff2f441171c3f9",
-      "bytes": 5213
+      "sha256": "45ede560309f8d3c3b952de2f2f289e45787a46d8f0e857ba819753aea38ccb2",
+      "bytes": 5721
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "0018e96522ef6d1e1c24365aa3fecd86dc55476010b34d2549a73d4cda29fbb2",
-      "bytes": 6008
+      "sha256": "6b4d20d3624f2e5c0330a4bc260833bad740b6b7a471dc7890a34ebda2bb1c9f",
+      "bytes": 6169
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "6f71415ec3d3b53e8b4a06086589c3663c84ca417752cff2147b4850e8fd3500",
-      "bytes": 6924
+      "sha256": "ba1d8a935b2a39cf29f9b36ee02ab8ada3055a30c6f104a71837873655c3c84e",
+      "bytes": 8072
     }
   ],
   "parents": [
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "0bb8636bc30ad6e24bc0e81d140f49b205e1ad22d61a4b42431510da862df9dd",
-      "bytes": 5945
+      "sha256": "d5bf7ce03113919ab208e5839c5f26eb3b4e48904bf1f0fb732ed808572f8f77",
+      "bytes": 5946
     },
     {
       "path": "data/openalex/receipts/02_histories.json",
-      "sha256": "a5b2f2ce4fad8e0c08f9fcbc23ddf435f98f2941939699ae3c4bd76bae13ae26",
-      "bytes": 1396720
+      "sha256": "44ab717721eb7e0c3133f47255f470896a3d1443d40ea89e1f65faef5e157544",
+      "bytes": 5395426
     },
     {
       "path": "data/retraction_watch/receipts/02_frame.json",
-      "sha256": "ddbfd895838a67532fa73e6bf1e28f8f08add092af8c4ab10727444dc0fbfbfb",
-      "bytes": 4176
+      "sha256": "aad2d565f5f4857dbceb601aa07a5c70a318462da7d76db77894e8778fb52b22",
+      "bytes": 4252
     }
   ],
   "checks": [
@@ -347,5 +347,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T03:46:30.818208+00:00"
+  "finished_at": "2026-10-30T03:27:25.335304+00:00"
 }

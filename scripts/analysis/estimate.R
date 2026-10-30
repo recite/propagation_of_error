@@ -23,6 +23,7 @@ estimates <- rbind(
   stack_fit(panel, "Years +1 to +5", post = 1:5),
   stack_fit(panel, "Year +1 only", post = 1L),
   stack_fit(panel, "Pre-period -1 only", pre = -1L),
+  stack_fit(panel, "Pre-period -3 to -2 (year before retraction excluded)", pre = -3:-2),
   stack_fit(panel, "Additive (OLS)", poisson = FALSE),
   {
     nearest <- panel[panel$match_rank <= 1L, ]

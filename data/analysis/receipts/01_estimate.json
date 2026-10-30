@@ -2,22 +2,22 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "01_estimate",
-  "started_at": "2026-10-30T00:47:17.093487+00:00",
+  "started_at": "2026-10-30T02:36:24.640395+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/01_estimate.py"
   ],
   "python": "3.14.7",
-  "git_commit": "a6d7ced14e0e7581b90e1c0b6a9ca3c37a657f36",
+  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "32343d83c228133e2e5d049f8e3e5567d092642742402c6a3d967fd2b88dcae1",
+      "sha256": "300bf0297a6f11ff8db71b3b2a5cfa470ffe4edeffdd341549373484a12bf369",
       "bytes": 3654263
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "2009cc87038fdacef3f804769fa4b963b001e024edcdcaa98e64914526ce0c40",
+      "sha256": "f6770920f902540d7508b598570a2506ad4373d4362df27127f747c8c61d00c0",
       "bytes": 13494896
     },
     {
@@ -125,16 +125,16 @@
     },
     {
       "path": "scripts/analysis/estimate.R",
-      "sha256": "4821ec0f4510d30f389057063fcd234cf2e766df5750ecb0ccf6c1305486a3e5",
-      "bytes": 7014
+      "sha256": "cb59e5086081245e71ed88449cf07071a0c6488fe583cc787d9af2ded2a51fc6",
+      "bytes": 7104
     }
   ],
   "outputs": [
     {
       "path": "data/analysis/estimates.csv",
-      "sha256": "7dcd9e9077867185091d4056f9894fbf2a48bfecd7626310537289ecf6f90462",
-      "bytes": 1988,
-      "rows": 7
+      "sha256": "bc2871832eacbf3b8e3414b5980acd05a56e7cf7c19098c962ab48a76cdf6f22",
+      "bytes": 2279,
+      "rows": 8
     },
     {
       "path": "data/analysis/event_study.csv",
@@ -256,17 +256,17 @@
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "ceebf4323089f81ad4f1a37faabae469495ad4c09dbbfadd8adad2e8367c7580",
+      "sha256": "21b37fbbb26f755976c36b54c9169fc86fd1eb21846f54548ce7edc518b349f7",
       "bytes": 4279
     },
     {
       "path": "data/openalex/receipts/05_world_counts.json",
-      "sha256": "22d410ddcb24a16ae6825f2d73597d2fbfdd0e3207837770ec5da09f3c08aca5",
-      "bytes": 1863
+      "sha256": "a7a768dbba6166520cf34c7b4e43795c91ee96aecd7b53aec57990faf51964c2",
+      "bytes": 1880
     },
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "c99975d87485a2e074d767fd2573f0fd11c1e7cc0e87bce5d293d09d2886aa99",
+      "sha256": "d5bf7ce03113919ab208e5839c5f26eb3b4e48904bf1f0fb732ed808572f8f77",
       "bytes": 5946
     }
   ],
@@ -300,5 +300,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T00:51:42.459692+00:00"
+  "finished_at": "2026-10-30T02:38:13.365741+00:00"
 }

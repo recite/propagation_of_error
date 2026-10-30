@@ -3,10 +3,14 @@
   "exclusions": {
     "not_retraction": 5430,
     "no_original_doi": 5884,
-    "retracted_too_soon": 15453,
+    "retracted_too_soon": 6011,
     "duplicate_retraction": 161,
     "outside_window": 34741,
-    "article_type": 1646
+    "article_type": 11088
+  },
+  "retracted_within_two_years": {
+    "0": 2820,
+    "1": 3191
   },
   "by_retraction_year": {
     "2005": 23,

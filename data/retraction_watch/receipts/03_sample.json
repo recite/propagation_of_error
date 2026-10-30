@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "retraction_watch",
   "stage": "03_sample",
-  "started_at": "2026-10-29T18:34:57.990892+00:00",
+  "started_at": "2026-10-30T02:35:31.123615+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/retraction_watch/03_sample.py"
   ],
   "python": "3.14.7",
-  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
+  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
   "inputs": [
     {
       "path": "data/retraction_watch/frame.csv",
@@ -18,14 +18,14 @@
     },
     {
       "path": "data/retraction_watch/exclusions.csv",
-      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
-      "bytes": 2697439,
+      "sha256": "30480500cbdc9009e97027fb57bf59baee2316112c242fc2820a0b74473fefdc",
+      "bytes": 2640787,
       "rows": 63315
     },
     {
       "path": "data/retraction_watch/frame_summary.json",
-      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
-      "bytes": 1162
+      "sha256": "f5446c49ffa717db31fd1fdbd4982b664865ab26ce6cae358c764cc245b1c431",
+      "bytes": 1230
     }
   ],
   "outputs": [
@@ -61,8 +61,8 @@
   "parents": [
     {
       "path": "data/retraction_watch/receipts/02_frame.json",
-      "sha256": "200c2fc886c711f242462646345f04e5b43ed741ee96f07924fb9cf8ab37ef8f",
-      "bytes": 4176
+      "sha256": "aad2d565f5f4857dbceb601aa07a5c70a318462da7d76db77894e8778fb52b22",
+      "bytes": 4252
     }
   ],
   "checks": [
@@ -95,5 +95,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T18:34:58.163511+00:00"
+  "finished_at": "2026-10-30T02:35:31.291307+00:00"
 }

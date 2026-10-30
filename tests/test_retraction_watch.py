@@ -36,7 +36,7 @@ def row(**values):
 
 class FrameRuleTests(unittest.TestCase):
     def reason_of(self, rows):
-        _, exclusions = frame.build_frame(rows, MAPPING)
+        _, exclusions, _ = frame.build_frame(rows, MAPPING)
         return [e["reason"] for e in exclusions]
 
     def test_each_exclusion_rule_fires_with_its_reason(self):
@@ -54,7 +54,7 @@ class FrameRuleTests(unittest.TestCase):
                 self.assertEqual(self.reason_of([record]), [expected])
 
     def test_one_record_per_doi_keeps_the_earliest_retraction(self):
-        kept, exclusions = frame.build_frame(
+        kept, exclusions, _ = frame.build_frame(
             [row(**{"Record ID": "2", "RetractionDate": "6/1/2016 0:00"}), row()],
             MAPPING,
         )
@@ -90,7 +90,7 @@ class FrameRuleTests(unittest.TestCase):
                 "RetractionDate": "1/1/2014 0:00",
             }
         )
-        kept, _ = frame.build_frame([row(), concern], MAPPING)
+        kept, _, _ = frame.build_frame([row(), concern], MAPPING)
         self.assertEqual(kept[0]["prior_concern"], 1)
 
     def test_field_is_the_modal_prefix(self):

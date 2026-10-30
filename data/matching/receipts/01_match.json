@@ -2,17 +2,17 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "01_match",
-  "started_at": "2026-10-30T00:46:13.436944+00:00",
+  "started_at": "2026-10-30T02:35:59.921049+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/01_match.py"
   ],
   "python": "3.14.7",
-  "git_commit": "a6d7ced14e0e7581b90e1c0b6a9ca3c37a657f36",
+  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
   "inputs": [
     {
       "path": "data/openalex/histories.csv.gz",
-      "sha256": "c9d6fbfd3bdef05c268d6d3d582810a2dab64b980ca1a3fe90ab3ef9752f69b8",
+      "sha256": "b8859939326959473df6cba8c40dbae9b00c8d62578b276af1497cb7954d959a",
       "bytes": 469377
     },
     {
@@ -45,7 +45,7 @@
     },
     {
       "path": "data/openalex/candidate_histories.csv.gz",
-      "sha256": "646d5787707619cddff75dcc3df33ad935ae179725b68fbe3617c1dd340b5ae1",
+      "sha256": "a3fb6a52045f1c242ef920238e87c9b02de522106d86ba303cdac59e551e521c",
       "bytes": 4373953
     },
     {
@@ -67,14 +67,14 @@
     },
     {
       "path": "data/retraction_watch/exclusions.csv",
-      "sha256": "7565040d6a0a16b224dcaeabaed8386b2d6f549c258bf849cb44ac074b305464",
-      "bytes": 2697439,
+      "sha256": "30480500cbdc9009e97027fb57bf59baee2316112c242fc2820a0b74473fefdc",
+      "bytes": 2640787,
       "rows": 63315
     },
     {
       "path": "data/retraction_watch/frame_summary.json",
-      "sha256": "9328dabf7dc88ba888741743e3be7f14fca2be5a201e31819660cdcbc3e7cea8",
-      "bytes": 1162
+      "sha256": "f5446c49ffa717db31fd1fdbd4982b664865ab26ce6cae358c764cc245b1c431",
+      "bytes": 1230
     }
   ],
   "outputs": [
@@ -128,23 +128,23 @@
   "parents": [
     {
       "path": "data/openalex/receipts/02_histories.json",
-      "sha256": "d44c9c2bb5144fa832bfb14d47c4954c5d704ba5a5c5fde60279806721ad1c62",
-      "bytes": 5395435
+      "sha256": "44ab717721eb7e0c3133f47255f470896a3d1443d40ea89e1f65faef5e157544",
+      "bytes": 5395426
     },
     {
       "path": "data/openalex/receipts/03_pools.json",
-      "sha256": "b0ef0cb5b1a1692dfa4e8417843aa7ff317ab7bcfee52e978bf63c808be389e6",
-      "bytes": 5505772
+      "sha256": "0cb967bce7f4bdfdafd37dc97f3675bd899618b2f65fbaed0151195c5be45bea",
+      "bytes": 5505763
     },
     {
       "path": "data/openalex/receipts/04_candidates.json",
-      "sha256": "c10b1dd76d5d8793f9c239f267720d6f5454388abb555f3d1079f916f64cdfc6",
-      "bytes": 49354986
+      "sha256": "a0177a1130f31cf3ebde07d16e6412bf243cd76d5a8dc4561c22594c71738d13",
+      "bytes": 49354974
     },
     {
       "path": "data/retraction_watch/receipts/02_frame.json",
-      "sha256": "200c2fc886c711f242462646345f04e5b43ed741ee96f07924fb9cf8ab37ef8f",
-      "bytes": 4176
+      "sha256": "aad2d565f5f4857dbceb601aa07a5c70a318462da7d76db77894e8778fb52b22",
+      "bytes": 4252
     }
   ],
   "checks": [
@@ -181,5 +181,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T00:46:24.695424+00:00"
+  "finished_at": "2026-10-30T02:36:04.116746+00:00"
 }

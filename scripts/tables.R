@@ -237,6 +237,7 @@ spec <- function(name) filter(estimates, specification == name)
 main <- estimates[1, ]
 five <- spec("Years +1 to +5")
 additive <- filter(estimates, model == "OLS")[1, ]
+early_pre <- spec("Pre-period -3 to -2 (year before retraction excluded)")
 journal_year <- spec("All sampled journal-year articles, unmatched")
 path_at <- function(arm, time, column) {
   paths[[column]][paths$treated == arm & paths$event_time == time]
@@ -320,6 +321,11 @@ macros <- c(
   PostCitedAtEight = pct(100 * post_at(8, "share_cited")),
   MeanLag = num(lag_all$mean),
   MedianLag = num(lag_all$median, 0L),
+  ShortLagExcluded = count(sum(unlist(frame_summary$retracted_within_two_years))),
+  EarlyPrePercent = pct(early_pre$percent),
+  EarlyPreInterval = pct_ci(early_pre$percent_lower, early_pre$percent_upper),
+  PoissonStacks = count(main$stacks),
+  PoissonTreated = count(main$treated),
   LagFourPlusPercent = pct(100 * lag_all$share_four_or_more),
   HetMisconduct = het_at("reason_category", "misconduct"),
   HetDuplication = het_at("reason_category", "duplication"),

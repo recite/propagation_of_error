@@ -82,7 +82,7 @@ lint:
 
 # Tests verify the committed receipts, so they run from committed artifacts; `rebuild`
 # regenerates every offline stage from the caches and committed inputs.
-rebuild: match analysis sdid validation figures tables
+rebuild: openalex match analysis sdid validation figures tables
 
 test:
 	$(PY) -m unittest discover -s tests -p 'test_*.py'
