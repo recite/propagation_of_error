@@ -107,3 +107,7 @@ None yet. Any change is recorded here with its date and reason.
 - 2026-10-29: OpenAlex lists are ordered by citations when unsampled, so comparison pools
   are drawn with the API's seeded random sample after a separate count query (20 per
   pool). This is a measurement detail of the pre-specified pool rule, not a change to it.
+- 2026-10-29: the full citation pull runs on prepaid OpenAlex credit rather than the free
+  daily budget, with eight parallel workers. A 429 whose Retry-After is under a minute is
+  now treated as a per-second rate limit and retried in place; longer waits still stop the
+  run until the stated time. No sampling or matching rule changed.

@@ -67,23 +67,33 @@ plot_citation_paths <- function(paths) {
 
 plot_event_study <- function(es) {
   es$kind <- ifelse(es$event_time == -1, "reference", "estimate")
-  ggplot2::ggplot(es, ggplot2::aes(event_time, percent)) +
+  es$design <- factor(
+    ifelse(es$specification == "Main", "Matched comparison", "Journal-year, unmatched"),
+    levels = c("Matched comparison", "Journal-year, unmatched")
+  )
+  dodge <- ggplot2::position_dodge(width = .5)
+  ggplot2::ggplot(es, ggplot2::aes(event_time, percent, colour = design, group = design)) +
     ggplot2::geom_hline(yintercept = 0, colour = "#BBBBBB", linewidth = .3) +
     ggplot2::geom_vline(xintercept = -.5, colour = "#BBBBBB", linetype = "dashed", linewidth = .3) +
     ggplot2::geom_linerange(
-      ggplot2::aes(ymin = percent_lower, ymax = percent_upper),
-      colour = plot_colours[["retracted"]], linewidth = .5
+      ggplot2::aes(ymin = percent_lower, ymax = percent_upper), linewidth = .5, position = dodge
     ) +
-    ggplot2::geom_point(
-      ggplot2::aes(shape = kind), colour = plot_colours[["retracted"]], size = 2.2
+    ggplot2::geom_point(ggplot2::aes(shape = kind), size = 2.2, position = dodge) +
+    ggplot2::scale_shape_manual(values = c(estimate = 16, reference = 1), guide = "none") +
+    ggplot2::scale_colour_manual(
+      values = c(
+        `Matched comparison` = plot_colours[["retracted"]],
+        `Journal-year, unmatched` = plot_colours[["comparison"]]
+      ),
+      name = NULL
     ) +
-    ggplot2::scale_shape_manual(values = c(estimate = 16, reference = 1)) +
     ggplot2::scale_x_continuous(breaks = seq(-3, 5)) +
     ggplot2::labs(
       x = "Years from retraction (0 = retraction year)",
-      y = "Change in citations relative to matched articles (%)"
+      y = "Change in citations relative to comparison articles (%)"
     ) +
-    theme_paper()
+    theme_paper() +
+    ggplot2::theme(legend.position = "top")
 }
 
 plot_heterogeneity <- function(h, labels) {

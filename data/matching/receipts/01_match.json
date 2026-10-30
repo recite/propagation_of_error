@@ -2,62 +2,62 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "01_match",
-  "started_at": "2026-10-29T06:13:35.147588+00:00",
+  "started_at": "2026-10-30T00:24:07.117430+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/01_match.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
+  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
   "inputs": [
     {
       "path": "data/openalex/histories.csv.gz",
-      "sha256": "a8baf11459054e231515ec00337f90f35cfd1078b7e330dcd1a04662c40e5b05",
-      "bytes": 8346
+      "sha256": "c9d6fbfd3bdef05c268d6d3d582810a2dab64b980ca1a3fe90ab3ef9752f69b8",
+      "bytes": 469377
     },
     {
       "path": "data/openalex/history_totals.csv",
-      "sha256": "89c98c16788c88d00764b7f5185e296169d1549241eb409a21728a9192eefe36",
-      "bytes": 12831,
-      "rows": 189
+      "sha256": "55d9559b2d9b1f77daaae698a8c88547078bc31475f9e42553a834d8f3dad142",
+      "bytes": 688415,
+      "rows": 10414
     },
     {
       "path": "data/openalex/histories_summary.json",
-      "sha256": "2bb90e9de52cdeb3d269441e6459ad81de9d1aac5339c1502f4eea2fbaf9bd49",
-      "bytes": 149
+      "sha256": "e4862947c453d6546ce9e15ea78a756da861b9f671018cf8f35998345c6fac0a",
+      "bytes": 158
     },
     {
       "path": "data/openalex/pools.csv",
-      "sha256": "0086f5872a6dbee29a57ae303f572219e7c6b3eea171d52be84ff16139fb85b4",
-      "bytes": 17415,
-      "rows": 173
+      "sha256": "d19d7ab175cbb8fe41e1865660c8b1961cb95a63c1eb92a7ce41ebb69b778c0c",
+      "bytes": 483420,
+      "rows": 4872
     },
     {
       "path": "data/openalex/candidates.csv",
-      "sha256": "7c9d8354f608609651c37e91fffa4ec5ef691ee715b4bd459509569283d609af",
-      "bytes": 788385,
-      "rows": 3451
+      "sha256": "08371203d5ab4683ac031a3891f4a8be1ac7fd54899ebd6240ab9b6e3e3d88c3",
+      "bytes": 21704343,
+      "rows": 96567
     },
     {
       "path": "data/openalex/pools_summary.json",
-      "sha256": "79fa576a87265dde1658a58e2ca8dda98424549c00809c637617321295f0f3ef",
-      "bytes": 273
+      "sha256": "803e45227a3f7d16fc122e51ba932f8fbf74b50e095a103328d8584faaa47c3c",
+      "bytes": 283
     },
     {
       "path": "data/openalex/candidate_histories.csv.gz",
-      "sha256": "98b9e66fbf5e890e21bca04a8d6c1ac38ed6028335d38a773ed1d5b8de30bae9",
-      "bytes": 149136
+      "sha256": "646d5787707619cddff75dcc3df33ad935ae179725b68fbe3617c1dd340b5ae1",
+      "bytes": 4373953
     },
     {
       "path": "data/openalex/candidate_totals.csv",
-      "sha256": "86989155efadc414045c671face5a31def9ce5308892bb98180de1e8f8a16102",
-      "bytes": 230732,
-      "rows": 3369
+      "sha256": "b1e44d6748017d2245d59a27e07c8fecf60b2620938b0d37d247005963dab577",
+      "bytes": 6524964,
+      "rows": 95303
     },
     {
       "path": "data/openalex/candidates_summary.json",
-      "sha256": "13062c1671bb9c7587e1b31f16f91c779896b99c1619d6c63e3664aeebb6dcf4",
-      "bytes": 91
+      "sha256": "29c23196794cb75ad02b26e2c96f7e6d0f80aaa9be0617cbfe23ca3d02176976",
+      "bytes": 96
     },
     {
       "path": "data/retraction_watch/frame.csv",
@@ -80,70 +80,70 @@
   "outputs": [
     {
       "path": "data/matching/matches.csv",
-      "sha256": "b16447227abd52b6deaf4706fb6128249526f3a3555df0e2e68598291286e4af",
-      "bytes": 47350,
-      "rows": 801
+      "sha256": "065b9821a12162cf600642ffec2e9427af95756fa19175980522885a232b47a5",
+      "bytes": 2311984,
+      "rows": 38903
     },
     {
       "path": "data/matching/match_candidates.csv",
-      "sha256": "f5a83b10407cfcbb88e801973275cce5fd728242972e25cf4a440b093fca2bbf",
-      "bytes": 252999,
-      "rows": 3666
+      "sha256": "fabe57fa42507d05a8ee0ec2fb0f06fd28e980eb6625a48156eb1fc470009ed0",
+      "bytes": 11910174,
+      "rows": 173195
     },
     {
       "path": "data/matching/match_exclusions.csv",
-      "sha256": "f88c8b50e251be0382cb0be97671f4506a78cfcb73bc9aa2f8486831034a1f89",
-      "bytes": 333434,
-      "rows": 8788
+      "sha256": "0a22c59c1b4d6bd6f69df916a56f6b3493f8ce16388daa471e173a8326cbacec",
+      "bytes": 14091,
+      "rows": 336
     },
     {
       "path": "data/matching/match_balance.csv",
-      "sha256": "4767f3cb63a96564cd9fad1bb4ee57c88bd9ace6929f15488bf11da98d7ad357",
-      "bytes": 86322,
-      "rows": 801
+      "sha256": "c8d1fd7523e5b1db45f4c1232662f1c3b2f004e8ed909a5676296ff2de124b92",
+      "bytes": 2880774,
+      "rows": 38903
     },
     {
       "path": "data/matching/match_summary.json",
-      "sha256": "cbf4b99f219b22fdbbb5c72351bd5a5e6147a9d85bc4a41a52cdfe8fc6f2213e",
-      "bytes": 424
+      "sha256": "e20260d74b09b41ed60385a33a7edcfa34394eb25cadacf1432bbe573eeba2ad",
+      "bytes": 399
     }
   ],
   "code": [
     {
       "path": "scripts/matching/01_match.py",
-      "sha256": "941f21da06c2bcdbdbd12d804125b5145d21fb577cd5e5ac212c86e084a92dff",
-      "bytes": 8890
+      "sha256": "ac22dde96f9fb521e09bc2c16bb847c2389436f5552431789b482483702795b6",
+      "bytes": 8910
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
-      "bytes": 5978
+      "sha256": "6b4d20d3624f2e5c0330a4bc260833bad740b6b7a471dc7890a34ebda2bb1c9f",
+      "bytes": 6169
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
-      "bytes": 6925
+      "sha256": "ba1d8a935b2a39cf29f9b36ee02ab8ada3055a30c6f104a71837873655c3c84e",
+      "bytes": 8072
     }
   ],
   "parents": [
     {
       "path": "data/openalex/receipts/02_histories.json",
-      "sha256": "4a27e5d3145ad6506bad22762e4a2186a388795524e1244035d9eaade70588f4",
-      "bytes": 100426
+      "sha256": "d44c9c2bb5144fa832bfb14d47c4954c5d704ba5a5c5fde60279806721ad1c62",
+      "bytes": 5395435
     },
     {
       "path": "data/openalex/receipts/03_pools.json",
-      "sha256": "09999c23fceb4eec23718b3fc043467dab6d1feb33c9785461facd3ba880c8f8",
-      "bytes": 198631
+      "sha256": "b0ef0cb5b1a1692dfa4e8417843aa7ff317ab7bcfee52e978bf63c808be389e6",
+      "bytes": 5505772
     },
     {
       "path": "data/openalex/receipts/04_candidates.json",
-      "sha256": "b700a1d2450ae6e35afd280f7974027d8c2807f0224dcc486fca61129719ff46",
-      "bytes": 1747374
+      "sha256": "c10b1dd76d5d8793f9c239f267720d6f5454388abb555f3d1079f916f64cdfc6",
+      "bytes": 49354986
     },
     {
       "path": "data/retraction_watch/receipts/02_frame.json",
-      "sha256": "da8d6dcb44fe38d52d12f7f21bf29655486a17359217e7c65211150755e103a5",
+      "sha256": "200c2fc886c711f242462646345f04e5b43ed741ee96f07924fb9cf8ab37ef8f",
       "bytes": 4176
     }
   ],
@@ -153,8 +153,8 @@
       "passed": true,
       "detail": {
         "treated": 8963,
-        "matched": 175,
-        "excluded": 8788
+        "matched": 8627,
+        "excluded": 336
       }
     }
   ],
@@ -163,24 +163,23 @@
     "controls_per_treated": 5,
     "caliper": 1.0,
     "treated": 8963,
-    "matched": 175,
-    "controls": 777,
+    "matched": 8627,
+    "controls": 26138,
     "exclusions": {
-      "pool_not_retrieved": 7409,
-      "incomplete_pre_citations": 1365,
-      "no_match_within_caliper": 14
+      "no_match_within_caliper": 323,
+      "no_usable_candidates": 13
     },
     "matches_per_treated": {
-      "5": 141,
-      "3": 6,
-      "4": 15,
-      "1": 8,
-      "2": 5
+      "5": 6765,
+      "3": 482,
+      "1": 344,
+      "2": 428,
+      "4": 608
     },
-    "mean_abs_cumulative_smd": 0.2802459196858253,
-    "mean_abs_last_year_smd": 0.2631530404005899
+    "mean_abs_cumulative_smd": 0.29392869673548233,
+    "mean_abs_last_year_smd": 0.2534113919087265
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T06:13:35.654234+00:00"
+  "finished_at": "2026-10-30T00:24:15.171166+00:00"
 }

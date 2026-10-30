@@ -43,12 +43,25 @@ fit_stacked <- function(formula, x, poisson) {
   fit
 }
 
+# Coefficients and their clustered standard errors as a tidy frame (broom's tidy.fixest reads
+# the vcov the model was fitted with), restricted to terms matching `pattern`.
+tidy_terms <- function(fit, pattern) {
+  out <- broom::tidy(fit)
+  out <- out[grepl(pattern, out$term), ]
+  data.frame(
+    term = as.character(out$term), estimate = as.vector(out$estimate),
+    se = as.vector(out$std.error)
+  )
+}
+
 summarise_coefficient <- function(fit, x, name, poisson, label) {
   used <- x[fixest::obs(fit), ]
   g <- length(unique(used$article_id))
   df <- g - 1L
-  b <- unname(coef(fit)[name])
-  se <- sqrt(vcov(fit)[name, name])
+  term <- tidy_terms(fit, paste0("^", name, "$"))
+  stopifnot(nrow(term) == 1L)
+  b <- term$estimate
+  se <- term$se
   lower <- b - qt(.975, df) * se
   upper <- b + qt(.975, df) * se
   data.frame(
@@ -90,14 +103,14 @@ stack_event_study <- function(panel, label = "Main", times = -3:5, poisson = TRU
   )
   used <- x[fixest::obs(fit), ]
   df <- length(unique(used$article_id)) - 1L
-  names <- grep("^event_time::", names(coef(fit)), value = TRUE)
-  b <- coef(fit)[names]
-  se <- sqrt(diag(vcov(fit))[names])
+  terms <- tidy_terms(fit, "^event_time::")
+  b <- terms$estimate
+  se <- terms$se
   out <- data.frame(
     specification = label, model = if (poisson) "PPML" else "OLS",
-    event_time = as.integer(sub("event_time::(-?[0-9]+):treated", "\\1", names)),
-    estimate = unname(b), se = unname(se), df = df,
-    lower = unname(b - qt(.975, df) * se), upper = unname(b + qt(.975, df) * se),
+    event_time = as.integer(sub("event_time::(-?[0-9]+):treated", "\\1", terms$term)),
+    estimate = b, se = se, df = df,
+    lower = b - qt(.975, df) * se, upper = b + qt(.975, df) * se,
     stacks = length(unique(used$stack_id)), clusters = df + 1L
   )
   out <- rbind(out, data.frame(
@@ -126,6 +139,18 @@ pretrend_test <- function(event_study) {
   )
 }
 
+# Chi-square Wald test that a set of coefficients are all equal: contrasts of each
+# coefficient against the first. fixest::wald() tests that they are all zero, which is a
+# different hypothesis and is rejected whenever the common effect is nonzero.
+wald_equal <- function(b, v) {
+  k <- length(b)
+  stopifnot(k >= 2L, all(dim(v) == k))
+  contrasts <- cbind(-1, diag(k - 1L))
+  d <- contrasts %*% b
+  stat <- as.numeric(t(d) %*% solve(contrasts %*% v %*% t(contrasts)) %*% d)
+  data.frame(wald = stat, df = k - 1L, p_value = pchisq(stat, k - 1L, lower.tail = FALSE))
+}
+
 stack_heterogeneity <- function(panel, by, pre = -3:-1, post = 1:3, poisson = TRUE) {
   check_stacked_panel(panel)
   stopifnot(by %in% names(panel), !anyNA(panel[[by]]))
@@ -136,10 +161,11 @@ stack_heterogeneity <- function(panel, by, pre = -3:-1, post = 1:3, poisson = TR
   )
   used <- x[fixest::obs(fit), ]
   df <- length(unique(used$article_id)) - 1L
-  names <- grep("^group::", names(coef(fit)), value = TRUE)
-  b <- coef(fit)[names]
-  se <- sqrt(diag(vcov(fit))[names])
-  equal <- fixest::wald(fit, keep = "group::", print = FALSE)
+  terms <- tidy_terms(fit, "^group::")
+  names <- terms$term
+  b <- terms$estimate
+  se <- terms$se
+  equal <- wald_equal(b, vcov(fit)[names, names, drop = FALSE])
   data.frame(
     variable = by, group = sub("^group::(.*):treated_post$", "\\1", names),
     stacks = as.vector(
@@ -152,7 +178,7 @@ stack_heterogeneity <- function(panel, by, pre = -3:-1, post = 1:3, poisson = TR
     percent = if (poisson) 100 * expm1(unname(b)) else NA_real_,
     percent_lower = if (poisson) 100 * expm1(unname(b - qt(.975, df) * se)) else NA_real_,
     percent_upper = if (poisson) 100 * expm1(unname(b + qt(.975, df) * se)) else NA_real_,
-    joint_wald_p = equal$p
+    joint_wald_p = equal$p_value
   )
 }
 

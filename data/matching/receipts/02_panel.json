@@ -2,55 +2,60 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "02_panel",
-  "started_at": "2026-10-29T06:15:23.734346+00:00",
+  "started_at": "2026-10-30T00:24:15.457234+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/02_panel.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
+  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
   "inputs": [
     {
       "path": "data/matching/matches.csv",
-      "sha256": "b16447227abd52b6deaf4706fb6128249526f3a3555df0e2e68598291286e4af",
-      "bytes": 47350,
-      "rows": 801
+      "sha256": "065b9821a12162cf600642ffec2e9427af95756fa19175980522885a232b47a5",
+      "bytes": 2311984,
+      "rows": 38903
     },
     {
       "path": "data/matching/match_candidates.csv",
-      "sha256": "f5a83b10407cfcbb88e801973275cce5fd728242972e25cf4a440b093fca2bbf",
-      "bytes": 252999,
-      "rows": 3666
+      "sha256": "fabe57fa42507d05a8ee0ec2fb0f06fd28e980eb6625a48156eb1fc470009ed0",
+      "bytes": 11910174,
+      "rows": 173195
     },
     {
       "path": "data/matching/match_exclusions.csv",
-      "sha256": "f88c8b50e251be0382cb0be97671f4506a78cfcb73bc9aa2f8486831034a1f89",
-      "bytes": 333434,
-      "rows": 8788
+      "sha256": "0a22c59c1b4d6bd6f69df916a56f6b3493f8ce16388daa471e173a8326cbacec",
+      "bytes": 14091,
+      "rows": 336
     },
     {
       "path": "data/matching/match_balance.csv",
-      "sha256": "4767f3cb63a96564cd9fad1bb4ee57c88bd9ace6929f15488bf11da98d7ad357",
-      "bytes": 86322,
-      "rows": 801
+      "sha256": "c8d1fd7523e5b1db45f4c1232662f1c3b2f004e8ed909a5676296ff2de124b92",
+      "bytes": 2880774,
+      "rows": 38903
     },
     {
       "path": "data/matching/match_summary.json",
-      "sha256": "cbf4b99f219b22fdbbb5c72351bd5a5e6147a9d85bc4a41a52cdfe8fc6f2213e",
-      "bytes": 424
+      "sha256": "e20260d74b09b41ed60385a33a7edcfa34394eb25cadacf1432bbe573eeba2ad",
+      "bytes": 399
     }
   ],
   "outputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "536508a062f6c4976ce493ae20f08aeb056682ac196a678609bdc1ca71ee2a21",
-      "bytes": 60305
+      "sha256": "2a8e6a88f75314f17fe3f9fe6b31a0c84c34aa1d3648dcaf2af53e590079e49c",
+      "bytes": 2697661
+    },
+    {
+      "path": "data/matching/panel_journal_year.csv.gz",
+      "sha256": "50f5686fc111abed656d3c3970ce98da4c954e48050941e73846144edc3af24d",
+      "bytes": 9212605
     },
     {
       "path": "data/matching/stacks.csv",
-      "sha256": "e635767edb07ed12e863670d64c219770c25b020f9d2b141dad83a94997ff2ee",
-      "bytes": 16091,
-      "rows": 175
+      "sha256": "10d86968e1256e17923b40f2708aabfbbd7212db79feb73294cc681a5be78196",
+      "bytes": 783092,
+      "rows": 8627
     },
     {
       "path": "data/matching/panel_exclusions.csv",
@@ -60,53 +65,60 @@
     },
     {
       "path": "data/matching/sample_flow.csv",
-      "sha256": "2534017f0e1f3f3495ec313c6b38b5876b5670b692e88309924a678b75ac9ca4",
-      "bytes": 404,
+      "sha256": "4b6653df535f434869a3af90cffa475c7b2b25a2caf57ca5536c235d245dcabd",
+      "bytes": 407,
       "rows": 6
     }
   ],
   "code": [
     {
       "path": "scripts/matching/02_panel.py",
-      "sha256": "0f4a9e38815a7116997ddf5a3be1b9640167e4d15b98f2de536db386b8cc5550",
-      "bytes": 8383
+      "sha256": "faa3a2da34b868e1e5aafa6bb5f129410ad559dc3f3dcdd56c2a675f96f16c99",
+      "bytes": 10320
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
-      "bytes": 5978
+      "sha256": "6b4d20d3624f2e5c0330a4bc260833bad740b6b7a471dc7890a34ebda2bb1c9f",
+      "bytes": 6169
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
-      "bytes": 6925
+      "sha256": "ba1d8a935b2a39cf29f9b36ee02ab8ada3055a30c6f104a71837873655c3c84e",
+      "bytes": 8072
     }
   ],
   "parents": [
     {
       "path": "data/matching/receipts/01_match.json",
-      "sha256": "f40dc02c4800e24b52ebe40c5c537fca66c0ad9453a683677344fe7734508ebf",
-      "bytes": 5498
+      "sha256": "fc81211b19d3e3d3f651e8877996fa2361c756c9253b1b6002ebb1bf9fac248e",
+      "bytes": 5497
     }
   ],
   "checks": [
     {
       "name": "stacks_match_matched_treated",
       "passed": true,
-      "detail": 175
+      "detail": 8627
     },
     {
       "name": "no_citations_missing",
       "passed": true,
-      "detail": 7963
+      "detail": 391820
+    },
+    {
+      "name": "journal_year_panel_covers_matched_stacks",
+      "passed": true,
+      "detail": 8950
     }
   ],
   "sources": [],
   "metrics": {
-    "stacks": 175,
-    "rows": 7963,
+    "stacks": 8627,
+    "rows": 391820,
+    "journal_year_stacks": 8950,
+    "journal_year_rows": 1505827,
     "omissions": 0,
-    "sdid_eligible": 129,
+    "sdid_eligible": 6720,
     "flow": [
       {
         "step": "Retraction Watch retractions",
@@ -122,19 +134,19 @@
       },
       {
         "step": "Matched to at least one comparison article",
-        "articles": 175
+        "articles": 8627
       },
       {
         "step": "With at least one complete post-retraction year",
-        "articles": 175
+        "articles": 8627
       },
       {
         "step": "With three complete pre- and post-retraction years (synthetic DiD)",
-        "articles": 129
+        "articles": 6720
       }
     ]
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T06:15:24.216044+00:00"
+  "finished_at": "2026-10-30T00:24:37.136671+00:00"
 }

@@ -1,213 +1,276 @@
 # Tables and macros for the manuscript and README. Every number in ms/main.tex comes from
-# tabs/macros.tex; every table body is a generated fragment.
-source("R/reporting.R")
-a <- function(name) read.csv(file.path("data/analysis", name), stringsAsFactors = FALSE)
+# tabs/macros.tex; every table body is a kableExtra fragment built from the tidy CSVs that
+# scripts/analysis/estimate.R and scripts/analysis/sdid.R write.
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(purrr)
+  library(kableExtra)
+})
 dir.create("tabs", showWarnings = FALSE)
-fmt <- function(x, digits = 1L) {
-  ifelse(is.finite(x), formatC(x, format = "f", digits = digits, big.mark = ","), "--")
+
+read_analysis <- function(name) {
+  readr::read_csv(file.path("data/analysis", name), show_col_types = FALSE)
 }
-pct <- function(x) fmt(x, 1L)
-interval <- function(lower, upper, digits = 1L) {
-  paste0("[", fmt(lower, digits), ", ", fmt(upper, digits), "]")
+read_json <- function(path) jsonlite::read_json(path)
+
+num <- function(x, digits = 1L) {
+  if_else(is.finite(x), scales::comma(x, accuracy = 10^-digits), "--")
 }
-pct_interval <- function(lower, upper) paste0(interval(lower, upper), "\\%")
-escape <- function(x) gsub("_", "\\\\_", gsub("%", "\\\\%", gsub("&", "\\\\&", x)))
-
-write_table <- function(header, rows, alignment, path) {
-  writeLines(c(
-    paste0("\\begin{tabular}{", alignment, "}"), "\\toprule",
-    paste0(paste(header, collapse = " & "), " \\\\"), "\\midrule",
-    apply(rows, 1, function(row) paste0(paste(row, collapse = " & "), " \\\\")),
-    "\\bottomrule", "\\end{tabular}"
-  ), path)
+count <- function(x) scales::comma(x, accuracy = 1)
+pct <- function(x) num(x, 1L)
+ci <- function(lower, upper, digits = 1L, unit = "") {
+  paste0("[", num(lower, digits), ", ", num(upper, digits), "]", unit)
+}
+pct_ci <- function(lower, upper) ci(lower, upper, 1L, "\\%")
+# Table cells print the value alone; prose macros expand inside $p \MacroName$ and so carry
+# their own relation sign.
+p_cell <- function(p) if_else(p < .001, "$<$0.001", num(p, 3L))
+p_macro <- function(p) if_else(p < .001, "< 0.001", paste("=", num(p, 3L)))
+tex <- function(x) {
+  x |>
+    stringr::str_replace_all(stringr::fixed("&"), "\\&") |>
+    stringr::str_replace_all(stringr::fixed("%"), "\\%") |>
+    stringr::str_replace_all(stringr::fixed("_"), "\\_")
 }
 
-flow <- read.csv("data/matching/sample_flow.csv", stringsAsFactors = FALSE)
-write_table(
-  c("Step", "Articles"),
-  cbind(escape(flow$step), format_count(flow$articles)),
-  "p{11cm}r",
-  "tabs/sample_flow.tex"
-)
+# Cells already carry their LaTeX (\%, $<$); kableExtra must not escape them again.
+save_table <- function(x, path, align = NULL, groups = NULL, header_above = NULL) {
+  align <- align %||% paste(c("l", rep("r", ncol(x) - 1L)), collapse = "")
+  table <- kbl(x, format = "latex", booktabs = TRUE, escape = FALSE, align = align, linesep = "")
+  if (!is.null(header_above)) table <- add_header_above(table, header_above, escape = FALSE)
+  if (!is.null(groups)) {
+    table <- pack_rows(table, index = groups, escape = FALSE, bold = FALSE, italic = TRUE)
+  }
+  save_kable(table, path)
+  invisible(x)
+}
 
-e <- a("estimates.csv")
-is_ppml <- e$model == "PPML"
-write_table(
-  c("Specification", "Model", "Retracted / comparison", "Estimate", "95\\% interval"),
-  cbind(
-    escape(e$specification),
-    e$model,
-    paste(format_count(e$treated), format_count(e$comparison), sep = " / "),
-    ifelse(is_ppml, paste0(pct(e$percent), "\\%"), fmt(e$estimate, 2L)),
-    ifelse(is_ppml, pct_interval(e$percent_lower, e$percent_upper), interval(e$lower, e$upper, 2L))
-  ),
-  "p{5.2cm}lrrr",
-  "tabs/estimates.tex"
-)
+# Sample flow ---------------------------------------------------------------------------------
+readr::read_csv("data/matching/sample_flow.csv", show_col_types = FALSE) |>
+  transmute(Step = tex(step), Articles = count(articles)) |>
+  save_table("tabs/sample_flow.tex")
 
-es <- a("event_study.csv")
-reference <- es$event_time == -1
-write_table(
-  c("Years from retraction", "Change (\\%)", "95\\% interval"),
-  cbind(
-    es$event_time,
-    ifelse(reference, "reference", pct(es$percent)),
-    ifelse(reference, "--", pct_interval(es$percent_lower, es$percent_upper))
-  ),
-  "rrr",
-  "tabs/event_study.tex"
-)
+# Main estimates ------------------------------------------------------------------------------
+estimates <- read_analysis("estimates.csv")
+estimates |>
+  transmute(
+    Specification = tex(specification),
+    Model = model,
+    `Retracted / comparison` = paste(count(treated), count(comparison), sep = " / "),
+    Estimate = if_else(model == "PPML", paste0(pct(percent), "\\%"), num(estimate, 2L)),
+    `95\\% interval` = if_else(
+      model == "PPML", pct_ci(percent_lower, percent_upper), ci(lower, upper, 2L)
+    )
+  ) |>
+  save_table("tabs/estimates.tex", align = "llrrr")
 
-h <- a("heterogeneity.csv")
-labels <- c(
+# Event study: matched and unmatched designs side by side --------------------------------------
+event_study <- read_analysis("event_study.csv")
+event_cells <- function(x) {
+  x |>
+    transmute(
+      event_time,
+      change = if_else(event_time == -1, "reference", pct(percent)),
+      interval = if_else(event_time == -1, "--", pct_ci(percent_lower, percent_upper))
+    )
+}
+es_main <- filter(event_study, specification == "Main")
+es_journal_year <- filter(event_study, specification == "Journal-year, unmatched")
+stopifnot(identical(es_main$event_time, es_journal_year$event_time))
+inner_join(
+  event_cells(es_main), event_cells(es_journal_year),
+  by = "event_time", suffix = c("_matched", "_journal_year")
+) |>
+  rename(
+    `Years from retraction` = event_time,
+    `Change (\\%)` = change_matched, `95\\% interval` = interval_matched,
+    `Change (\\%) ` = change_journal_year, `95\\% interval ` = interval_journal_year
+  ) |>
+  save_table(
+    "tabs/event_study.tex",
+    align = "rrrrr",
+    header_above = c(" " = 1, "Matched comparison" = 2, "Journal-year, unmatched" = 2)
+  )
+
+# Heterogeneity: one block per pre-specified split ---------------------------------------------
+split_labels <- c(
   reason_category = "Reason for retraction",
   field = "Field",
   pre_tercile = "Pre-retraction citations (tercile)",
   lag_bin = "Years to retraction",
   prior_concern = "Prior expression of concern"
 )
-group_labels <- list(
-  reason_category = c(
-    misconduct = "Misconduct", duplication = "Plagiarism or duplication", error = "Error",
-    other = "Other or unstated"
-  ),
-  field = c(
-    bls = "Life sciences", hsc = "Health sciences", phy = "Physical sciences",
-    bt_env = "Technology and environment", soc_hum = "Social sciences and humanities"
-  ),
-  pre_tercile = c(`1` = "Lowest", `2` = "Middle", `3` = "Highest"),
-  lag_bin = c(`2` = "2", `3` = "3", `4-5` = "4--5", `6+` = "6 or more"),
-  prior_concern = c(`0` = "No", `1` = "Yes")
+group_labels <- tribble(
+  ~variable, ~group, ~label,
+  "reason_category", "misconduct", "Misconduct",
+  "reason_category", "duplication", "Plagiarism or duplication",
+  "reason_category", "error", "Error",
+  "reason_category", "other", "Other or unstated",
+  "field", "bls", "Life sciences",
+  "field", "hsc", "Health sciences",
+  "field", "phy", "Physical sciences",
+  "field", "bt_env", "Technology and environment",
+  "field", "soc_hum", "Social sciences and humanities",
+  "pre_tercile", "1", "Lowest",
+  "pre_tercile", "2", "Middle",
+  "pre_tercile", "3", "Highest",
+  "lag_bin", "2", "2",
+  "lag_bin", "3", "3",
+  "lag_bin", "4-5", "4--5",
+  "lag_bin", "6+", "6 or more",
+  "prior_concern", "0", "No",
+  "prior_concern", "1", "Yes"
 )
-h$group_label <- mapply(function(v, g) group_labels[[v]][[g]], h$variable, h$group)
-first <- !duplicated(h$variable)
-write_table(
-  c("Group", "Retracted articles", "Change (\\%)", "95\\% interval", "Joint test $p$"),
-  cbind(
-    paste0(ifelse(first, paste0("\\textit{", labels[h$variable], "}: "), ""), h$group_label),
-    format_count(h$stacks),
-    pct(h$percent),
-    pct_interval(h$percent_lower, h$percent_upper),
-    ifelse(first, fmt(h$joint_wald_p, 3L), "")
-  ),
-  "p{6cm}rrrr",
-  "tabs/heterogeneity.tex"
-)
-
-lo <- a("leave_one_out.csv")
-jc <- a("journal_clustered.csv")
-robust <- rbind(
-  cbind(
-    escape(lo$specification), format_count(lo$stacks), pct(lo$percent),
-    pct_interval(lo$percent_lower, lo$percent_upper)
-  ),
-  cbind(
-    "Journal-clustered standard errors", format_count(e$stacks[1]), pct(jc$percent),
-    pct_interval(jc$percent_lower, jc$percent_upper)
+heterogeneity <- read_analysis("heterogeneity.csv") |>
+  mutate(group = as.character(group), variable = factor(variable, names(split_labels))) |>
+  inner_join(group_labels, by = c("variable", "group")) |>
+  arrange(variable)
+stopifnot(nrow(heterogeneity) == nrow(group_labels))
+joint_tests <- heterogeneity |>
+  group_by(variable) |>
+  summarise(p = first(joint_wald_p), n = n(), .groups = "drop")
+block_sizes <- set_names(
+  joint_tests$n,
+  paste0(
+    split_labels[as.character(joint_tests$variable)],
+    " (joint test $p$ ", p_cell(joint_tests$p), ")"
   )
 )
-write_table(
-  c("Specification", "Retracted articles", "Change (\\%)", "95\\% interval"),
-  robust,
-  "p{7cm}rrr",
-  "tabs/robustness.tex"
-)
+heterogeneity |>
+  transmute(
+    Group = label, `Retracted articles` = count(stacks), `Change (\\%)` = pct(percent),
+    `95\\% interval` = pct_ci(percent_lower, percent_upper)
+  ) |>
+  save_table("tabs/heterogeneity.tex", groups = block_sizes)
 
-legacy <- a("legacy_estimates.csv")
-write_table(
-  c("Sample", "Articles", "Additive change", "95\\% interval", "Proportional change (\\%)"),
-  cbind(
-    escape(legacy$specification),
-    format_count(legacy$articles),
-    fmt(legacy$estimate, 2L),
-    interval(legacy$lower, legacy$upper, 2L),
-    paste(pct(legacy$percent), pct_interval(legacy$percent_lower, legacy$percent_upper))
-  ),
-  "p{6cm}rrrr",
-  "tabs/legacy_comparison.tex"
-)
+# Robustness ----------------------------------------------------------------------------------
+leave_one_out <- read_analysis("leave_one_out.csv")
+journal_clustered <- read_analysis("journal_clustered.csv")
+bind_rows(
+  leave_one_out |> select(specification, stacks, percent, percent_lower, percent_upper),
+  journal_clustered |>
+    transmute(
+      specification = "Journal-clustered standard errors", stacks = estimates$stacks[1],
+      percent, percent_lower, percent_upper
+    )
+) |>
+  transmute(
+    Specification = tex(specification), `Retracted articles` = count(stacks),
+    `Change (\\%)` = pct(percent), `95\\% interval` = pct_ci(percent_lower, percent_upper)
+  ) |>
+  save_table("tabs/robustness.tex")
 
-ack <- a("acknowledgment.csv")
-ack <- ack[match(c("before", "notice_year", "after"), ack$period), ]
-write_table(
-  c(
-    "Citing year", "Sampled", "Not located", "Coded", "No concern recorded", "Share (\\%)",
-    "95\\% interval"
-  ),
-  cbind(
-    c("Before the retraction year", "Retraction year", "After the retraction year"),
-    format_count(ack$sampled),
-    format_count(ack$not_located),
-    format_count(ack$coded),
-    format_count(ack$unacknowledged),
-    pct(ack$unacknowledged_percent),
-    interval(ack$lower, ack$upper)
-  ),
-  "p{4.2cm}rrrrrr",
-  "tabs/acknowledgment.tex"
-)
+# The earlier draft's control-free design ------------------------------------------------------
+legacy <- read_analysis("legacy_estimates.csv")
+legacy |>
+  transmute(
+    Sample = tex(specification), Articles = count(articles),
+    `Additive change` = num(estimate, 2L), `95\\% interval` = ci(lower, upper, 2L),
+    `Proportional change (\\%)` = paste(pct(percent), pct_ci(percent_lower, percent_upper))
+  ) |>
+  save_table("tabs/legacy_comparison.tex")
 
-cmp <- jsonlite::read_json("data/validation/comparison_summary.json")
-by_year <- cmp$by_year
-source_rows <- do.call(rbind, lapply(names(by_year), function(y) {
-  c(
-    y, format_count(by_year[[y]]$n), format_count(by_year[[y]]$wos),
-    format_count(by_year[[y]]$openalex), fmt(by_year[[y]]$ratio, 2L)
-  )
-}))
-write_table(
-  c("Year", "Article-years", "Web of Science", "OpenAlex", "Ratio"),
-  source_rows,
-  "lrrrr",
-  "tabs/source_comparison.tex"
+# Acknowledgment coding (2016) ------------------------------------------------------------------
+period_labels <- c(
+  before = "Before the retraction year", notice_year = "Retraction year",
+  after = "After the retraction year"
 )
+acknowledgment <- read_analysis("acknowledgment.csv") |>
+  mutate(period = factor(period, names(period_labels))) |>
+  arrange(period)
+acknowledgment |>
+  transmute(
+    `Citing year` = period_labels[as.character(period)], Sampled = count(sampled),
+    `Not located` = count(not_located), Coded = count(coded),
+    `No concern recorded` = count(unacknowledged), `Share (\\%)` = pct(unacknowledged_percent),
+    `95\\% interval` = ci(lower, upper)
+  ) |>
+  save_table("tabs/acknowledgment.tex")
 
-ttr <- a("time_to_retraction.csv")
-sdid <- if (file.exists("data/analysis/sdid_pooled.csv")) a("sdid_pooled.csv") else NULL
-if (!is.null(sdid)) {
-  co <- a("sdid_cohorts.csv")
-  write_table(
-    c("Retraction year", "Retracted / donors", "Synthetic DiD", "95\\% interval", "DiD"),
-    cbind(
-      co$cohort,
-      paste(format_count(co$treated), format_count(co$comparison), sep = " / "),
-      fmt(co$estimate, 2L),
-      interval(co$lower, co$upper, 2L),
-      fmt(co$did_estimate, 2L)
-    ),
-    "lrrrr",
-    "tabs/sdid.tex"
-  )
+# Web of Science versus OpenAlex ----------------------------------------------------------------
+comparison <- read_json("data/validation/comparison_summary.json")
+imap(comparison$by_year, \(v, year) {
+  tibble(year = as.integer(year), n = v$n, wos = v$wos, openalex = v$openalex)
+}) |>
+  list_rbind() |>
+  # Early years hold a handful of article-years each; pool them into one row.
+  mutate(label = if_else(year < 2000L, "Before 2000", as.character(year))) |>
+  group_by(label) |>
+  summarise(year = min(year), across(c(n, wos, openalex), sum), .groups = "drop") |>
+  arrange(year) |>
+  transmute(
+    Year = label, `Article-years` = count(n), `Web of Science` = count(wos),
+    OpenAlex = count(openalex), Ratio = if_else(wos > 0, num(openalex / wos, 2L), "--")
+  ) |>
+  save_table("tabs/source_comparison.tex")
+
+# Citations after retraction, year by year ------------------------------------------------------
+post <- read_analysis("post_retraction.csv")
+post_by_year <- read_analysis("post_retraction_by_year.csv")
+post_by_year |>
+  filter(event_time <= 8L) |>
+  transmute(
+    `Years after retraction` = event_time, `Articles observed` = count(articles),
+    Citations = count(citations), Mean = num(mean), Median = num(median, 0L),
+    `Cited at all (\\%)` = pct(100 * share_cited),
+    `Five or more (\\%)` = pct(100 * share_five_or_more)
+  ) |>
+  save_table("tabs/post_retraction.tex", align = "rrrrrrr")
+
+# Synthetic difference-in-differences by cohort -----------------------------------------------
+sdid_available <- file.exists("data/analysis/sdid_pooled.csv")
+if (sdid_available) {
+  sdid_pooled <- read_analysis("sdid_pooled.csv")
+  read_analysis("sdid_cohorts.csv") |>
+    transmute(
+      `Retraction year` = cohort,
+      `Retracted / donors` = paste(count(treated), count(comparison), sep = " / "),
+      `Synthetic DiD` = num(estimate, 2L), `95\\% interval` = ci(lower, upper, 2L),
+      DiD = num(did_estimate, 2L)
+    ) |>
+    save_table("tabs/sdid.tex")
 }
 
-main <- e[1, ]
-five <- e[e$specification == "Years +1 to +5", ]
-additive <- e[e$model == "OLS", ][1, ]
-paths <- a("citation_paths.csv")
-reasons <- a("reasons.csv")
-pre <- a("pretrends.csv")
-honest <- jsonlite::read_json("data/analysis/honest_status.json")
-status <- jsonlite::read_json("data/analysis/status.json")
-resolution <- jsonlite::read_json("data/openalex/target_resolution.json")
-match_summary <- jsonlite::read_json("data/matching/match_summary.json")
-frame_summary <- jsonlite::read_json("data/retraction_watch/frame_summary.json")
-snapshot <- jsonlite::read_json("data/retraction_watch/snapshot.json")
-unmatched <- match_summary$exclusions$no_match_within_caliper
-at <- function(treated, time, column) {
-  paths[[column]][paths$treated == treated & paths$event_time == time]
+# Macros ----------------------------------------------------------------------------------------
+paths <- read_analysis("citation_paths.csv") |> filter(comparison == "matched")
+reasons <- read_analysis("reasons.csv")
+pretrends <- read_analysis("pretrends.csv")
+honest <- read_json("data/analysis/honest_status.json")
+status <- read_json("data/analysis/status.json")
+resolution <- read_json("data/openalex/target_resolution.json")
+match_summary <- read_json("data/matching/match_summary.json")
+frame_summary <- read_json("data/retraction_watch/frame_summary.json")
+snapshot <- read_json("data/retraction_watch/snapshot.json")
+lag_all <- read_analysis("time_to_retraction.csv") |> filter(group == "all")
+
+spec <- function(name) filter(estimates, specification == name)
+main <- estimates[1, ]
+five <- spec("Years +1 to +5")
+additive <- filter(estimates, model == "OLS")[1, ]
+journal_year <- spec("All sampled journal-year articles, unmatched")
+path_at <- function(arm, time, column) {
+  paths[[column]][paths$treated == arm & paths$event_time == time]
 }
-event <- function(time, column = "percent") pct(es[[column]][es$event_time == time])
+event_at <- function(time, column = "percent") pct(es_main[[column]][es_main$event_time == time])
+journal_year_at <- function(time) pct(es_journal_year$percent[es_journal_year$event_time == time])
 reason_share <- function(name) pct(100 * reasons$Freq[reasons$reason == name] / sum(reasons$Freq))
-all_lag <- ttr[ttr$group == "all", ]
+het_at <- function(variable, group) {
+  pct(heterogeneity$percent[heterogeneity$variable == variable & heterogeneity$group == group])
+}
+het_p <- function(variable) p_macro(joint_tests$p[joint_tests$variable == variable])
+field_range <- range(heterogeneity$percent[heterogeneity$variable == "field"])
+ack <- function(period, column) acknowledgment[[column]][acknowledgment$period == period]
+post_at <- function(time, column) post_by_year[[column]][post_by_year$event_time == time]
+
 macros <- c(
-  Retractions = format_count(snapshot$rows_by_nature$Retraction),
-  Frame = format_count(frame_summary$frame),
-  Resolved = format_count(resolution$frame_eligible),
-  Matched = format_count(match_summary$matched),
-  Unmatched = format_count(if (is.null(unmatched)) 0L else unmatched),
-  Stacks = format_count(status$stacks),
-  Comparison = format_count(status$comparison),
-  Controls = format_count(match_summary$controls),
+  Retractions = count(snapshot$rows_by_nature$Retraction),
+  Frame = count(frame_summary$frame),
+  Resolved = count(resolution$frame_eligible),
+  Matched = count(match_summary$matched),
+  Unmatched = count(match_summary$exclusions$no_match_within_caliper %||% 0L),
+  Stacks = count(status$stacks),
+  Comparison = count(status$comparison),
+  Controls = count(match_summary$controls),
   MainPercent = pct(main$percent),
   MainLower = pct(main$percent_lower),
   MainUpper = pct(main$percent_upper),
@@ -215,79 +278,129 @@ macros <- c(
   FivePercent = pct(five$percent),
   FiveLower = pct(five$percent_lower),
   FiveUpper = pct(five$percent_upper),
-  AdditiveEstimate = fmt(additive$estimate, 2L),
-  AdditiveLower = fmt(additive$lower, 2L),
-  AdditiveUpper = fmt(additive$upper, 2L),
-  PretrendP = fmt(pre$p_value, 2L),
-  EventMinusThree = event(-3),
-  EventMinusTwo = event(-2),
-  EventZero = event(0),
-  EventOne = event(1),
-  EventThree = event(3),
-  EventFive = event(5),
-  EventFiveLower = event(5, "percent_lower"),
-  EventFiveUpper = event(5, "percent_upper"),
-  RetractedMeanBefore = fmt(at(1, -1, "mean")),
-  RetractedMeanAfter = fmt(at(1, 3, "mean")),
-  ComparisonMeanBefore = fmt(at(0, -1, "mean")),
-  ComparisonMeanAfter = fmt(at(0, 3, "mean")),
-  RetractedMedianBefore = fmt(at(1, -1, "median"), 0L),
-  RetractedMedianAfter = fmt(at(1, 3, "median"), 0L),
-  RetractedZeroAfter = pct(100 * at(1, 3, "zero_share")),
-  ComparisonZeroAfter = pct(100 * at(0, 3, "zero_share")),
+  JournalYearPercent = pct(journal_year$percent),
+  JournalYearLower = pct(journal_year$percent_lower),
+  JournalYearUpper = pct(journal_year$percent_upper),
+  JournalYearComparison = count(journal_year$comparison),
+  JournalYearMinusThree = journal_year_at(-3),
+  JournalYearMinusTwo = journal_year_at(-2),
+  AdditiveEstimate = num(additive$estimate, 2L),
+  AdditiveLower = num(additive$lower, 2L),
+  AdditiveUpper = num(additive$upper, 2L),
+  PretrendP = p_macro(pretrends$p_value),
+  EventMinusThree = event_at(-3),
+  EventMinusTwo = event_at(-2),
+  EventZero = event_at(0),
+  EventOne = event_at(1),
+  EventThree = event_at(3),
+  EventFive = event_at(5),
+  EventFiveLower = event_at(5, "percent_lower"),
+  EventFiveUpper = event_at(5, "percent_upper"),
+  RetractedMeanBefore = num(path_at(1, -1, "mean")),
+  RetractedMeanAfter = num(path_at(1, 3, "mean")),
+  ComparisonMeanBefore = num(path_at(0, -1, "mean")),
+  ComparisonMeanAfter = num(path_at(0, 3, "mean")),
+  RetractedMedianBefore = num(path_at(1, -1, "median"), 0L),
+  RetractedMedianAfter = num(path_at(1, 3, "median"), 0L),
+  RetractedZeroAfter = pct(100 * path_at(1, 3, "zero_share")),
+  ComparisonZeroAfter = pct(100 * path_at(0, 3, "zero_share")),
   LegacyOpenAlexPercent = pct(legacy$percent[1]),
   LegacyWosPercent = pct(legacy$percent[2]),
-  LegacyWosAdditive = fmt(legacy$estimate[2], 2L),
-  LegacyWosArticles = format_count(legacy$articles[2]),
-  AckAfterPercent = pct(ack$unacknowledged_percent[3]),
-  AckAfterLower = pct(ack$lower[3]),
-  AckAfterUpper = pct(ack$upper[3]),
-  AckAfterCoded = format_count(ack$coded[3]),
-  AckAfterUnack = format_count(ack$unacknowledged[3]),
-  AckBeforeCoded = format_count(ack$coded[1]),
-  AckBeforeUnack = format_count(ack$unacknowledged[1]),
-  AckBeforePercent = pct(ack$unacknowledged_percent[1]),
-  MeanLag = fmt(all_lag$mean),
-  MedianLag = fmt(all_lag$median, 0L),
-  LagFourPlusPercent = pct(100 * all_lag$share_four_or_more),
+  LegacyWosAdditive = num(legacy$estimate[2], 2L),
+  LegacyWosArticles = count(legacy$articles[2]),
+  AckAfterPercent = pct(ack("after", "unacknowledged_percent")),
+  AckAfterLower = pct(ack("after", "lower")),
+  AckAfterUpper = pct(ack("after", "upper")),
+  AckAfterCoded = count(ack("after", "coded")),
+  AckAfterUnack = count(ack("after", "unacknowledged")),
+  AckBeforeCoded = count(ack("before", "coded")),
+  AckBeforeUnack = count(ack("before", "unacknowledged")),
+  AckBeforePercent = pct(ack("before", "unacknowledged_percent")),
+  PostArticles = count(post$articles),
+  PostCitations = count(post$citations),
+  PostAfter = count(post$after),
+  PostAfterShare = pct(100 * post$after_share),
+  PostCitedShare = pct(100 * post$articles_cited_after_share),
+  PostMedianAfter = num(post$median_after, 0L),
+  PostMeanAfter = num(post$mean_after),
+  PostCitedAtFive = pct(100 * post_at(5, "share_cited")),
+  PostMeanAtFive = num(post_at(5, "mean")),
+  PostArticlesAtFive = count(post_at(5, "articles")),
+  PostCitedAtEight = pct(100 * post_at(8, "share_cited")),
+  MeanLag = num(lag_all$mean),
+  MedianLag = num(lag_all$median, 0L),
+  LagFourPlusPercent = pct(100 * lag_all$share_four_or_more),
+  HetMisconduct = het_at("reason_category", "misconduct"),
+  HetDuplication = het_at("reason_category", "duplication"),
+  HetError = het_at("reason_category", "error"),
+  HetOther = het_at("reason_category", "other"),
+  HetReasonP = het_p("reason_category"),
+  HetFieldP = het_p("field"),
+  HetFieldMin = pct(field_range[1]),
+  HetFieldMax = pct(field_range[2]),
+  HetTercileP = het_p("pre_tercile"),
+  HetLagTwo = het_at("lag_bin", "2"),
+  HetLagSixPlus = het_at("lag_bin", "6+"),
+  HetLagP = het_p("lag_bin"),
+  HetPriorYes = het_at("prior_concern", "1"),
+  HetPriorNo = het_at("prior_concern", "0"),
+  HetPriorP = het_p("prior_concern"),
+  LooMin = pct(min(leave_one_out$percent)),
+  LooMax = pct(max(leave_one_out$percent)),
+  JournalClusteredLower = pct(journal_clustered$percent_lower),
+  JournalClusteredUpper = pct(journal_clustered$percent_upper),
   MisconductShare = reason_share("misconduct"),
   DuplicationShare = reason_share("duplication"),
   ErrorShare = reason_share("error"),
-  WosOpenAlexRatio = fmt(cmp$ratio_openalex_to_wos, 2L),
-  WosExactShare = pct(100 * cmp$share_exact),
-  WosWithinOneShare = pct(100 * cmp$share_within_one),
-  WosArticleYears = format_count(cmp$article_years),
-  WosOverlap = format_count(cmp$date_agreement$overlap),
+  WosOpenAlexRatio = num(comparison$ratio_openalex_to_wos, 2L),
+  WosExactShare = pct(100 * comparison$share_exact),
+  WosWithinOneShare = pct(100 * comparison$share_within_one),
+  WosArticleYears = count(comparison$article_years),
+  WosOverlap = count(comparison$date_agreement$overlap),
   WosNoticeYearAgreement = pct(
-    100 * cmp$date_agreement$notice_year_equal / cmp$date_agreement$overlap
+    100 * comparison$date_agreement$notice_year_equal / comparison$date_agreement$overlap
   ),
   HonestAvailable = if (isTRUE(honest$available)) "1" else "0"
 )
-if (!is.null(sdid)) {
+if (sdid_available) {
   macros <- c(
     macros,
-    SdidEstimate = fmt(sdid$estimate[1], 2L),
-    SdidLower = fmt(sdid$lower[1], 2L),
-    SdidUpper = fmt(sdid$upper[1], 2L),
-    SdidCohorts = format_count(sdid$cohorts[1]),
-    SdidTreated = format_count(sdid$treated[1])
+    SdidEstimate = num(sdid_pooled$estimate[1], 2L),
+    SdidLower = num(sdid_pooled$lower[1], 2L),
+    SdidUpper = num(sdid_pooled$upper[1], 2L),
+    SdidCohorts = count(sdid_pooled$cohorts[1]),
+    SdidTreated = count(sdid_pooled$treated[1])
   )
 }
 if (isTRUE(honest$available)) {
-  hd <- a("honest_did.csv")
-  breakdown <- hd$Mbar[hd$lb > 0 | hd$ub < 0]
-  macros <- c(macros, HonestBreakdown = if (length(breakdown)) fmt(max(breakdown), 1L) else "none")
+  honest_did <- read_analysis("honest_did.csv")
+  holds <- filter(honest_did, lb > 0 | ub < 0)
+  widest <- slice_max(honest_did, Mbar, n = 1)
+  pre_coefficients <- es_main$estimate[es_main$event_time %in% -3:-2]
+  macros <- c(
+    macros,
+    HonestBreakdown = if (nrow(holds)) num(max(holds$Mbar), 1L) else "none",
+    HonestMaxMbar = num(widest$Mbar, 1L),
+    HonestLowerAtMax = pct(100 * expm1(widest$lb)),
+    HonestUpperAtMax = pct(100 * expm1(widest$ub)),
+    HonestMaxPreChange = pct(100 * expm1(max(abs(diff(c(pre_coefficients, 0))))))
+  )
 }
 stopifnot(all(grepl("^[A-Za-z]+$", names(macros))), !anyDuplicated(names(macros)), !anyNA(macros))
-definitions <- paste0("\\newcommand{\\", names(macros), "}{", macros, "}")
-writeLines(c("% Generated by scripts/tables.R; do not edit.", definitions), "tabs/macros.tex")
+writeLines(
+  c(
+    "% Generated by scripts/tables.R; do not edit.",
+    glue::glue("\\newcommand{{\\{names(macros)}}}{{{macros}}}")
+  ),
+  "tabs/macros.tex"
+)
 jsonlite::write_json(as.list(macros), "tabs/results.json", auto_unbox = TRUE, pretty = TRUE)
 
-readme <- readLines("docs/README.in.md")
-for (name in names(macros)) {
-  readme <- gsub(paste0("{{", name, "}}"), macros[[name]], readme, fixed = TRUE)
-}
-unfilled <- unlist(regmatches(readme, gregexpr("\\{\\{[A-Za-z]+\\}\\}", readme)))
-stopifnot(length(unfilled) == 0L)
+readme <- reduce(
+  names(macros),
+  \(text, name) gsub(paste0("{{", name, "}}"), macros[[name]], text, fixed = TRUE),
+  .init = readLines("docs/README.in.md")
+)
+stopifnot(!any(grepl("\\{\\{[A-Za-z]+\\}\\}", readme)))
 writeLines(readme, "README.md")
 cat("Tables, macros and README written\n")

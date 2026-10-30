@@ -1,14 +1,14 @@
 {
-  "pools": 173,
-  "pilot": true,
-  "candidates": 3451,
-  "usable_candidates": 3369,
+  "pools": 4872,
+  "pilot": false,
+  "candidates": 96567,
+  "usable_candidates": 95303,
   "exclusions": {
-    "treated_article": 55,
-    "openalex_is_retracted": 23,
-    "retraction_watch_record": 4
+    "treated_article": 973,
+    "openalex_is_retracted": 266,
+    "retraction_watch_record": 25
   },
-  "thin_pools": 0,
-  "complete_pools": 3,
-  "median_pool_count": 371
+  "thin_pools": 21,
+  "complete_pools": 112,
+  "median_pool_count": 253
 }

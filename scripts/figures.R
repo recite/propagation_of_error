@@ -1,7 +1,8 @@
 source("R/plots.R")
 a <- function(name) read.csv(file.path("data/analysis", name), stringsAsFactors = FALSE)
 dir.create("figs", showWarnings = FALSE)
-save_figure(plot_citation_paths(a("citation_paths.csv")), "citation_paths")
+paths <- a("citation_paths.csv")
+save_figure(plot_citation_paths(paths[paths$comparison == "matched", ]), "citation_paths")
 save_figure(plot_event_study(a("event_study.csv")), "event_study")
 heterogeneity_labels <- c(
   reason_category = "Reason for retraction",

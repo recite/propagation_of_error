@@ -1,7 +1,8 @@
 RSCRIPT ?= Rscript
 PY ?= python3
+WORKERS ?= 8
 
-.PHONY: restore wos rw rw-fetch targets targets-fetch validation validation-fetch pilot openalex-fetch openalex match analysis sdid figures tables manuscript paper format lint test check ci-docker clean
+.PHONY: rebuild restore wos rw rw-fetch targets targets-fetch validation validation-fetch pilot openalex-fetch openalex match analysis sdid figures tables manuscript paper format lint test check ci-docker clean
 
 restore:
 	$(RSCRIPT) --vanilla -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv", repos = "https://cloud.r-project.org"); renv::load(project = getwd()); renv::restore(prompt = FALSE)'
@@ -35,9 +36,9 @@ pilot: targets
 	$(PY) -m scripts.openalex.04_candidates --pilot
 
 openalex-fetch: targets
-	$(PY) -m scripts.openalex.02_histories
-	$(PY) -m scripts.openalex.03_pools
-	$(PY) -m scripts.openalex.04_candidates
+	$(PY) -m scripts.openalex.02_histories --workers $(WORKERS)
+	$(PY) -m scripts.openalex.03_pools --workers $(WORKERS)
+	$(PY) -m scripts.openalex.04_candidates --workers $(WORKERS)
 	$(PY) -m scripts.openalex.05_world_counts
 
 openalex: targets
@@ -56,10 +57,10 @@ analysis: match
 sdid: match
 	RSCRIPT='$(RSCRIPT)' $(PY) -m scripts.analysis.02_sdid
 
-figures: analysis sdid
+figures:
 	$(RSCRIPT) scripts/figures.R
 
-tables: analysis sdid validation
+tables:
 	$(RSCRIPT) scripts/tables.R
 
 manuscript:
@@ -79,7 +80,11 @@ lint:
 	$(PY) -m flake8 --max-line-length=100 scripts tests
 	$(RSCRIPT) -e 'l <- unlist(lapply(c("R", "scripts", "tests"), lintr::lint_dir), recursive = FALSE); print(l); quit(status = as.integer(length(l) > 0))'
 
-test: match analysis sdid validation
+# Tests verify the committed receipts, so they run from committed artifacts; `rebuild`
+# regenerates every offline stage from the caches and committed inputs.
+rebuild: match analysis sdid validation figures tables
+
+test:
 	$(PY) -m unittest discover -s tests -p 'test_*.py'
 	$(RSCRIPT) -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'
 

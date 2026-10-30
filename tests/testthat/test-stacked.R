@@ -1,23 +1,3 @@
-stack_fixture <- function(effect = .7, stacks = 12L, controls = 4L) {
-  rows <- list()
-  for (s in seq_len(stacks)) {
-    for (member in 0:controls) {
-      base <- 8 + 2 * s + 3 * member
-      for (t in -3:3) {
-        growth <- 1 + .15 * (t + 3) * (1 + .1 * s)
-        mu <- base * growth
-        if (member == 0L && t > 0) mu <- mu * effect
-        rows[[length(rows) + 1L]] <- data.frame(
-          stack_id = paste0("s", s), article_id = paste0("s", s, "_", member),
-          treated = as.integer(member == 0L), weight = if (member == 0L) 1 else 1 / controls,
-          event_time = t, year = 2010L + t, citations = mu, status = "complete"
-        )
-      }
-    }
-  }
-  do.call(rbind, rows)
-}
-
 test_that("stacked Poisson recovers a planted proportional post-retraction change", {
   x <- stack_fixture(effect = .7)
   fit <- stack_fit(x, post = 1:3)
@@ -58,6 +38,29 @@ test_that("heterogeneity groups recover their own planted effects", {
   h <- stack_heterogeneity(rbind(a, b), "group_var")
   expect_equal(h$estimate[h$group == "misconduct"], log(.5), tolerance = 1e-6)
   expect_equal(h$estimate[h$group == "error"], log(.9), tolerance = 1e-6)
+})
+
+test_that("the joint test compares groups with each other, not with zero", {
+  set.seed(7)
+  a <- stack_fixture(effect = .6, stacks = 40L)
+  b <- stack_fixture(effect = .6, stacks = 40L)
+  b$stack_id <- paste0("b", b$stack_id)
+  b$article_id <- paste0("b", b$article_id)
+  a$group_var <- "x"
+  b$group_var <- "y"
+  both <- rbind(a, b)
+  both$citations <- rpois(nrow(both), both$citations)
+  same <- stack_heterogeneity(both, "group_var")
+  expect_gt(same$joint_wald_p[1], .05)
+  expect_equal(same$joint_wald_p[1], same$joint_wald_p[2])
+  c <- stack_fixture(effect = .2, stacks = 40L)
+  c$stack_id <- paste0("c", c$stack_id)
+  c$article_id <- paste0("c", c$article_id)
+  c$group_var <- "y"
+  c$citations <- rpois(nrow(c), c$citations)
+  different <- stack_heterogeneity(rbind(a, c), "group_var")
+  expect_lt(different$joint_wald_p[1], .001)
+  expect_equal(unname(wald_equal(c(1, 1, 1), diag(3))$wald), 0)
 })
 
 test_that("stacks whose treated article lacks a period are excluded, duplicates are rejected", {

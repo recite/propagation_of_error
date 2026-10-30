@@ -2,14 +2,13 @@
   "schema_version": 1,
   "study": "openalex",
   "stage": "05_world_counts",
-  "started_at": "2026-10-29T06:13:34.989450+00:00",
+  "started_at": "2026-10-29T18:35:23.750229+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
-    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/05_world_counts.py",
-    "--offline"
+    "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/05_world_counts.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffdcece96c4133f3913f51f99a493c3a53662878",
+  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
   "inputs": [],
   "outputs": [
     {
@@ -27,13 +26,13 @@
     },
     {
       "path": "scripts/research_pipeline.py",
-      "sha256": "3e205440f034be9d6deb7c9ea1ade08cb165b170cb6950a3c717715e34846842",
-      "bytes": 5978
+      "sha256": "6b4d20d3624f2e5c0330a4bc260833bad740b6b7a471dc7890a34ebda2bb1c9f",
+      "bytes": 6169
     },
     {
       "path": "scripts/openalex_client.py",
-      "sha256": "fd28a5d514fa7492908e4ddae45b7e71a8d6b34a90d5b3da6b843357e79f6759",
-      "bytes": 6925
+      "sha256": "ba1d8a935b2a39cf29f9b36ee02ab8ada3055a30c6f104a71837873655c3c84e",
+      "bytes": 8072
     }
   ],
   "parents": [],
@@ -57,5 +56,5 @@
   "metrics": {},
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-29T06:13:35.001834+00:00"
+  "finished_at": "2026-10-29T18:35:23.764679+00:00"
 }

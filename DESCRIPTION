@@ -11,10 +11,19 @@ Description: Reproducible analysis of citations to retracted articles before and
     2016 Web of Science snapshot for measurement validation.
 Encoding: UTF-8
 Imports:
+    broom,
+    dplyr,
     fixest,
     ggplot2,
+    glue,
     jsonlite,
+    kableExtra,
+    knitr,
+    purrr,
+    readr,
     sandwich,
+    scales,
+    stringr,
     synthdid
 Suggests:
     HonestDiD,

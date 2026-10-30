@@ -28,7 +28,7 @@ python3 -m pip install -r requirements.txt
 make check
 ```
 
-`make check` rebuilds every table, figure, this README and the PDF from the committed data and runs the tests. Network acquisition is separate (`make rw-fetch`, `make targets-fetch`, `make openalex-fetch`) and records a receipt with the URL, retrieval time and hash of every response.
+`make check` rebuilds every table, figure, this README and the PDF from the committed analysis outputs and runs the tests, which verify the receipts of every committed stage against the current code and inputs. `make rebuild` regenerates the matching, estimation, synthetic DiD and validation outputs from the cached responses. Network acquisition is separate (`make rw-fetch`, `make targets-fetch`, `make openalex-fetch`) and records a receipt with the URL, retrieval time and hash of every response.
 
 | Path | Contents |
 | --- | --- |

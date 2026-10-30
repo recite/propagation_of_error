@@ -1,8 +1,8 @@
 {
-  "stacks": 175,
-  "treated": 159,
-  "comparison": 707,
-  "observations": 4831,
+  "stacks": 8627,
+  "treated": 7567,
+  "comparison": 23528,
+  "observations": 231086,
   "converged": true,
   "honest_available": true
 }

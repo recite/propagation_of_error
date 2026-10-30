@@ -13,17 +13,23 @@ sdid_cohort_roster <- function(panel, stacks, cohort) {
   list(roster = units, panel = rows, stacks = ids)
 }
 
-sdid_by_cohort <- function(panel, stacks, pre = -3:-1, post = 1:3, draws = 499L, seed = 20261028L) {
-  cohorts <- sort(unique(stacks$retraction_year[stacks$sdid_eligible == 1L]))
-  estimates <- paths <- weights <- boots <- list()
-  for (cohort in cohorts) {
-    parts <- sdid_cohort_roster(panel, stacks, cohort)
-    if (sum(parts$roster$treated == 1L) < 2L || sum(parts$roster$treated == 0L) < 2L) next
-    setup <- sdid_matrix(parts$panel, parts$roster, pre, post)
-    fitted <- sdid_fit(setup)
-    boot <- sdid_bootstrap(fitted$fit, draws, seed + cohort)
-    did <- sdid_did(setup)
-    estimates[[length(estimates) + 1L]] <- data.frame(
+sdid_one_cohort <- function(panel, stacks, cohort, pre, post, draws, seed) {
+  parts <- sdid_cohort_roster(panel, stacks, cohort)
+  if (sum(parts$roster$treated == 1L) < 2L || sum(parts$roster$treated == 0L) < 2L) {
+    return(NULL)
+  }
+  started <- Sys.time()
+  setup <- sdid_matrix(parts$panel, parts$roster, pre, post)
+  fitted <- sdid_fit(setup)
+  boot <- sdid_bootstrap(fitted$fit, draws, seed + cohort)
+  did <- sdid_did(setup)
+  message(sprintf(
+    "sdid cohort %d: %d treated, %d donors, %d draws, %.0f s", cohort,
+    nrow(setup$y) - setup$n0, setup$n0, draws,
+    as.numeric(difftime(Sys.time(), started, units = "secs"))
+  ))
+  list(
+    estimate = data.frame(
       cohort = cohort, treated = nrow(setup$y) - setup$n0, comparison = setup$n0,
       estimate = as.numeric(fitted$fit), se = boot$se,
       lower = as.numeric(fitted$fit) - qnorm(.975) * boot$se,
@@ -32,14 +38,33 @@ sdid_by_cohort <- function(panel, stacks, pre = -3:-1, post = 1:3, draws = 499L,
       treated_post_mean = mean(fitted$paths$treated_mean[-seq_len(setup$t0)]),
       synthetic_post_mean = mean(fitted$paths$synthetic_adjusted[-seq_len(setup$t0)]),
       bootstrap_draws = draws, rejected_draws = boot$rejected, fitted$diagnostics
-    )
-    paths[[length(paths) + 1L]] <- cbind(cohort = cohort, fitted$paths)
-    omega <- attr(fitted$fit, "weights")$omega
-    weights[[length(weights) + 1L]] <- data.frame(
-      cohort = cohort, article_id = setup$roster$article_id[seq_len(setup$n0)], omega = omega
-    )
-    boots[[length(boots) + 1L]] <- cbind(cohort = cohort, boot$draws)
-  }
+    ),
+    paths = cbind(cohort = cohort, fitted$paths),
+    weights = data.frame(
+      cohort = cohort, article_id = setup$roster$article_id[seq_len(setup$n0)],
+      omega = attr(fitted$fit, "weights")$omega
+    ),
+    draws = cbind(cohort = cohort, boot$draws)
+  )
+}
+
+# Cohorts are independent and each carries its own seed, so running them on several cores
+# changes nothing but the wall-clock time.
+sdid_by_cohort <- function(panel, stacks, pre = -3:-1, post = 1:3, draws = 499L, seed = 20261028L,
+                           cores = max(1L, parallel::detectCores() - 1L)) {
+  cohorts <- sort(unique(stacks$retraction_year[stacks$sdid_eligible == 1L]))
+  results <- parallel::mclapply(
+    cohorts, function(cohort) sdid_one_cohort(panel, stacks, cohort, pre, post, draws, seed),
+    mc.cores = min(cores, length(cohorts))
+  )
+  failed <- vapply(results, inherits, logical(1), "try-error")
+  stopifnot(!any(failed))
+  results <- Filter(Negate(is.null), results)
+  pick <- function(name) lapply(results, `[[`, name)
+  estimates <- pick("estimate")
+  paths <- pick("paths")
+  weights <- pick("weights")
+  boots <- pick("draws")
   estimates <- do.call(rbind, estimates)
   w <- 1 / estimates$se^2
   pooled <- data.frame(

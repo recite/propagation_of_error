@@ -140,10 +140,10 @@ def match(treated, pools, candidates, treated_index, candidate_index, k=5, calip
                     control_id=cid,
                     cumulative_smd=float(delta[j, 0]),
                     last_year_smd=float(delta[j, 1]),
-                    treated_cumulative=float(np.expm1(raw[0, 0])),
-                    control_cumulative=float(np.expm1(raw[j + 1, 0])),
-                    treated_last_year=float(np.expm1(raw[0, 1])),
-                    control_last_year=float(np.expm1(raw[j + 1, 1])),
+                    treated_cumulative=int(round(np.expm1(raw[0, 0]))),
+                    control_cumulative=int(round(np.expm1(raw[j + 1, 0]))),
+                    treated_last_year=int(round(np.expm1(raw[0, 1]))),
+                    control_last_year=int(round(np.expm1(raw[j + 1, 1]))),
                 )
             )
     return matches, scored, exclusions, balance

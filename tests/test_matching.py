@@ -1,3 +1,4 @@
+import collections
 import importlib
 import json
 import unittest
@@ -96,3 +97,38 @@ class MatchArtifactTests(unittest.TestCase):
         self.assertTrue(
             all(int(r["year"]) >= int(r["publication_year"]) for r in rows if r["treated"] == "1")
         )
+
+
+class JournalYearPanelTests(unittest.TestCase):
+    def setUp(self):
+        path = ROOT / "data/matching/panel_journal_year.csv.gz"
+        if not path.exists():
+            self.skipTest("journal-year panel not built")
+        self.rows = histories.read_gzip_csv(path)
+
+    def test_comparison_weights_sum_to_one_within_each_stack(self):
+        weights = collections.defaultdict(float)
+        for r in self.rows:
+            if r["treated"] == "0" and r["event_time"] == "-1":
+                weights[r["stack_id"]] += float(r["weight"])
+        self.assertTrue(weights)
+        self.assertTrue(all(abs(w - 1) < 1e-9 for w in weights.values()))
+
+    def test_comparison_articles_are_the_usable_pool_sample(self):
+        candidates = read_csv(ROOT / "data/openalex/candidates.csv")
+        pools = {
+            (p["journal_id"], p["year"]): p["pool_id"]
+            for p in read_csv(ROOT / "data/openalex/pools.csv")
+        }
+        usable = collections.defaultdict(set)
+        for c in candidates:
+            if not c["exclusion"]:
+                usable[c["pool_id"]].add(c["candidate_id"])
+        members = collections.defaultdict(set)
+        meta = {}
+        for r in self.rows:
+            if r["treated"] == "0":
+                members[r["stack_id"]].add(r["article_id"])
+            meta[r["stack_id"]] = (r["journal_id"], r["publication_year"])
+        for stack, ids in list(members.items())[:200]:
+            self.assertEqual(ids, usable[pools[meta[stack]]])

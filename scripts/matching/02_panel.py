@@ -1,7 +1,12 @@
-"""Stacked event-time panel: each retracted article with its matched comparison articles.
+"""Stacked event-time panels: each retracted article with its comparison articles.
+
+The main panel uses the matched comparison articles. A second panel uses every usable
+sampled article from the same journal and publication year with equal weights: the plain
+journal-year comparison, with no matching on pre-retraction citations.
 
 Usage: python3 -m scripts.matching.02_panel
-Output: data/matching/panel.csv.gz, panel_exclusions.csv, sample_flow.csv, stacks.csv
+Output: data/matching/panel.csv.gz, panel_journal_year.csv.gz, panel_exclusions.csv,
+        sample_flow.csv, stacks.csv
 """
 
 from __future__ import annotations
@@ -61,6 +66,29 @@ def tercile(values):
     ordered = sorted(values)
     cuts = [ordered[len(ordered) // 3], ordered[2 * len(ordered) // 3]]
     return lambda v: 1 if v < cuts[0] else 2 if v < cuts[1] else 3
+
+
+def journal_year_matches(treated, candidates, pools):
+    """Every usable sampled candidate in the treated article's journal-year pool, equal weight."""
+    pool_of = {(p["journal_id"], p["year"]): p["pool_id"] for p in pools}
+    by_pool = collections.defaultdict(list)
+    for c in candidates:
+        if not c["exclusion"]:
+            by_pool[c["pool_id"]].append(c["candidate_id"])
+    matches = []
+    for t in treated:
+        members = by_pool.get(pool_of.get((t["journal_id"], t["openalex_year"])), [])
+        for rank, cid in enumerate(sorted(members), 1):
+            matches.append(
+                dict(
+                    article_id=t["article_id"],
+                    control_id=cid,
+                    rank=rank,
+                    distance="",
+                    weight=1 / len(members),
+                )
+            )
+    return matches
 
 
 def build(matches, treated, treated_index, candidate_index, candidates):
@@ -184,6 +212,21 @@ def main():
         )
         run.check("no_citations_missing", all(r["citations"] != "" for r in rows), len(rows))
         histories.write_gzip_csv(DATA / "panel.csv.gz", rows, PANEL_FIELDS)
+        pools = read_csv(OPENALEX / "pools.csv")
+        unmatched_rows, unmatched_stacks, _ = build(
+            journal_year_matches(treated, candidates, pools),
+            treated,
+            treated_index,
+            candidate_index,
+            candidates,
+        )
+        unique(unmatched_rows, ["stack_id", "article_id", "year"])
+        run.check(
+            "journal_year_panel_covers_matched_stacks",
+            {s["stack_id"] for s in stacks} <= {s["stack_id"] for s in unmatched_stacks},
+            len(unmatched_stacks),
+        )
+        histories.write_gzip_csv(DATA / "panel_journal_year.csv.gz", unmatched_rows, PANEL_FIELDS)
         write_csv(DATA / "stacks.csv", stacks, STACK_FIELDS)
         write_csv(DATA / "panel_exclusions.csv", omissions, ["stack_id", "reason"])
         snapshot = json.loads((ROOT / "data/retraction_watch/snapshot.json").read_text())
@@ -221,6 +264,7 @@ def main():
         write_csv(DATA / "sample_flow.csv", flow, ["step", "articles"])
         for name in [
             "panel.csv.gz",
+            "panel_journal_year.csv.gz",
             "stacks.csv",
             "panel_exclusions.csv",
             "sample_flow.csv",
@@ -229,6 +273,8 @@ def main():
         summary = dict(
             stacks=len(stacks),
             rows=len(rows),
+            journal_year_stacks=len(unmatched_stacks),
+            journal_year_rows=len(unmatched_rows),
             omissions=len(omissions),
             sdid_eligible=sum(s["sdid_eligible"] for s in stacks),
             flow=flow,

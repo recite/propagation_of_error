@@ -2,20 +2,19 @@
   "controls_per_treated": 5,
   "caliper": 1.0,
   "treated": 8963,
-  "matched": 175,
-  "controls": 777,
+  "matched": 8627,
+  "controls": 26138,
   "exclusions": {
-    "pool_not_retrieved": 7409,
-    "incomplete_pre_citations": 1365,
-    "no_match_within_caliper": 14
+    "no_match_within_caliper": 323,
+    "no_usable_candidates": 13
   },
   "matches_per_treated": {
-    "5": 141,
-    "3": 6,
-    "4": 15,
-    "1": 8,
-    "2": 5
+    "5": 6765,
+    "3": 482,
+    "1": 344,
+    "2": 428,
+    "4": 608
   },
-  "mean_abs_cumulative_smd": 0.2802459196858253,
-  "mean_abs_last_year_smd": 0.2631530404005899
+  "mean_abs_cumulative_smd": 0.29392869673548233,
+  "mean_abs_last_year_smd": 0.2534113919087265
 }

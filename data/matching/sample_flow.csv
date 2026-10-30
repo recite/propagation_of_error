@@ -2,6 +2,6 @@ step,articles
 Retraction Watch retractions,67440
 "Frame: research articles, published 2000-2019, retracted 2005-2022, two or more years after publication, with a DOI",9555
 Resolved to an OpenAlex journal article in the same year,8963
-Matched to at least one comparison article,175
-With at least one complete post-retraction year,175
-With three complete pre- and post-retraction years (synthetic DiD),129
+Matched to at least one comparison article,8627
+With at least one complete post-retraction year,8627
+With three complete pre- and post-retraction years (synthetic DiD),6720

@@ -8,13 +8,13 @@ A retraction is the strongest public signal that an article should not be relied
 
 ## What we learn
 
-**Retracted articles keep being cited, but at a markedly lower rate than matched articles from the same journal and year.** In the three complete years after retraction, citations to retracted articles were **-55.6%** (95% interval [-61.3, -49.0]%) relative to the path of matched comparison articles. The mean number of citations per year to a retracted article was 4.1 in the year before retraction and 1.1 three years after; for matched articles the corresponding means were 3.7 and 3.3. Three years after retraction, 58.9% of retracted articles received no citations at all, against 30.6% of matched articles.
+**Retracted articles keep being cited, but at a markedly lower rate than matched articles from the same journal and year.** In the three complete years after retraction, citations to retracted articles were **-62.1%** (95% interval [-62.9, -61.2]%) relative to the path of matched comparison articles. The mean number of citations per year to a retracted article was 4.4 in the year before retraction and 1.2 three years after; for matched articles the corresponding means were 4.0 and 3.4. Three years after retraction, 55.7% of retracted articles received no citations at all, against 31.1% of matched articles.
 
 Among 2016 hand-coded citing passages, 234 of 256 citations made after the retraction year recorded no concern with the cited article (91.4%, 95% interval [87.3, 94.3]%).
 
 ## Data and research design
 
-The treated articles are every Retraction Watch retraction of a research article published 2000–2019 and retracted 2005–2022 at least two years after publication with an original DOI (9,555 articles), of which 8,963 resolve to an OpenAlex journal article and 175 find at least one comparison article. Citation histories through 2025 come from OpenAlex for treated and comparison articles alike. Comparison articles are drawn from the same journal and publication year and matched on pre-retraction citations only, up to five per retracted article (777 distinct comparison articles).
+The treated articles are every Retraction Watch retraction of a research article published 2000–2019 and retracted 2005–2022 at least two years after publication with an original DOI (9,555 articles), of which 8,963 resolve to an OpenAlex journal article and 8,627 find at least one comparison article. Citation histories through 2025 come from OpenAlex for treated and comparison articles alike. Comparison articles are drawn from the same journal and publication year and matched on pre-retraction citations only, up to five per retracted article (26,138 distinct comparison articles).
 
 The main estimate is a Poisson regression with a fixed effect for each article within its matched set and for each matched set and event year, clustered by article: it compares each retracted article's proportional change in citations with that of its own comparison articles. Event-year estimates, an additive version, a synthetic difference-in-differences by retraction-year cohort, pre-specified heterogeneity, pre-trend checks and leave-one-out exercises are in the paper. The [pre-analysis plan](docs/design.md) was committed before estimation.
 
@@ -28,7 +28,7 @@ python3 -m pip install -r requirements.txt
 make check
 ```
 
-`make check` rebuilds every table, figure, this README and the PDF from the committed data and runs the tests. Network acquisition is separate (`make rw-fetch`, `make targets-fetch`, `make openalex-fetch`) and records a receipt with the URL, retrieval time and hash of every response.
+`make check` rebuilds every table, figure, this README and the PDF from the committed analysis outputs and runs the tests, which verify the receipts of every committed stage against the current code and inputs. `make rebuild` regenerates the matching, estimation, synthetic DiD and validation outputs from the cached responses. Network acquisition is separate (`make rw-fetch`, `make targets-fetch`, `make openalex-fetch`) and records a receipt with the URL, retrieval time and hash of every response.
 
 | Path | Contents |
 | --- | --- |

@@ -8,6 +8,10 @@ out <- "data/analysis"
 dir.create(out, showWarnings = FALSE, recursive = TRUE)
 panel <- read.csv(gzfile("data/matching/panel.csv.gz"), stringsAsFactors = FALSE)
 stacks <- read.csv("data/matching/stacks.csv", stringsAsFactors = FALSE)
+journal_year_panel <- read.csv(
+  gzfile("data/matching/panel_journal_year.csv.gz"),
+  stringsAsFactors = FALSE
+)
 frame <- read.csv("data/retraction_watch/frame.csv", stringsAsFactors = FALSE)
 world <- read.csv("data/openalex/world_counts.csv")
 coding <- read.csv("data/wos_2016/tidy/acknowledgment.csv")
@@ -26,12 +30,14 @@ estimates <- rbind(
     nearest <- panel[panel$match_rank <= 1L, ]
     nearest$weight <- 1
     stack_fit(nearest, "Nearest match only")
-  }
+  },
+  stack_fit(journal_year_panel, "All sampled journal-year articles, unmatched")
 )
 write_out(estimates, "estimates.csv")
 
 dynamic <- stack_event_study(panel, "Main")
-write_out(dynamic$estimates, "event_study.csv")
+journal_year_dynamic <- stack_event_study(journal_year_panel, "Journal-year, unmatched")
+write_out(rbind(dynamic$estimates, journal_year_dynamic$estimates), "event_study.csv")
 additive_dynamic <- stack_event_study(panel, "Additive (OLS)", poisson = FALSE)
 write_out(additive_dynamic$estimates, "event_study_ols.csv")
 write_out(pretrend_test(dynamic), "pretrends.csv")
@@ -113,7 +119,13 @@ legacy <- rbind(
 )
 write_out(legacy, "legacy_estimates.csv")
 
-write_out(stack_paths(panel), "citation_paths.csv")
+write_out(
+  rbind(
+    cbind(comparison = "matched", stack_paths(panel)),
+    cbind(comparison = "journal_year", stack_paths(journal_year_panel))
+  ),
+  "citation_paths.csv"
+)
 rates <- retraction_rates(frame, world)
 write_out(rates$by_publication_year, "retraction_rates.csv")
 write_out(rates$by_retraction_year, "retractions_by_year.csv")
@@ -125,6 +137,18 @@ write_out(
   "time_to_retraction.csv"
 )
 write_out(acknowledgment_summary(coding), "acknowledgment.csv")
+targets <- read.csv("data/openalex/targets.csv", stringsAsFactors = FALSE)
+resolved <- targets$target_id[
+  targets$article_id != "" & targets$resolution == "resolved" & targets$frame_exclusion == ""
+]
+treated_histories <- read.csv(gzfile("data/openalex/histories.csv.gz"), stringsAsFactors = FALSE)
+treated_histories <- treated_histories[treated_histories$target_id %in% resolved, ]
+treated_histories$article_id <- targets$article_id[
+  match(treated_histories$target_id, targets$target_id)
+]
+post <- post_retraction_citations(treated_histories, frame)
+write_out(post$summary, "post_retraction.csv")
+write_out(post$by_year, "post_retraction_by_year.csv")
 write_out(as.data.frame(table(reason = frame$reason_category)), "reasons.csv")
 
 status <- list(
