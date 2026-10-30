@@ -27,6 +27,9 @@ OUTPUTS = [
     "time_to_retraction.csv",
     "acknowledgment.csv",
     "reasons.csv",
+    "post_retraction.csv",
+    "post_retraction_by_year.csv",
+    "example_article.csv",
     "status.json",
     "R-session.txt",
 ]
@@ -53,6 +56,7 @@ def main():
         if status["honest_available"]:
             run.output(DATA / "honest_did.csv")
             run.output(DATA / "honest_original.csv")
+            run.output(DATA / "honest_target.csv")
         run.record["metrics"] = status
 
 

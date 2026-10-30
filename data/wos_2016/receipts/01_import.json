@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "wos_2016",
   "stage": "01_import",
-  "started_at": "2026-10-30T02:35:27.450789+00:00",
+  "started_at": "2026-10-30T03:34:28.284219+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/wos/01_import.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
+  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
   "inputs": [
     {
       "path": "data/wos_2016/retraction_notices.csv",
@@ -219,5 +219,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T02:35:29.315318+00:00"
+  "finished_at": "2026-10-30T03:34:33.329126+00:00"
 }

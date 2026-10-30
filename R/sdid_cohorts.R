@@ -8,82 +8,132 @@ sdid_cohort_roster <- function(panel, stacks, cohort) {
   units <- unique(x[c("article_id", "treated", "publication_year")])
   # A comparison article matched to two treated articles of one cohort appears once.
   units <- units[!duplicated(units$article_id), ]
-  units$first_complete_event_time <- units$publication_year - cohort
+  units$first_complete_event_time <- units$publication_year - cohort + 1L
   rows <- x[!duplicated(x[c("article_id", "event_time")]), ]
   list(roster = units, panel = rows, stacks = ids)
 }
 
-sdid_one_cohort <- function(panel, stacks, cohort, pre, post, draws, seed) {
-  parts <- sdid_cohort_roster(panel, stacks, cohort)
-  if (sum(parts$roster$treated == 1L) < 2L || sum(parts$roster$treated == 0L) < 2L) {
-    return(NULL)
-  }
-  started <- Sys.time()
-  setup <- sdid_matrix(parts$panel, parts$roster, pre, post)
-  fitted <- sdid_fit(setup)
-  boot <- sdid_bootstrap(fitted$fit, draws, seed + cohort)
-  did <- sdid_did(setup)
-  message(sprintf(
-    "sdid cohort %d: %d treated, %d donors, %d draws, %.0f s", cohort,
-    nrow(setup$y) - setup$n0, setup$n0, draws,
-    as.numeric(difftime(Sys.time(), started, units = "secs"))
-  ))
-  list(
-    estimate = data.frame(
-      cohort = cohort, treated = nrow(setup$y) - setup$n0, comparison = setup$n0,
-      estimate = as.numeric(fitted$fit), se = boot$se,
-      lower = as.numeric(fitted$fit) - qnorm(.975) * boot$se,
-      upper = as.numeric(fitted$fit) + qnorm(.975) * boot$se,
-      did_estimate = did$estimate, did_se = did$se,
-      treated_post_mean = mean(fitted$paths$treated_mean[-seq_len(setup$t0)]),
-      synthetic_post_mean = mean(fitted$paths$synthetic_adjusted[-seq_len(setup$t0)]),
-      bootstrap_draws = draws, rejected_draws = boot$rejected, fitted$diagnostics
-    ),
-    paths = cbind(cohort = cohort, fitted$paths),
-    weights = data.frame(
-      cohort = cohort, article_id = setup$roster$article_id[seq_len(setup$n0)],
-      omega = attr(fitted$fit, "weights")$omega
-    ),
-    draws = cbind(cohort = cohort, boot$draws)
-  )
+sdid_cohort_setups <- function(panel, stacks, pre, post) {
+  cohorts <- sort(unique(stacks$retraction_year[stacks$sdid_eligible == 1L]))
+  setups <- lapply(cohorts, function(cohort) {
+    parts <- sdid_cohort_roster(panel, stacks, cohort)
+    if (sum(parts$roster$treated == 1L) < 2L || sum(parts$roster$treated == 0L) < 2L) {
+      return(NULL)
+    }
+    setup <- sdid_matrix(parts$panel, parts$roster, pre, post)
+    setup$cohort <- cohort
+    setup
+  })
+  Filter(Negate(is.null), setups)
 }
 
-# Cohorts are independent and each carries its own seed, so running them on several cores
-# changes nothing but the wall-clock time.
-sdid_by_cohort <- function(panel, stacks, pre = -3:-1, post = 1:3, draws = 499L, seed = 20261028L,
-                           cores = max(1L, parallel::detectCores() - 1L)) {
-  cohorts <- sort(unique(stacks$retraction_year[stacks$sdid_eligible == 1L]))
-  results <- parallel::mclapply(
-    cohorts, function(cohort) sdid_one_cohort(panel, stacks, cohort, pre, post, draws, seed),
-    mc.cores = min(cores, length(cohorts))
+# One bootstrap draw for every cohort at once. A comparison article matched in several
+# retraction years appears in several cohort matrices, so cohort estimates are not
+# independent; drawing article ids once for the whole study keeps that dependence. Each
+# cohort's weights are refitted from a warm start, as in the authors' Algorithm 2.
+sdid_joint_draw <- function(setups, fits, ids) {
+  counts <- tabulate(match(sample(ids, replace = TRUE), ids), nbins = length(ids))
+  names(counts) <- ids
+  vapply(seq_along(setups), function(i) {
+    s <- setups[[i]]
+    index <- rep(seq_len(nrow(s$y)), times = counts[rownames(s$y)])
+    n0 <- sum(index <= s$n0)
+    if (n0 == 0L || n0 == length(index)) {
+      return(NA_real_)
+    }
+    weights <- attr(fits[[i]], "weights")
+    omega <- weights$omega[index[index <= s$n0]]
+    weights$omega <- if (sum(omega) == 0) rep(1 / n0, n0) else omega / sum(omega)
+    as.numeric(synthdid::synthdid_estimate(
+      s$y[index, , drop = FALSE], n0, s$t0,
+      weights = weights, update.omega = TRUE, update.lambda = TRUE
+    ))
+  }, numeric(1))
+}
+
+# A draw in which some cohort loses all its treated or all its comparison articles is
+# rejected and replaced, so every retained draw estimates every cohort.
+sdid_joint_bootstrap <- function(setups, fits, draws, seed, cores) {
+  ids <- unique(unlist(lapply(setups, function(s) rownames(s$y))))
+  RNGkind("L'Ecuyer-CMRG")
+  set.seed(seed)
+  kept <- matrix(numeric(0), 0L, length(setups))
+  attempts <- 0L
+  while (nrow(kept) < draws) {
+    stopifnot(attempts <= 10L * draws)
+    new <- do.call(rbind, parallel::mclapply(
+      seq_len(draws - nrow(kept)), function(d) sdid_joint_draw(setups, fits, ids),
+      mc.cores = cores, mc.set.seed = TRUE
+    ))
+    attempts <- attempts + nrow(new)
+    kept <- rbind(kept, new[stats::complete.cases(new), , drop = FALSE])
+  }
+  list(draws = kept, rejected = attempts - nrow(kept))
+}
+
+sdid_by_cohort <- function(panel, stacks, pre = -3:-1, post = 1:3, draws = 499L,
+                           seed = 20261028L, cores = max(1L, parallel::detectCores() - 1L)) {
+  setups <- sdid_cohort_setups(panel, stacks, pre, post)
+  fitted <- lapply(setups, sdid_fit)
+  fits <- lapply(fitted, `[[`, "fit")
+  started <- Sys.time()
+  boot <- sdid_joint_bootstrap(setups, fits, draws, seed, cores)
+  message(sprintf(
+    "sdid joint bootstrap: %d cohorts, %d draws, %d rejected, %.0f s", length(setups), draws,
+    boot$rejected, as.numeric(difftime(Sys.time(), started, units = "secs"))
+  ))
+  # Bootstrap standard errors use the same small-sample scaling as the authors' package.
+  scale <- sqrt((draws - 1) / draws)
+  estimates <- do.call(rbind, lapply(seq_along(setups), function(i) {
+    s <- setups[[i]]
+    f <- fitted[[i]]
+    did <- sdid_did(s)
+    se <- scale * stats::sd(boot$draws[, i])
+    data.frame(
+      cohort = s$cohort, treated = nrow(s$y) - s$n0, comparison = s$n0,
+      estimate = as.numeric(f$fit), se = se,
+      lower = as.numeric(f$fit) - qnorm(.975) * se,
+      upper = as.numeric(f$fit) + qnorm(.975) * se,
+      did_estimate = did$estimate, did_se = did$se,
+      treated_post_mean = mean(f$paths$treated_mean[-seq_len(s$t0)]),
+      synthetic_post_mean = mean(f$paths$synthetic_adjusted[-seq_len(s$t0)]),
+      bootstrap_draws = draws, rejected_draws = boot$rejected, f$diagnostics
+    )
+  }))
+  donors <- unique(unlist(lapply(setups, function(s) rownames(s$y)[seq_len(s$n0)])))
+  # Pooling weights are fixed at their point values; the pooled interval comes from the same
+  # joint draws, so it carries the covariance between cohorts that share comparison articles.
+  pooling <- list(
+    inverse_variance = 1 / estimates$se^2,
+    equal_treated_weight = estimates$treated
   )
-  failed <- vapply(results, inherits, logical(1), "try-error")
-  stopifnot(!any(failed))
-  results <- Filter(Negate(is.null), results)
-  pick <- function(name) lapply(results, `[[`, name)
-  estimates <- pick("estimate")
-  paths <- pick("paths")
-  weights <- pick("weights")
-  boots <- pick("draws")
-  estimates <- do.call(rbind, estimates)
-  w <- 1 / estimates$se^2
-  pooled <- data.frame(
-    pooling = c("inverse_variance", "equal_treated_weight"),
-    estimate = c(
-      sum(w * estimates$estimate) / sum(w),
-      sum(estimates$treated * estimates$estimate) / sum(estimates$treated)
-    ),
-    se = c(
-      sqrt(1 / sum(w)),
-      sqrt(sum((estimates$treated / sum(estimates$treated))^2 * estimates$se^2))
-    ),
-    cohorts = nrow(estimates), treated = sum(estimates$treated),
-    comparison = sum(estimates$comparison)
-  )
+  pooled <- do.call(rbind, lapply(names(pooling), function(name) {
+    w <- pooling[[name]] / sum(pooling[[name]])
+    se <- scale * stats::sd(drop(boot$draws %*% w))
+    data.frame(
+      pooling = name, estimate = sum(w * estimates$estimate), se = se,
+      cohorts = nrow(estimates), treated = sum(estimates$treated), comparison = length(donors)
+    )
+  }))
   pooled$lower <- pooled$estimate - qnorm(.975) * pooled$se
   pooled$upper <- pooled$estimate + qnorm(.975) * pooled$se
+  cohort_ids <- vapply(setups, function(s) as.numeric(s$cohort), numeric(1))
   list(
-    cohorts = estimates, pooled = pooled, paths = do.call(rbind, paths),
-    weights = do.call(rbind, weights), draws = do.call(rbind, boots)
+    cohorts = estimates, pooled = pooled,
+    paths = do.call(rbind, lapply(seq_along(setups), function(i) {
+      cbind(cohort = setups[[i]]$cohort, fitted[[i]]$paths)
+    })),
+    weights = do.call(rbind, lapply(seq_along(setups), function(i) {
+      s <- setups[[i]]
+      data.frame(
+        cohort = s$cohort, article_id = s$roster$article_id[seq_len(s$n0)],
+        omega = attr(fits[[i]], "weights")$omega
+      )
+    })),
+    draws = data.frame(
+      draw = rep(seq_len(nrow(boot$draws)), times = length(setups)),
+      cohort = rep(cohort_ids, each = nrow(boot$draws)),
+      estimate = as.vector(boot$draws)
+    )
   )
 }

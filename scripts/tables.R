@@ -122,8 +122,9 @@ group_labels <- tribble(
   "prior_concern", "1", "Yes"
 )
 heterogeneity <- read_analysis("heterogeneity.csv") |>
-  mutate(group = as.character(group), variable = factor(variable, names(split_labels))) |>
+  mutate(group = as.character(group)) |>
   inner_join(group_labels, by = c("variable", "group")) |>
+  mutate(variable = factor(variable, names(split_labels))) |>
   arrange(variable)
 stopifnot(nrow(heterogeneity) == nrow(group_labels))
 joint_tests <- heterogeneity |>
@@ -133,12 +134,12 @@ block_sizes <- set_names(
   joint_tests$n,
   paste0(
     split_labels[as.character(joint_tests$variable)],
-    " (joint test $p$ ", p_cell(joint_tests$p), ")"
+    " (joint test $p$ ", p_macro(joint_tests$p), ")"
   )
 )
 heterogeneity |>
   transmute(
-    Group = label, `Retracted articles` = count(stacks), `Change (\\%)` = pct(percent),
+    Group = label, `Retracted articles` = count(treated), `Change (\\%)` = pct(percent),
     `95\\% interval` = pct_ci(percent_lower, percent_upper)
   ) |>
   save_table("tabs/heterogeneity.tex", groups = block_sizes)
@@ -147,15 +148,15 @@ heterogeneity |>
 leave_one_out <- read_analysis("leave_one_out.csv")
 journal_clustered <- read_analysis("journal_clustered.csv")
 bind_rows(
-  leave_one_out |> select(specification, stacks, percent, percent_lower, percent_upper),
+  leave_one_out |> select(specification, treated, percent, percent_lower, percent_upper),
   journal_clustered |>
     transmute(
-      specification = "Journal-clustered standard errors", stacks = estimates$stacks[1],
+      specification = "Journal-clustered standard errors", treated = estimates$treated[1],
       percent, percent_lower, percent_upper
     )
 ) |>
   transmute(
-    Specification = tex(specification), `Retracted articles` = count(stacks),
+    Specification = tex(specification), `Retracted articles` = count(treated),
     `Change (\\%)` = pct(percent), `95\\% interval` = pct_ci(percent_lower, percent_upper)
   ) |>
   save_table("tabs/robustness.tex")
@@ -264,9 +265,11 @@ macros <- c(
   Resolved = count(resolution$frame_eligible),
   Matched = count(match_summary$matched),
   Unmatched = count(match_summary$exclusions$no_match_within_caliper %||% 0L),
+  NoCandidates = count(match_summary$exclusions$no_usable_candidates %||% 0L),
   Stacks = count(status$stacks),
   Controls = count(match_summary$controls),
   MainPercent = pct(main$percent),
+  MainReduction = pct(-main$percent),
   MainInterval = pct_ci(main$percent_lower, main$percent_upper),
   FivePercent = pct(five$percent),
   FiveInterval = pct_ci(five$percent_lower, five$percent_upper),
@@ -306,8 +309,8 @@ macros <- c(
   ExampleThroughRetraction = count(example$through_retraction_year),
   ExampleAfterRetraction = count(example$after_retraction_year),
   WosNotices = count(wos_check$articles),
-  WosCitationRecords = count(wos_check$draft$total),
-  WosShareAfterNotice = pct(100 * wos_check$draft$share_after),
+  WosCitationRecords = count(wos_check$distinct$total),
+  WosShareAfterNotice = pct(100 * wos_check$distinct$share_after),
   PostArticles = count(post$articles),
   PostCitations = count(post$citations),
   PostAfter = count(post$after),
@@ -336,6 +339,8 @@ macros <- c(
   HetFieldMin = pct(field_range[1]),
   HetFieldMax = pct(field_range[2]),
   HetTercileP = het_p("pre_tercile"),
+  HetTercileMin = pct(min(heterogeneity$percent[heterogeneity$variable == "pre_tercile"])),
+  HetTercileMax = pct(max(heterogeneity$percent[heterogeneity$variable == "pre_tercile"])),
   HetLagTwo = het_at("lag_bin", "2"),
   HetLagSixPlus = het_at("lag_bin", "6+"),
   HetLagP = het_p("lag_bin"),
@@ -365,7 +370,10 @@ if (sdid_available) {
     SdidEstimate = num(sdid_pooled$estimate[1], 2L),
     SdidInterval = ci(sdid_pooled$lower[1], sdid_pooled$upper[1], 2L),
     SdidCohorts = count(sdid_pooled$cohorts[1]),
-    SdidTreated = count(sdid_pooled$treated[1])
+    SdidTreated = count(sdid_pooled$treated[1]),
+    SdidTreatedWeighted = num(
+      sdid_pooled$estimate[sdid_pooled$pooling == "equal_treated_weight"], 2L
+    )
   )
 }
 if (isTRUE(honest$available)) {
@@ -375,6 +383,7 @@ if (isTRUE(honest$available)) {
   macros <- c(
     macros,
     HonestMaxMbar = num(widest$Mbar, 1L),
+    HonestTarget = pct(100 * expm1(read_analysis("honest_target.csv")$target)),
     HonestIntervalAtMax = pct_ci(100 * expm1(widest$lb), 100 * expm1(widest$ub)),
     HonestMaxPreChange = pct(100 * expm1(max(abs(diff(c(pre_coefficients, 0))))))
   )

@@ -6,7 +6,7 @@
 2025  # end of the citation data
 95  # confidence level
 50  # second-rater reliability sample, Appendix: coding
-994  # bar2018temporal sample, quoted
+995  # bar2018temporal sample, quoted
 238  # rubbo2019citation sample, quoted
 283  # bar2017post sample, quoted
 358  # hamilton2019continued sample, quoted
@@ -46,3 +46,4 @@
 100  # Darsee publications, quoted (stewart1987integrity)
 0  # counter resets in the appendix preamble
 07  # corresponding author email, title page
+718  # page of yi2015comment, quoted

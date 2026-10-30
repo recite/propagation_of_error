@@ -126,7 +126,8 @@ def build(matches, treated, treated_index, candidate_index, candidates):
         if post_ok < 1:
             omissions.append(dict(stack_id=aid, reason="no_complete_post_year"))
             continue
-        sdid = int(all(r - 3 >= year for _, _, _, _, _, year, _ in members) and post_ok >= 3)
+        # The first pre-period year must be a complete calendar year after publication.
+        sdid = int(all(year < r - 3 for _, _, _, _, _, year, _ in members) and post_ok >= 3)
         meta = dict(
             retraction_year=r,
             publication_year=pub,
@@ -245,7 +246,10 @@ def main():
                 articles=len(frame),
             ),
             dict(
-                step="Resolved to an OpenAlex journal article in the same year",
+                step=(
+                    "Resolved to an OpenAlex journal article within a year of the "
+                    "Retraction Watch publication year"
+                ),
                 articles=resolution["frame_eligible"],
             ),
             dict(
@@ -257,7 +261,10 @@ def main():
                 articles=len(stacks),
             ),
             dict(
-                step="With three complete pre- and post-retraction years (synthetic DiD)",
+                step=(
+                    "Published before the first of three pre-retraction years, with three "
+                    "complete post-retraction years (synthetic DiD)"
+                ),
                 articles=sum(s["sdid_eligible"] for s in stacks),
             ),
         ]

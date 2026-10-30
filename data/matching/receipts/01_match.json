@@ -2,17 +2,17 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "01_match",
-  "started_at": "2026-10-30T02:35:59.921049+00:00",
+  "started_at": "2026-10-30T03:35:59.273349+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/01_match.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
+  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
   "inputs": [
     {
       "path": "data/openalex/histories.csv.gz",
-      "sha256": "b8859939326959473df6cba8c40dbae9b00c8d62578b276af1497cb7954d959a",
+      "sha256": "089935464cbc61fe89eea9d8c027e052b10e8e4e46d519b3e1ab185780557020",
       "bytes": 469377
     },
     {
@@ -45,7 +45,7 @@
     },
     {
       "path": "data/openalex/candidate_histories.csv.gz",
-      "sha256": "a3fb6a52045f1c242ef920238e87c9b02de522106d86ba303cdac59e551e521c",
+      "sha256": "050fab73197d683d206788448d4a0427c37d04a7ef73b9e2e2fba3e54b5a6977",
       "bytes": 4373953
     },
     {
@@ -128,22 +128,22 @@
   "parents": [
     {
       "path": "data/openalex/receipts/02_histories.json",
-      "sha256": "44ab717721eb7e0c3133f47255f470896a3d1443d40ea89e1f65faef5e157544",
+      "sha256": "e9a28ac8d10dd9432e268a700d08f0dba39efe913c499c681cb612cf4db49cb0",
       "bytes": 5395426
     },
     {
       "path": "data/openalex/receipts/03_pools.json",
-      "sha256": "0cb967bce7f4bdfdafd37dc97f3675bd899618b2f65fbaed0151195c5be45bea",
+      "sha256": "e5a5e5453303073f26be4f8b83cbe9b2c025ab389a09a3db715ce41e76794ed3",
       "bytes": 5505763
     },
     {
       "path": "data/openalex/receipts/04_candidates.json",
-      "sha256": "a0177a1130f31cf3ebde07d16e6412bf243cd76d5a8dc4561c22594c71738d13",
+      "sha256": "f71eef28bcaf09655999494e34aa6a43eae8beaac72afef53ec3a10a8728706f",
       "bytes": 49354974
     },
     {
       "path": "data/retraction_watch/receipts/02_frame.json",
-      "sha256": "aad2d565f5f4857dbceb601aa07a5c70a318462da7d76db77894e8778fb52b22",
+      "sha256": "6e0e0b69fa31e87123bb55f2a5f5033dc9d6fbedb7862b47f1d371946e5400d1",
       "bytes": 4252
     }
   ],
@@ -181,5 +181,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T02:36:04.116746+00:00"
+  "finished_at": "2026-10-30T03:36:08.923018+00:00"
 }

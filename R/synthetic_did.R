@@ -8,7 +8,8 @@ sdid_matrix <- function(panel, roster, pre, post) {
   x <- panel[panel$article_id %in% roster$article_id & panel$event_time %in% years, ]
   stopifnot(!anyDuplicated(x[c("article_id", "event_time")]), all(x$status == "complete"))
   stopifnot(all(is.finite(x$citations)), all(x$citations >= 0))
-  # Every unit must be published before its first pre period so counts are complete years.
+  # Every unit must be published before its first pre period so counts are complete years;
+  # `first_complete_event_time` is the first event year after the publication year.
   stopifnot(all(roster$first_complete_event_time <= min(pre)))
   y <- matrix(NA_real_, nrow(roster), length(years), dimnames = list(roster$article_id, years))
   y[cbind(match(x$article_id, roster$article_id), match(x$event_time, years))] <- x$citations

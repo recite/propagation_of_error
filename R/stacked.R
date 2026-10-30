@@ -177,6 +177,11 @@ stack_heterogeneity <- function(panel, by, pre = -3:-1, post = 1:3, poisson = TR
         sub("^group::(.*):treated_post$", "\\1", names)
       ]
     ),
+    treated = as.vector(
+      table(unique(used[used$treated == 1L, c("article_id", "group")])$group)[
+        sub("^group::(.*):treated_post$", "\\1", names)
+      ]
+    ),
     estimate = unname(b), se = unname(se), df = df,
     lower = unname(b - qt(.975, df) * se), upper = unname(b + qt(.975, df) * se),
     percent = if (poisson) 100 * expm1(unname(b)) else NA_real_,

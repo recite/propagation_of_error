@@ -2,27 +2,27 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "01_estimate",
-  "started_at": "2026-10-30T02:36:24.640395+00:00",
+  "started_at": "2026-10-30T03:36:53.550450+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/01_estimate.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
+  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "300bf0297a6f11ff8db71b3b2a5cfa470ffe4edeffdd341549373484a12bf369",
-      "bytes": 3654263
+      "sha256": "2199bc19c05a5dcf361a281316c0d8c4b6e43f9f2d1dfd432d208e2587eb99ce",
+      "bytes": 3654934
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "f6770920f902540d7508b598570a2506ad4373d4362df27127f747c8c61d00c0",
-      "bytes": 13494896
+      "sha256": "78f2018074c02de961ee0acd825c58964dc6030afaa2adeeb2e633ef616c7e08",
+      "bytes": 13495879
     },
     {
       "path": "data/matching/stacks.csv",
-      "sha256": "10d86968e1256e17923b40f2708aabfbbd7212db79feb73294cc681a5be78196",
+      "sha256": "b235c0ecb22c4f13dc1773e46826bad0d5b6e33f06ba1aa29024fac7fff0186e",
       "bytes": 783092,
       "rows": 8627
     },
@@ -34,8 +34,8 @@
     },
     {
       "path": "data/matching/sample_flow.csv",
-      "sha256": "4b6653df535f434869a3af90cffa475c7b2b25a2caf57ca5536c235d245dcabd",
-      "bytes": 407,
+      "sha256": "a809e0820ebb47fab3e6f9824ff90cd649ce69ecaceae19ba9be1fc667860e5f",
+      "bytes": 496,
       "rows": 6
     },
     {
@@ -95,13 +95,13 @@
     },
     {
       "path": "R/honest.R",
-      "sha256": "f93402236a5b6e6275e94482e6fed5457cb17b2ab8295cf67e22de71315e52cf",
-      "bytes": 2165
+      "sha256": "3459080314d3ce88af516cb6899149553ad7849b0f90342a61d674636d5f69ff",
+      "bytes": 2519
     },
     {
       "path": "R/plots.R",
-      "sha256": "0cc92a41926a5ee3c0140b5c94930cad48a9f04c3afc65e26d605e93e0439359",
-      "bytes": 8953
+      "sha256": "f95c0eda28f5b59548772dcbaa25c2babd6dfd54c1855b45ac83ea4aeaf9d62e",
+      "bytes": 9175
     },
     {
       "path": "R/reporting.R",
@@ -110,23 +110,23 @@
     },
     {
       "path": "R/sdid_cohorts.R",
-      "sha256": "0fe7c9ce05cf9f6f42aa464945c6e81f73bc9ebf32937584f2f55c44ea602e28",
-      "bytes": 4019
+      "sha256": "432148602de70645bbdf429bfd026d1c9bb033519b806877102b9a91ec60739c",
+      "bytes": 6256
     },
     {
       "path": "R/stacked.R",
-      "sha256": "8828c3663a6b50dae7c2fc78a20d0e5ba87bafe26b53df466a5e86bea525dca6",
-      "bytes": 8629
+      "sha256": "cc52eb671d3d746a303d1e1246b7069b61e39da915275842a7dc0adee724dbe0",
+      "bytes": 8804
     },
     {
       "path": "R/synthetic_did.R",
-      "sha256": "001d57042f01dff243fc671e57b3aad9d03f16ccaa370342f9f78ddb1648a951",
-      "bytes": 4663
+      "sha256": "f2d4566ab0ac5108cfef684f81bb6e38b818c4081d996e4b70f6fc8812f488b5",
+      "bytes": 4747
     },
     {
       "path": "scripts/analysis/estimate.R",
-      "sha256": "cb59e5086081245e71ed88449cf07071a0c6488fe583cc787d9af2ded2a51fc6",
-      "bytes": 7104
+      "sha256": "93f9bebecbe94b665a244d6e744903c0d179f8fa08d7724070a5dba786898f71",
+      "bytes": 7173
     }
   ],
   "outputs": [
@@ -161,8 +161,8 @@
     },
     {
       "path": "data/analysis/heterogeneity.csv",
-      "sha256": "5ff11404ccc7b9173694f4fc454d8713a3764d4716df77efafe626f97d91cc3e",
-      "bytes": 3328,
+      "sha256": "a9e4ab964e2b45700c972c12044ea4e6f48695751093d0a2cfead42eb3a9f0cd",
+      "bytes": 3424,
       "rows": 18
     },
     {
@@ -214,6 +214,24 @@
       "rows": 4
     },
     {
+      "path": "data/analysis/post_retraction.csv",
+      "sha256": "034194385b5db9ac978d7e7a475e74c992e33ce45170e17a1fb65b54d62f5acf",
+      "bytes": 232,
+      "rows": 1
+    },
+    {
+      "path": "data/analysis/post_retraction_by_year.csv",
+      "sha256": "214d80628c84178fb923c6aee6fbb94364ea33761c2882ce3da8bd0a26e83ac4",
+      "bytes": 1443,
+      "rows": 20
+    },
+    {
+      "path": "data/analysis/example_article.csv",
+      "sha256": "b1febab2ccf3fd25c9339103857a381757eed2377baa2be164748e83107306ee",
+      "bytes": 114,
+      "rows": 1
+    },
+    {
       "path": "data/analysis/status.json",
       "sha256": "250be4b02c42869d9ec6b2a4617e034e352de1bc88f679d5e45ecc5a03145dbb",
       "bytes": 138
@@ -225,8 +243,8 @@
     },
     {
       "path": "data/analysis/honest_did.csv",
-      "sha256": "49e133bd76a2cf76eb9c63bfa681fde1b9b3554d93a910c535ba8decbeaf297d",
-      "bytes": 317,
+      "sha256": "032a2702171c8e38a6ee45fcf21306235b9cd3c99dbac81c6c4ea4a6b3ed25da",
+      "bytes": 318,
       "rows": 5
     },
     {
@@ -234,13 +252,19 @@
       "sha256": "9c03a491ad918cb27d8b3b4871d073cda6ae27b449360b0a6a3cbcbc51ef5b1c",
       "bytes": 78,
       "rows": 1
+    },
+    {
+      "path": "data/analysis/honest_target.csv",
+      "sha256": "f881e10fdaf70a984dc18e83581c95e7b2deb9c08c146f3daa78f13f5e81f12f",
+      "bytes": 25,
+      "rows": 1
     }
   ],
   "code": [
     {
       "path": "scripts/analysis/01_estimate.py",
-      "sha256": "2d75dc05a82307b17fbacb81bf4afee4e74bf22841b363a5913193faf287c7a2",
-      "bytes": 1791
+      "sha256": "813e7199be6854fab4ce9a0b1dc475903c524afab10ba9edbb93aae9b884611b",
+      "bytes": 1931
     },
     {
       "path": "scripts/research_pipeline.py",
@@ -256,17 +280,17 @@
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "21b37fbbb26f755976c36b54c9169fc86fd1eb21846f54548ce7edc518b349f7",
-      "bytes": 4279
+      "sha256": "43c271e9a7dbbcd51210926cb6a2dc27508b1fe035733bc99cd9a104e8d4dfc0",
+      "bytes": 4366
     },
     {
       "path": "data/openalex/receipts/05_world_counts.json",
-      "sha256": "a7a768dbba6166520cf34c7b4e43795c91ee96aecd7b53aec57990faf51964c2",
+      "sha256": "7f066fb73cef02f0ffa555c5a7ed7519040375af337a0c96534dbf0e62813863",
       "bytes": 1880
     },
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "d5bf7ce03113919ab208e5839c5f26eb3b4e48904bf1f0fb732ed808572f8f77",
+      "sha256": "d7b06baaa8bc68c4cc5c46e87ecb4885e21af6ca37e79eb2003f6f3cf577361a",
       "bytes": 5946
     }
   ],
@@ -300,5 +324,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T02:38:13.365741+00:00"
+  "finished_at": "2026-10-30T03:41:50.787434+00:00"
 }

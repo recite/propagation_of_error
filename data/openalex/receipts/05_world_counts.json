@@ -2,14 +2,14 @@
   "schema_version": 1,
   "study": "openalex",
   "stage": "05_world_counts",
-  "started_at": "2026-10-30T02:35:59.821802+00:00",
+  "started_at": "2026-10-30T03:35:58.949370+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/openalex/05_world_counts.py",
     "--offline"
   ],
   "python": "3.14.7",
-  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
+  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
   "inputs": [],
   "outputs": [
     {
@@ -57,5 +57,5 @@
   "metrics": {},
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T02:35:59.836581+00:00"
+  "finished_at": "2026-10-30T03:35:58.994655+00:00"
 }

@@ -9,7 +9,7 @@ test_that("relative-magnitude sets are finite and contain the original set at Mb
   skip_if_not_installed("HonestDiD")
   x <- noisy_fixture()
   es <- stack_event_study(x)
-  h <- honest_did(es, pre_times = -3:-2, post_times = 1:3, mbar = c(0, 1))
+  h <- honest_did(es, mbar = c(0, 1))
   expect_true(h$available)
   expect_true(all(is.finite(h$results$lb)))
   expect_true(all(is.finite(h$results$ub)))
@@ -24,4 +24,10 @@ test_that("a large precise effect far from zero still yields a finite set", {
   h <- honest_did(stack_event_study(x), mbar = c(0, 2))
   expect_true(all(is.finite(c(h$results$lb, h$results$ub))))
   expect_lt(h$results$ub[h$results$Mbar == 0], -1)
+})
+
+test_that("periods with a gap are refused, since HonestDiD assumes consecutive periods", {
+  skip_if_not_installed("HonestDiD")
+  es <- stack_event_study(noisy_fixture())
+  expect_error(honest_did(es, post_times = 1:3))
 })

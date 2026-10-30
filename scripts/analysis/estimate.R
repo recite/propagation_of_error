@@ -48,6 +48,7 @@ jsonlite::write_json(
 if (honest$available) {
   write_out(honest$results, "honest_did.csv")
   write_out(honest$original, "honest_original.csv")
+  write_out(data.frame(target = honest$target), "honest_target.csv")
 }
 
 panel$lag_bin <- cut(panel$lag_years, c(1, 2, 3, 5, Inf), labels = c("2", "3", "4-5", "6+"))

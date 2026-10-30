@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "02_panel",
-  "started_at": "2026-10-30T02:36:04.268234+00:00",
+  "started_at": "2026-10-30T03:36:09.300265+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/02_panel.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
+  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
   "inputs": [
     {
       "path": "data/matching/matches.csv",
@@ -43,17 +43,17 @@
   "outputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "300bf0297a6f11ff8db71b3b2a5cfa470ffe4edeffdd341549373484a12bf369",
-      "bytes": 3654263
+      "sha256": "2199bc19c05a5dcf361a281316c0d8c4b6e43f9f2d1dfd432d208e2587eb99ce",
+      "bytes": 3654934
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "f6770920f902540d7508b598570a2506ad4373d4362df27127f747c8c61d00c0",
-      "bytes": 13494896
+      "sha256": "78f2018074c02de961ee0acd825c58964dc6030afaa2adeeb2e633ef616c7e08",
+      "bytes": 13495879
     },
     {
       "path": "data/matching/stacks.csv",
-      "sha256": "10d86968e1256e17923b40f2708aabfbbd7212db79feb73294cc681a5be78196",
+      "sha256": "b235c0ecb22c4f13dc1773e46826bad0d5b6e33f06ba1aa29024fac7fff0186e",
       "bytes": 783092,
       "rows": 8627
     },
@@ -65,16 +65,16 @@
     },
     {
       "path": "data/matching/sample_flow.csv",
-      "sha256": "4b6653df535f434869a3af90cffa475c7b2b25a2caf57ca5536c235d245dcabd",
-      "bytes": 407,
+      "sha256": "a809e0820ebb47fab3e6f9824ff90cd649ce69ecaceae19ba9be1fc667860e5f",
+      "bytes": 496,
       "rows": 6
     }
   ],
   "code": [
     {
       "path": "scripts/matching/02_panel.py",
-      "sha256": "16e5704eb5b401c7868b19fb3bdcb670e9ddb631d669dfd54b49a0bc81d029f4",
-      "bytes": 10322
+      "sha256": "9ec7d771977957ab5240d902f53b6404f0a29a1490fb2b1bc59e75d15e5302d3",
+      "bytes": 10622
     },
     {
       "path": "scripts/research_pipeline.py",
@@ -90,7 +90,7 @@
   "parents": [
     {
       "path": "data/matching/receipts/01_match.json",
-      "sha256": "75fd68aca8aeb7d5e7a00d69205daf8dee31bcf3067ba311b19c8691e802b3b3",
+      "sha256": "68a2a97eaacaebf1dd06c7aa3171bbdeb0b41d6d47522d8215b83079a0c35ae3",
       "bytes": 5497
     }
   ],
@@ -118,7 +118,7 @@
     "journal_year_stacks": 8950,
     "journal_year_rows": 2238965,
     "omissions": 0,
-    "sdid_eligible": 6720,
+    "sdid_eligible": 4862,
     "flow": [
       {
         "step": "Retraction Watch retractions",
@@ -129,7 +129,7 @@
         "articles": 9555
       },
       {
-        "step": "Resolved to an OpenAlex journal article in the same year",
+        "step": "Resolved to an OpenAlex journal article within a year of the Retraction Watch publication year",
         "articles": 8963
       },
       {
@@ -141,12 +141,12 @@
         "articles": 8627
       },
       {
-        "step": "With three complete pre- and post-retraction years (synthetic DiD)",
-        "articles": 6720
+        "step": "Published before the first of three pre-retraction years, with three complete post-retraction years (synthetic DiD)",
+        "articles": 4862
       }
     ]
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T02:36:24.393866+00:00"
+  "finished_at": "2026-10-30T03:36:52.924429+00:00"
 }

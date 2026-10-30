@@ -2,27 +2,27 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "02_sdid",
-  "started_at": "2026-10-30T02:38:13.437879+00:00",
+  "started_at": "2026-10-30T03:41:51.005931+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/02_sdid.py"
   ],
   "python": "3.14.7",
-  "git_commit": "ffe48a741de5e581ce7ad9829c0e7b94f297cbe7",
+  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "300bf0297a6f11ff8db71b3b2a5cfa470ffe4edeffdd341549373484a12bf369",
-      "bytes": 3654263
+      "sha256": "2199bc19c05a5dcf361a281316c0d8c4b6e43f9f2d1dfd432d208e2587eb99ce",
+      "bytes": 3654934
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "f6770920f902540d7508b598570a2506ad4373d4362df27127f747c8c61d00c0",
-      "bytes": 13494896
+      "sha256": "78f2018074c02de961ee0acd825c58964dc6030afaa2adeeb2e633ef616c7e08",
+      "bytes": 13495879
     },
     {
       "path": "data/matching/stacks.csv",
-      "sha256": "10d86968e1256e17923b40f2708aabfbbd7212db79feb73294cc681a5be78196",
+      "sha256": "b235c0ecb22c4f13dc1773e46826bad0d5b6e33f06ba1aa29024fac7fff0186e",
       "bytes": 783092,
       "rows": 8627
     },
@@ -34,19 +34,19 @@
     },
     {
       "path": "data/matching/sample_flow.csv",
-      "sha256": "4b6653df535f434869a3af90cffa475c7b2b25a2caf57ca5536c235d245dcabd",
-      "bytes": 407,
+      "sha256": "a809e0820ebb47fab3e6f9824ff90cd649ce69ecaceae19ba9be1fc667860e5f",
+      "bytes": 496,
       "rows": 6
     },
     {
       "path": "R/synthetic_did.R",
-      "sha256": "001d57042f01dff243fc671e57b3aad9d03f16ccaa370342f9f78ddb1648a951",
-      "bytes": 4663
+      "sha256": "f2d4566ab0ac5108cfef684f81bb6e38b818c4081d996e4b70f6fc8812f488b5",
+      "bytes": 4747
     },
     {
       "path": "R/sdid_cohorts.R",
-      "sha256": "0fe7c9ce05cf9f6f42aa464945c6e81f73bc9ebf32937584f2f55c44ea602e28",
-      "bytes": 4019
+      "sha256": "432148602de70645bbdf429bfd026d1c9bb033519b806877102b9a91ec60739c",
+      "bytes": 6256
     },
     {
       "path": "scripts/analysis/sdid.R",
@@ -57,32 +57,32 @@
   "outputs": [
     {
       "path": "data/analysis/sdid_cohorts.csv",
-      "sha256": "4a32b704568b2dc747bd6a9ccc28326a1093ee4ee43cbe65edc9cee92ff2e2ca",
-      "bytes": 5087,
+      "sha256": "de80f053a79d6f5cd7b50d477faf1b9777d40e79b1b9e1f2f52691d9403b365a",
+      "bytes": 5120,
       "rows": 18
     },
     {
       "path": "data/analysis/sdid_pooled.csv",
-      "sha256": "439ac914eeeb9df7a28f04bc94c52086f51b03314086a19c1e392ae381e37474",
-      "bytes": 290,
+      "sha256": "6f0b2a5264afc5b0fb61996cdb390535a7725af97b0188c024d997bfc788b436",
+      "bytes": 289,
       "rows": 2
     },
     {
       "path": "data/analysis/sdid_paths.csv",
-      "sha256": "208d5a306c526ec3e09ed367777d2ac014dc088e05bfad01f59e0845f3105185",
-      "bytes": 10520,
+      "sha256": "52eb7fc1a7b0ca8ddc03a5bde25fd62816053a20ea77c415a82abc589efedbf4",
+      "bytes": 10524,
       "rows": 108
     },
     {
       "path": "data/analysis/sdid_weights.csv",
-      "sha256": "55633f5f53ad66b5d92d5ef1ed2cef6ec6e710829626a1319bfff4dba137030d",
-      "bytes": 1068874,
-      "rows": 22877
+      "sha256": "4f4551f11d02f0cef69c131957d4e4af51bb1065854f530df2b6ae931ca80170",
+      "bytes": 797777,
+      "rows": 17103
     },
     {
       "path": "data/analysis/sdid_draws.csv",
-      "sha256": "9c36bec20c33d659d9bc6ff8d905ab392d60999d3b290190d9ef68fdd6453c0d",
-      "bytes": 273724,
+      "sha256": "defdfc5661264e55f4384a902febe7f53adce7a62d92cbe82c5ebba20bef744f",
+      "bytes": 239627,
       "rows": 8982
     }
   ],
@@ -106,8 +106,8 @@
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "21b37fbbb26f755976c36b54c9169fc86fd1eb21846f54548ce7edc518b349f7",
-      "bytes": 4279
+      "sha256": "43c271e9a7dbbcd51210926cb6a2dc27508b1fe035733bc99cd9a104e8d4dfc0",
+      "bytes": 4366
     }
   ],
   "checks": [
@@ -123,5 +123,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T03:27:23.834396+00:00"
+  "finished_at": "2026-10-30T04:43:39.767353+00:00"
 }

@@ -58,7 +58,7 @@ plot_citation_paths <- function(paths) {
     ) +
     ggplot2::geom_text(
       data = counts, ggplot2::aes(event_time, y, label = label),
-      inherit.aes = FALSE, size = 2, colour = "#777777", angle = 90, hjust = 0
+      inherit.aes = FALSE, size = 2.6, colour = "#666666", angle = 90, hjust = 0
     ) +
     ggplot2::facet_wrap(~statistic, scales = "free_y") +
     ggplot2::scale_colour_manual(
@@ -105,7 +105,7 @@ plot_event_study <- function(es) {
   ggplot2::ggplot(es, ggplot2::aes(event_time, percent, colour = design, group = design)) +
     ggplot2::geom_text(
       data = counts, ggplot2::aes(event_time, y, label = label),
-      inherit.aes = FALSE, size = 2, colour = "#777777", angle = 90, hjust = 0
+      inherit.aes = FALSE, size = 2.6, colour = "#666666", angle = 90, hjust = 0
     ) +
     ggplot2::geom_hline(yintercept = 0, colour = "#BBBBBB", linewidth = .3) +
     ggplot2::geom_vline(xintercept = -.5, colour = "#BBBBBB", linetype = "dashed", linewidth = .3) +
@@ -194,9 +194,12 @@ plot_sdid_paths <- function(paths, cohorts) {
     )
   )
   ends <- long[long$event_time == max(long$event_time), ]
+  # The retraction year is not in the estimate; pre and post segments are drawn separately so
+  # no line implies a value there.
+  long$segment <- paste(long$series, long$event_time > 0)
   ggplot2::ggplot(long, ggplot2::aes(event_time, value, colour = series)) +
     ggplot2::geom_vline(xintercept = 0, colour = "#BBBBBB", linetype = "dashed", linewidth = .3) +
-    ggplot2::geom_line(linewidth = .7) +
+    ggplot2::geom_line(ggplot2::aes(group = segment), linewidth = .7) +
     ggplot2::geom_point(size = 1.6) +
     ggplot2::geom_text(data = ends, ggplot2::aes(label = series), hjust = -.1, size = 3) +
     ggplot2::scale_colour_manual(
