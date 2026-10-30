@@ -2,18 +2,18 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "01_match",
-  "started_at": "2026-10-30T03:35:59.273349+00:00",
+  "started_at": "2026-10-30T05:41:21.791549+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/01_match.py"
   ],
   "python": "3.14.7",
-  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
+  "git_commit": "7938b2038a1829ab5106e86870045f17c40cd7ac",
   "inputs": [
     {
       "path": "data/openalex/histories.csv.gz",
-      "sha256": "089935464cbc61fe89eea9d8c027e052b10e8e4e46d519b3e1ab185780557020",
-      "bytes": 469377
+      "sha256": "a5abd5fd6585ee12755dc4dc87d927cb81746f299bd2a9126a6598a2db554267",
+      "bytes": 469363
     },
     {
       "path": "data/openalex/history_totals.csv",
@@ -45,8 +45,8 @@
     },
     {
       "path": "data/openalex/candidate_histories.csv.gz",
-      "sha256": "050fab73197d683d206788448d4a0427c37d04a7ef73b9e2e2fba3e54b5a6977",
-      "bytes": 4373953
+      "sha256": "5a35d71784709e6ff13f0415e2ccee3bf541afbf83d585ece2edb9e585d836dd",
+      "bytes": 4373929
     },
     {
       "path": "data/openalex/candidate_totals.csv",
@@ -128,22 +128,22 @@
   "parents": [
     {
       "path": "data/openalex/receipts/02_histories.json",
-      "sha256": "e9a28ac8d10dd9432e268a700d08f0dba39efe913c499c681cb612cf4db49cb0",
+      "sha256": "8d1ec4c13ccafed9ace84015b049b403a27872856632119c53710be4af9d93a8",
       "bytes": 5395426
     },
     {
       "path": "data/openalex/receipts/03_pools.json",
-      "sha256": "e5a5e5453303073f26be4f8b83cbe9b2c025ab389a09a3db715ce41e76794ed3",
+      "sha256": "2005d661f08afea7127c9bffa71fbd4344045eef6402dfb70d0c1c7f5ef1a860",
       "bytes": 5505763
     },
     {
       "path": "data/openalex/receipts/04_candidates.json",
-      "sha256": "f71eef28bcaf09655999494e34aa6a43eae8beaac72afef53ec3a10a8728706f",
+      "sha256": "5996a5166c4f3dda3c302a15528cccb2c32ef68d618ab860c8da61c9a67ce489",
       "bytes": 49354974
     },
     {
       "path": "data/retraction_watch/receipts/02_frame.json",
-      "sha256": "6e0e0b69fa31e87123bb55f2a5f5033dc9d6fbedb7862b47f1d371946e5400d1",
+      "sha256": "223f003454fe0e68b8f03a236d3d4cc98d7ea7d3863f67b45b139f5ab1d435d8",
       "bytes": 4252
     }
   ],
@@ -181,5 +181,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T03:36:08.923018+00:00"
+  "finished_at": "2026-10-30T05:41:27.728811+00:00"
 }

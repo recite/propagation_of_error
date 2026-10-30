@@ -208,6 +208,46 @@ post_by_year |>
   ) |>
   save_table("tabs/post_retraction.tex", align = "rrrrrrr")
 
+# Retraction timing among retracted articles, Web of Science and OpenAlex -------------------
+timing <- read_analysis("timing_event_study.csv")
+timing_cells <- function(name) {
+  timing |>
+    filter(source == name) |>
+    transmute(
+      row = if_else(is.na(event_time), "Average, years 1 to 3", as.character(event_time)),
+      order = if_else(is.na(event_time), 99L, as.integer(event_time)),
+      change = if_else(event_time %in% -1L, "reference", pct(percent)),
+      interval = if_else(event_time %in% -1L, "--", pct_ci(percent_lower, percent_upper))
+    )
+}
+inner_join(
+  timing_cells("Web of Science, 2016"), timing_cells("OpenAlex, 2025"),
+  by = c("row", "order"), suffix = c("_wos", "_openalex")
+) |>
+  arrange(order) |>
+  transmute(
+    `Years from retraction` = row,
+    `Change (\\%)` = change_wos, `95\\% interval` = interval_wos,
+    `Change (\\%) ` = change_openalex, `95\\% interval ` = interval_openalex
+  ) |>
+  save_table(
+    "tabs/timing_event_study.tex",
+    align = "lrrrr",
+    header_above = c(" " = 1, "Web of Science, 2016" = 2, "OpenAlex, 2025" = 2)
+  )
+
+wos_post <- read_analysis("wos_post_retraction.csv")
+wos_post_by_year <- read_analysis("wos_post_retraction_by_year.csv")
+wos_post_by_year |>
+  filter(event_time <= 8L) |>
+  transmute(
+    `Years after retraction` = event_time, `Articles observed` = count(articles),
+    Citations = count(citations), Mean = num(mean), Median = num(median, 0L),
+    `Cited at all (\\%)` = pct(100 * share_cited),
+    `Five or more (\\%)` = pct(100 * share_five_or_more)
+  ) |>
+  save_table("tabs/wos_post_retraction.tex", align = "rrrrrrr")
+
 # Synthetic difference-in-differences by cohort -----------------------------------------------
 sdid_available <- file.exists("data/analysis/sdid_pooled.csv")
 if (sdid_available) {
@@ -253,6 +293,7 @@ het_p <- function(variable) p_macro(joint_tests$p[joint_tests$variable == variab
 field_range <- range(heterogeneity$percent[heterogeneity$variable == "field"])
 ack <- function(period, column) acknowledgment[[column]][acknowledgment$period == period]
 post_at <- function(time, column) post_by_year[[column]][post_by_year$event_time == time]
+timing_average <- function(name) filter(timing, source == name, is.na(event_time))
 example <- read_analysis("example_article.csv")
 wos_check <- read_json("data/wos_2016/tidy/legacy_check.json")
 ack_through_notice <- acknowledgment |>
@@ -323,6 +364,21 @@ macros <- c(
   PostArticlesAtFive = count(post_at(5, "articles")),
   PostCitedAtEight = pct(100 * post_at(8, "share_cited")),
   MeanLag = num(lag_all$mean),
+  TimingWosAverage = pct(timing_average("Web of Science, 2016")$percent),
+  TimingWosInterval = pct_ci(
+    timing_average("Web of Science, 2016")$percent_lower,
+    timing_average("Web of Science, 2016")$percent_upper
+  ),
+  TimingWosArticles = count(timing_average("Web of Science, 2016")$articles),
+  TimingOpenAlexAverage = pct(timing_average("OpenAlex, 2025")$percent),
+  TimingOpenAlexInterval = pct_ci(
+    timing_average("OpenAlex, 2025")$percent_lower,
+    timing_average("OpenAlex, 2025")$percent_upper
+  ),
+  TimingOpenAlexArticles = count(timing_average("OpenAlex, 2025")$articles),
+  WosPostShare = pct(100 * wos_post$after_share),
+  WosCitedAtFive = pct(100 * wos_post_by_year$share_cited[wos_post_by_year$event_time == 5]),
+  WosArticlesAtFive = count(wos_post_by_year$articles[wos_post_by_year$event_time == 5]),
   MedianLag = num(lag_all$median, 0L),
   ShortLagExcluded = count(sum(unlist(frame_summary$retracted_within_two_years))),
   EarlyPrePercent = pct(early_pre$percent),

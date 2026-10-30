@@ -1,7 +1,7 @@
 # Estimate every reported quantity on the matched panel and write tidy CSVs.
 # Invoked by scripts/analysis/01_estimate.py, which records the receipt.
 for (module in c("reporting.R", "analysis.R", "stacked.R", "describe.R",
-                 "acknowledgment.R", "honest.R")) {
+                 "acknowledgment.R", "honest.R", "timing.R")) {
   source(file.path("R", module))
 }
 out <- "data/analysis"
@@ -152,6 +152,34 @@ write_out(
 )
 write_out(post$summary, "post_retraction.csv")
 write_out(post$by_year, "post_retraction_by_year.csv")
+
+# The 2016 Web of Science sample has no comparison articles; the timing design and the
+# continued-citation table run on it and, for comparison, on the OpenAlex retracted articles.
+wos_counts <- read.csv("data/wos_2016/tidy/citing_counts.csv")
+wos_articles <- read.csv("data/wos_2016/tidy/articles.csv")
+wos <- wos_counts[wos_counts$complete == 1L, ]
+wos$article_id <- as.character(wos$index)
+wos$retraction_year <- wos_articles$notice_year[match(wos$index, wos_articles$index)]
+wos$publication_year <- wos_articles$publication_year[match(wos$index, wos_articles$index)]
+stopifnot(!anyNA(wos$retraction_year), !anyNA(wos$publication_year))
+openalex_retracted <- treated_histories
+openalex_retracted$retraction_year <- frame$retraction_year[
+  match(openalex_retracted$article_id, frame$article_id)
+]
+openalex_retracted$publication_year <- targets$openalex_year[
+  match(openalex_retracted$target_id, targets$target_id)
+]
+write_out(
+  rbind(
+    timing_event_study(wos, "Web of Science, 2016"),
+    timing_event_study(openalex_retracted, "OpenAlex, 2025")
+  ),
+  "timing_event_study.csv"
+)
+wos_frame <- unique(wos[c("article_id", "retraction_year")])
+wos_post <- post_retraction_citations(wos[c("article_id", "year", "citations")], wos_frame, 2015L)
+write_out(wos_post$summary, "wos_post_retraction.csv")
+write_out(wos_post$by_year, "wos_post_retraction_by_year.csv")
 write_out(as.data.frame(table(reason = frame$reason_category)), "reasons.csv")
 
 status <- list(

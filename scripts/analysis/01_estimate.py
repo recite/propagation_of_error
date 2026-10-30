@@ -30,6 +30,9 @@ OUTPUTS = [
     "post_retraction.csv",
     "post_retraction_by_year.csv",
     "example_article.csv",
+    "timing_event_study.csv",
+    "wos_post_retraction.csv",
+    "wos_post_retraction_by_year.csv",
     "status.json",
     "R-session.txt",
 ]

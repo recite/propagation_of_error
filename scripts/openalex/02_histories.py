@@ -15,6 +15,7 @@ import argparse
 import concurrent.futures
 import csv
 import gzip
+import io
 import json
 
 from scripts import openalex_client as openalex
@@ -62,7 +63,11 @@ def acquire(run, target):
 
 
 def write_gzip_csv(path, rows, fields):
-    with gzip.open(path, "wt", encoding="utf-8", newline="") as stream:
+    # mtime=0 and no stored filename make the bytes depend only on the rows, so a rebuild that
+    # reproduces the data reproduces the hash and downstream receipts stay valid.
+    with open(path, "wb") as raw, gzip.GzipFile(
+        filename="", mode="wb", fileobj=raw, mtime=0
+    ) as compressed, io.TextIOWrapper(compressed, encoding="utf-8", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)

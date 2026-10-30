@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "retraction_watch",
   "stage": "02_frame",
-  "started_at": "2026-10-30T03:34:35.082365+00:00",
+  "started_at": "2026-10-30T05:40:40.609467+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/retraction_watch/02_frame.py"
   ],
   "python": "3.14.7",
-  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
+  "git_commit": "7938b2038a1829ab5106e86870045f17c40cd7ac",
   "inputs": [
     {
       "path": "data/retraction_watch/snapshot.json",
@@ -66,7 +66,7 @@
   "parents": [
     {
       "path": "data/retraction_watch/receipts/01_get.json",
-      "sha256": "d9ab1b789653d2aeea58f1ab94f2d550b07945266d9a77657f90cb74277f2cc5",
+      "sha256": "399b4e0c2d4fee9ecc3a86cd8f8cf7b60f9a46dba2d8d381e4b3bdd43df6d0c6",
       "bytes": 1597
     }
   ],
@@ -172,5 +172,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T03:34:37.991054+00:00"
+  "finished_at": "2026-10-30T05:40:42.160447+00:00"
 }

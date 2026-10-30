@@ -2,23 +2,23 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "02_sdid",
-  "started_at": "2026-10-30T03:41:51.005931+00:00",
+  "started_at": "2026-10-30T05:44:51.431742+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/02_sdid.py"
   ],
   "python": "3.14.7",
-  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
+  "git_commit": "7938b2038a1829ab5106e86870045f17c40cd7ac",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "2199bc19c05a5dcf361a281316c0d8c4b6e43f9f2d1dfd432d208e2587eb99ce",
-      "bytes": 3654934
+      "sha256": "06afeb699d41c887c674f5243c2da788eae9f02b82ceb94e55ec98c2293b4380",
+      "bytes": 3654924
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "78f2018074c02de961ee0acd825c58964dc6030afaa2adeeb2e633ef616c7e08",
-      "bytes": 13495879
+      "sha256": "0295eb64777fd6270f210c3020900ac605d08bdac783dc86fac8bdf6f6a12f40",
+      "bytes": 13495856
     },
     {
       "path": "data/matching/stacks.csv",
@@ -45,8 +45,8 @@
     },
     {
       "path": "R/sdid_cohorts.R",
-      "sha256": "432148602de70645bbdf429bfd026d1c9bb033519b806877102b9a91ec60739c",
-      "bytes": 6256
+      "sha256": "238db92a246a0ad1ffb66db286075a3d195f942df65af9154e4255a0bccc739b",
+      "bytes": 6426
     },
     {
       "path": "scripts/analysis/sdid.R",
@@ -106,7 +106,7 @@
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "43c271e9a7dbbcd51210926cb6a2dc27508b1fe035733bc99cd9a104e8d4dfc0",
+      "sha256": "66462806bc64aea71ada5e6663330fc454ebacbb83aa0025eb01c3a409280f7b",
       "bytes": 4366
     }
   ],
@@ -123,5 +123,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T04:43:39.767353+00:00"
+  "finished_at": "2026-10-30T06:09:03.619883+00:00"
 }

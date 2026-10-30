@@ -132,7 +132,7 @@ Table~\ref{tab:heterogeneity} reports the main contrast by reason for retraction
 \end{table}
 
 \subsection{Robustness}
-Table~\ref{tab:robustness} drops each retraction-year cohort, each field, journal-years with more than ten retractions, articles with a prior expression of concern, and the top one percent of articles by pre-retraction citations, and clusters by journal instead of article. The leave-one-out estimates run from \LooMin\% to \LooMax\%. Clustering by journal rather than article widens the interval to \JournalClusteredInterval.
+Table~\ref{tab:robustness} drops each retraction-year cohort, each field, journal-years with more than ten retractions, articles with a prior expression of concern, and the top one percent of articles by pre-retraction citations, and clusters by journal instead of article. The leave-one-out estimates run from \LooMin\% to \LooMax\%. Clustering by journal rather than article widens the interval to \JournalClusteredInterval. A design that uses no comparison articles at all, comparing retracted articles with those not yet retracted at the same age and in the same year, gives a similar decline in the Web of Science sample collected in 2016 (\TimingWosAverage\% \TimingWosInterval{} over years one to three) and in the OpenAlex citations of the frame articles (\TimingOpenAlexAverage\% \TimingOpenAlexInterval); Appendix~\ref{app:wos} gives the details.
 
 \begin{table}[tb]
 \centering
@@ -252,6 +252,24 @@ Table~\ref{tab:source} compares, for the same articles, the citations per year r
 \caption{Citations per year to the same articles in the 2016 Web of Science export and in OpenAlex, from each article's publication year through 2015. Ratio is OpenAlex over Web of Science; omitted where Web of Science recorded no citations.}
 \label{tab:source}
 \adjustbox{max width=\linewidth}{\input{../tabs/source_comparison.tex}}
+\end{table}
+
+Because the export holds only the retracted articles, the matched design cannot be run on it. The timing of retraction still identifies a penalty: an article retracted in 2012 is, in 2010, a comparison for one of the same age retracted in 2008. We estimate a Poisson event study with article, years-since-publication and calendar-year fixed effects, using the interaction-weighted estimator of \citet{sunabraham2021} so that already-retracted articles never serve as comparisons. Every article is eventually retracted, so a linear trend in event time cannot be told apart from the age and year effects \citep{borusyak2024}; we set both the year before retraction and the pooled years six or more before it to zero. Table~\ref{tab:timing} reports the estimates for the \TimingWosArticles{} Web of Science articles that have citations and, with the same code, for the \TimingOpenAlexArticles{} OpenAlex frame articles. In Web of Science the pre-retraction coefficients are close to zero; in OpenAlex they show the same slippage of a few percent as the matched design. The decline over years one to three is \TimingWosAverage\% \TimingWosInterval{} in Web of Science and \TimingOpenAlexAverage\% \TimingOpenAlexInterval{} in OpenAlex, a little smaller than the matched estimate.
+
+\begin{table}[H]
+\centering
+\caption{Change in citations to retracted articles by years from retraction, estimated from the timing of retraction among retracted articles only. Poisson event study with article, years-since-publication and calendar-year fixed effects, Sun--Abraham interaction weights; the year before retraction and the years six or more before it are the reference. The last row is the cohort-weighted average of years one to three. Intervals are 95\%, clustered by article.}
+\label{tab:timing}
+\adjustbox{max width=\linewidth}{\input{../tabs/timing_event_study.tex}}
+\end{table}
+
+Continued citation looks the same in the Web of Science data, which end in 2015 (Table~\ref{tab:wospost}): \WosPostShare\% of the citations these articles received arrived after the retraction year, and five years after retraction \WosCitedAtFive\% of the \WosArticlesAtFive{} articles observed that long were still cited that year.
+
+\begin{table}[H]
+\centering
+\caption{Citations to retracted articles in the 2016 Web of Science sample by years after the year of the retraction notice. Each row covers the articles whose notice was at least that many years before 2015, the last complete year of the export.}
+\label{tab:wospost}
+\adjustbox{max width=\linewidth}{\input{../tabs/wos_post_retraction.tex}}
 \end{table}
 
 \section{Coding citations as acknowledging problems or not}

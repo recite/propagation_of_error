@@ -2,23 +2,23 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "01_estimate",
-  "started_at": "2026-10-30T03:36:53.550450+00:00",
+  "started_at": "2026-10-30T05:41:55.404303+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/01_estimate.py"
   ],
   "python": "3.14.7",
-  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
+  "git_commit": "7938b2038a1829ab5106e86870045f17c40cd7ac",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "2199bc19c05a5dcf361a281316c0d8c4b6e43f9f2d1dfd432d208e2587eb99ce",
-      "bytes": 3654934
+      "sha256": "06afeb699d41c887c674f5243c2da788eae9f02b82ceb94e55ec98c2293b4380",
+      "bytes": 3654924
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "78f2018074c02de961ee0acd825c58964dc6030afaa2adeeb2e633ef616c7e08",
-      "bytes": 13495879
+      "sha256": "0295eb64777fd6270f210c3020900ac605d08bdac783dc86fac8bdf6f6a12f40",
+      "bytes": 13495856
     },
     {
       "path": "data/matching/stacks.csv",
@@ -110,8 +110,8 @@
     },
     {
       "path": "R/sdid_cohorts.R",
-      "sha256": "432148602de70645bbdf429bfd026d1c9bb033519b806877102b9a91ec60739c",
-      "bytes": 6256
+      "sha256": "238db92a246a0ad1ffb66db286075a3d195f942df65af9154e4255a0bccc739b",
+      "bytes": 6426
     },
     {
       "path": "R/stacked.R",
@@ -124,9 +124,14 @@
       "bytes": 4747
     },
     {
+      "path": "R/timing.R",
+      "sha256": "d8d13439a1c4c204ec09b7e96a10099849a6f479284e6947aa84db493580ede7",
+      "bytes": 2715
+    },
+    {
       "path": "scripts/analysis/estimate.R",
-      "sha256": "93f9bebecbe94b665a244d6e744903c0d179f8fa08d7724070a5dba786898f71",
-      "bytes": 7173
+      "sha256": "304fdd347a5ddfb3c06e3391ea170f5e0ad2e12182bec5e66946795564234bb2",
+      "bytes": 8553
     }
   ],
   "outputs": [
@@ -232,6 +237,24 @@
       "rows": 1
     },
     {
+      "path": "data/analysis/timing_event_study.csv",
+      "sha256": "228aed6b32bf909d383db7703f50f80713cbc4261063c78a2c49d56c39606868",
+      "bytes": 3793,
+      "rows": 24
+    },
+    {
+      "path": "data/analysis/wos_post_retraction.csv",
+      "sha256": "7318bf07295ac994888b6d2457851bf2067d44eabe29b40258761206852229df",
+      "bytes": 233,
+      "rows": 1
+    },
+    {
+      "path": "data/analysis/wos_post_retraction_by_year.csv",
+      "sha256": "95bc37882828ae5a6cb5b3117ab54aaaa4318206c2deaf55e6ef5fbfcfd72050",
+      "bytes": 1420,
+      "rows": 26
+    },
+    {
       "path": "data/analysis/status.json",
       "sha256": "250be4b02c42869d9ec6b2a4617e034e352de1bc88f679d5e45ecc5a03145dbb",
       "bytes": 138
@@ -263,8 +286,8 @@
   "code": [
     {
       "path": "scripts/analysis/01_estimate.py",
-      "sha256": "813e7199be6854fab4ce9a0b1dc475903c524afab10ba9edbb93aae9b884611b",
-      "bytes": 1931
+      "sha256": "4b6eba3b7a9fa7f69c03d5a4fe4e5e627fefba95a85992308e4c7d5f4d1e73cb",
+      "bytes": 2031
     },
     {
       "path": "scripts/research_pipeline.py",
@@ -280,17 +303,17 @@
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "43c271e9a7dbbcd51210926cb6a2dc27508b1fe035733bc99cd9a104e8d4dfc0",
+      "sha256": "66462806bc64aea71ada5e6663330fc454ebacbb83aa0025eb01c3a409280f7b",
       "bytes": 4366
     },
     {
       "path": "data/openalex/receipts/05_world_counts.json",
-      "sha256": "7f066fb73cef02f0ffa555c5a7ed7519040375af337a0c96534dbf0e62813863",
+      "sha256": "dd71cfdd5fa2ffc236fd523a1f63cc94161f24f68f2855ff6024d476ba7fcfbf",
       "bytes": 1880
     },
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "d7b06baaa8bc68c4cc5c46e87ecb4885e21af6ca37e79eb2003f6f3cf577361a",
+      "sha256": "7e3fefe3780cc999a83c15a75c6db6bb360725c0bc907d07a7ff8ff85e74bcfe",
       "bytes": 5946
     }
   ],
@@ -324,5 +347,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T03:41:50.787434+00:00"
+  "finished_at": "2026-10-30T05:44:51.346621+00:00"
 }

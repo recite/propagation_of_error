@@ -2,14 +2,14 @@
   "schema_version": 1,
   "study": "retraction_watch",
   "stage": "01_get",
-  "started_at": "2026-10-30T03:34:33.660747+00:00",
+  "started_at": "2026-10-30T05:40:39.878315+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/retraction_watch/01_get.py",
     "--offline"
   ],
   "python": "3.14.7",
-  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
+  "git_commit": "7938b2038a1829ab5106e86870045f17c40cd7ac",
   "inputs": [],
   "outputs": [
     {
@@ -57,5 +57,5 @@
   "metrics": {},
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T03:34:34.834811+00:00"
+  "finished_at": "2026-10-30T05:40:40.519079+00:00"
 }

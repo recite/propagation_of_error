@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "validation",
   "stage": "02_compare",
-  "started_at": "2026-10-30T04:43:40.060964+00:00",
+  "started_at": "2026-10-30T06:09:03.783585+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/wos/02_compare.py"
   ],
   "python": "3.14.7",
-  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
+  "git_commit": "7938b2038a1829ab5106e86870045f17c40cd7ac",
   "inputs": [
     {
       "path": "data/wos_2016/tidy/articles.csv",
@@ -46,8 +46,8 @@
     },
     {
       "path": "data/openalex/histories.csv.gz",
-      "sha256": "089935464cbc61fe89eea9d8c027e052b10e8e4e46d519b3e1ab185780557020",
-      "bytes": 469377
+      "sha256": "a5abd5fd6585ee12755dc4dc87d927cb81746f299bd2a9126a6598a2db554267",
+      "bytes": 469363
     },
     {
       "path": "data/openalex/history_totals.csv",
@@ -117,17 +117,17 @@
   "parents": [
     {
       "path": "data/wos_2016/receipts/01_import.json",
-      "sha256": "d7b06baaa8bc68c4cc5c46e87ecb4885e21af6ca37e79eb2003f6f3cf577361a",
+      "sha256": "7e3fefe3780cc999a83c15a75c6db6bb360725c0bc907d07a7ff8ff85e74bcfe",
       "bytes": 5946
     },
     {
       "path": "data/openalex/receipts/02_histories.json",
-      "sha256": "e9a28ac8d10dd9432e268a700d08f0dba39efe913c499c681cb612cf4db49cb0",
+      "sha256": "8d1ec4c13ccafed9ace84015b049b403a27872856632119c53710be4af9d93a8",
       "bytes": 5395426
     },
     {
       "path": "data/retraction_watch/receipts/02_frame.json",
-      "sha256": "6e0e0b69fa31e87123bb55f2a5f5033dc9d6fbedb7862b47f1d371946e5400d1",
+      "sha256": "223f003454fe0e68b8f03a236d3d4cc98d7ea7d3863f67b45b139f5ab1d435d8",
       "bytes": 4252
     }
   ],
@@ -347,5 +347,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T04:43:42.116516+00:00"
+  "finished_at": "2026-10-30T06:09:04.695000+00:00"
 }

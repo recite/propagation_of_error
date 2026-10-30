@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "02_panel",
-  "started_at": "2026-10-30T03:36:09.300265+00:00",
+  "started_at": "2026-10-30T05:41:27.915961+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/02_panel.py"
   ],
   "python": "3.14.7",
-  "git_commit": "07d74fca1c33672dcfec10203cba119efbf92891",
+  "git_commit": "7938b2038a1829ab5106e86870045f17c40cd7ac",
   "inputs": [
     {
       "path": "data/matching/matches.csv",
@@ -43,13 +43,13 @@
   "outputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "2199bc19c05a5dcf361a281316c0d8c4b6e43f9f2d1dfd432d208e2587eb99ce",
-      "bytes": 3654934
+      "sha256": "06afeb699d41c887c674f5243c2da788eae9f02b82ceb94e55ec98c2293b4380",
+      "bytes": 3654924
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "78f2018074c02de961ee0acd825c58964dc6030afaa2adeeb2e633ef616c7e08",
-      "bytes": 13495879
+      "sha256": "0295eb64777fd6270f210c3020900ac605d08bdac783dc86fac8bdf6f6a12f40",
+      "bytes": 13495856
     },
     {
       "path": "data/matching/stacks.csv",
@@ -90,7 +90,7 @@
   "parents": [
     {
       "path": "data/matching/receipts/01_match.json",
-      "sha256": "68a2a97eaacaebf1dd06c7aa3171bbdeb0b41d6d47522d8215b83079a0c35ae3",
+      "sha256": "2263d2c06b16dcca9bd795c302adb920324b0e6a897891ac0568a0faaab35755",
       "bytes": 5497
     }
   ],
@@ -148,5 +148,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T03:36:52.924429+00:00"
+  "finished_at": "2026-10-30T05:41:55.073386+00:00"
 }

@@ -55,7 +55,9 @@ sdid_joint_draw <- function(setups, fits, ids) {
 # rejected and replaced, so every retained draw estimates every cohort.
 sdid_joint_bootstrap <- function(setups, fits, draws, seed, cores) {
   ids <- unique(unlist(lapply(setups, function(s) rownames(s$y))))
-  RNGkind("L'Ecuyer-CMRG")
+  # Parallel streams need L'Ecuyer-CMRG; the caller's generator is restored afterwards.
+  previous <- RNGkind("L'Ecuyer-CMRG")
+  on.exit(RNGkind(previous[1], previous[2], previous[3]), add = TRUE)
   set.seed(seed)
   kept <- matrix(numeric(0), 0L, length(setups))
   attempts <- 0L

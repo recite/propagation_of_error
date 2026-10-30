@@ -4,6 +4,7 @@ import io
 import json
 import pathlib
 import tempfile
+import time
 import unittest
 import urllib.error
 from unittest import mock
@@ -104,3 +105,15 @@ class RateLimitTests(unittest.TestCase):
             block = json.loads((tmp / "api.openalex.org_retry_after.json").read_text())
             self.assertEqual(block["code"], 429)
             self.assertGreater(block["seconds"], openalex.RATE_LIMIT_WAIT)
+
+
+class DeterministicOutputTests(unittest.TestCase):
+    def test_gzip_csv_bytes_depend_only_on_rows(self):
+        rows = [dict(a="1", b="x"), dict(a="2", b="y")]
+        with tempfile.TemporaryDirectory() as d:
+            first, second = pathlib.Path(d) / "a.csv.gz", pathlib.Path(d) / "b.csv.gz"
+            histories.write_gzip_csv(first, rows, ["a", "b"])
+            time.sleep(1.1)
+            histories.write_gzip_csv(second, rows, ["a", "b"])
+            self.assertEqual(first.read_bytes(), second.read_bytes())
+            self.assertEqual(histories.read_gzip_csv(first), rows)
