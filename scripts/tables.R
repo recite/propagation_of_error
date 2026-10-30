@@ -48,7 +48,7 @@ save_table <- function(x, path, align = NULL, groups = NULL, header_above = NULL
 # Sample flow ---------------------------------------------------------------------------------
 readr::read_csv("data/matching/sample_flow.csv", show_col_types = FALSE) |>
   transmute(Step = tex(step), Articles = count(articles)) |>
-  save_table("tabs/sample_flow.tex")
+  save_table("tabs/sample_flow.tex", align = c("p{12cm}", "r"))
 
 # Main estimates ------------------------------------------------------------------------------
 estimates <- read_analysis("estimates.csv")
