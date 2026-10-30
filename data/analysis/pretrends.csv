@@ -1,2 +1,2 @@
 "coefficients","wald","df","p_value"
-"event_time::-3:treated;event_time::-2:treated",29.4531675544435,2,4.02092459015502e-07
+"event_time::-3:treated;event_time::-2:treated",20.7440238950408,2,3.12962602771286e-05

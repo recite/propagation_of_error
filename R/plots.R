@@ -42,11 +42,13 @@ plot_citation_paths <- function(paths) {
     ),
     data.frame(
       paths[c("treated", "event_time")],
-      statistic = "Median citations per year", value = paths$median
+      statistic = "Articles with no citations that year (%)", value = 100 * paths$zero_share
     )
   )
+  long$statistic <- factor(long$statistic, unique(long$statistic))
   long$group <- label_group(long$treated)
   ends <- long[long$event_time == max(long$event_time), ]
+  counts <- stack_count_labels(paths[paths$treated == 1L, ], long, "statistic")
   ggplot2::ggplot(long, ggplot2::aes(event_time, value, colour = group)) +
     ggplot2::geom_vline(xintercept = 0, colour = "#BBBBBB", linetype = "dashed", linewidth = .3) +
     ggplot2::geom_line(linewidth = .7) +
@@ -54,15 +56,39 @@ plot_citation_paths <- function(paths) {
     ggplot2::geom_text(
       data = ends, ggplot2::aes(label = group), hjust = -.1, size = 3, show.legend = FALSE
     ) +
+    ggplot2::geom_text(
+      data = counts, ggplot2::aes(event_time, y, label = label),
+      inherit.aes = FALSE, size = 2, colour = "#777777", angle = 90, hjust = 0
+    ) +
     ggplot2::facet_wrap(~statistic, scales = "free_y") +
     ggplot2::scale_colour_manual(
       values = c(Retracted = plot_colours[["retracted"]], Comparison = plot_colours[["comparison"]])
     ) +
     ggplot2::scale_x_continuous(
-      breaks = seq(-3, 5), expand = ggplot2::expansion(mult = c(.05, .4))
+      breaks = seq(-10, 10, 2), expand = ggplot2::expansion(mult = c(.03, .42))
     ) +
     ggplot2::labs(x = "Years from retraction (0 = retraction year)", y = NULL) +
     theme_paper()
+}
+
+# Number of retracted articles (stacks) behind each event year, printed along the bottom of a
+# panel so the reader can see where the series thins out.
+stack_count_labels <- function(counts, long, facet = NULL) {
+  floor_of <- function(v) min(v) - .12 * diff(range(v))
+  if (is.null(facet)) {
+    return(data.frame(
+      event_time = counts$event_time, y = floor_of(long$value),
+      label = scales::comma(counts$stacks)
+    ))
+  }
+  do.call(rbind, lapply(unique(long[[facet]]), function(level) {
+    out <- data.frame(
+      event_time = counts$event_time, y = floor_of(long$value[long[[facet]] == level]),
+      label = scales::comma(counts$stacks)
+    )
+    out[[facet]] <- level
+    out
+  }))
 }
 
 plot_event_study <- function(es) {
@@ -72,7 +98,15 @@ plot_event_study <- function(es) {
     levels = c("Matched comparison", "Journal-year, unmatched")
   )
   dodge <- ggplot2::position_dodge(width = .5)
+  main <- es[es$specification == "Main", ]
+  counts <- stack_count_labels(
+    main, data.frame(value = c(es$percent_lower, es$percent_upper))
+  )
   ggplot2::ggplot(es, ggplot2::aes(event_time, percent, colour = design, group = design)) +
+    ggplot2::geom_text(
+      data = counts, ggplot2::aes(event_time, y, label = label),
+      inherit.aes = FALSE, size = 2, colour = "#777777", angle = 90, hjust = 0
+    ) +
     ggplot2::geom_hline(yintercept = 0, colour = "#BBBBBB", linewidth = .3) +
     ggplot2::geom_vline(xintercept = -.5, colour = "#BBBBBB", linetype = "dashed", linewidth = .3) +
     ggplot2::geom_linerange(
@@ -87,7 +121,7 @@ plot_event_study <- function(es) {
       ),
       name = NULL
     ) +
-    ggplot2::scale_x_continuous(breaks = seq(-3, 5)) +
+    ggplot2::scale_x_continuous(breaks = seq(-10, 10, 2)) +
     ggplot2::labs(
       x = "Years from retraction (0 = retraction year)",
       y = "Change in citations relative to comparison articles (%)"

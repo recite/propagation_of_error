@@ -1,9 +1,47 @@
 10,000  # per-10,000 rate unit in a caption
-100  # 2016 acknowledgment sample sizes, documented in data/wos_2016/README.md
-2000  # frame publication-year bound
+2000  # frame bound
 2005  # frame bound
 2019  # frame bound
 2022  # frame bound
-2025
-275  # 2016 acknowledgment sample size
+2025  # end of the citation data
 95  # confidence level
+50  # second-rater reliability sample, Appendix: coding
+994  # bar2018temporal sample, quoted
+238  # rubbo2019citation sample, quoted
+283  # bar2017post sample, quoted
+358  # hamilton2019continued sample, quoted
+92  # hamilton2019continued share, quoted
+235  # budd1998phenomena sample, quoted
+94  # budd1998phenomena share, quoted
+82  # pfeifer1990continued sample, quoted
+1,112  # budd2011retracted sample, quoted
+1997  # budd2011retracted period, quoted
+2009  # budd2011retracted period, quoted
+55  # budd2011retracted share, quoted; also WoS duplicates removed in 2016
+30  # Stapel papers, levelt2012flawed
+2  # martinson2005scientists share
+34  # fanelli2009many share
+9.4  # cokol2007many articles (millions)
+1950  # cokol2007many period
+2004  # cokol2007many period
+596  # cokol2007many retractions
+16.7  # cokol2007many lower multiple
+167.8  # cokol2007many upper multiple
+1,340  # davis2012persistence
+60  # harzing2002our references
+22  # harzing2002our citations
+198  # todd2010one citations
+33  # todd2010one journals
+1  # "1 in 4", todd2010one
+4  # "1 in 4", todd2010one
+14,000  # 2016 WoS search records, Appendix: WoS sample
+4,085  # 2016 WoS retraction notices after the corrections filter
+99  # 2016 WoS notices with the original year
+96  # 2016 WoS notices with the original authors
+3,776  # 2016 WoS located articles
+309  # 2016 WoS articles not located
+3,084  # 2016 WoS articles after review
+2010  # Rubio retraction year, introduction
+2015  # end of the 2016 Web of Science citation data
+100  # Darsee publications, quoted (stewart1987integrity)
+0  # counter resets in the appendix preamble

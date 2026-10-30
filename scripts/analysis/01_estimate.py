@@ -21,7 +21,6 @@ OUTPUTS = [
     "heterogeneity.csv",
     "leave_one_out.csv",
     "journal_clustered.csv",
-    "legacy_estimates.csv",
     "citation_paths.csv",
     "retraction_rates.csv",
     "retractions_by_year.csv",

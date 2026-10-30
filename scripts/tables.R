@@ -92,7 +92,7 @@ inner_join(
     header_above = c(" " = 1, "Matched comparison" = 2, "Journal-year, unmatched" = 2)
   )
 
-# Heterogeneity: one block per pre-specified split ---------------------------------------------
+# Heterogeneity: one block per split ---------------------------------------------
 split_labels <- c(
   reason_category = "Reason for retraction",
   field = "Field",
@@ -159,16 +159,6 @@ bind_rows(
     `Change (\\%)` = pct(percent), `95\\% interval` = pct_ci(percent_lower, percent_upper)
   ) |>
   save_table("tabs/robustness.tex")
-
-# The earlier draft's control-free design ------------------------------------------------------
-legacy <- read_analysis("legacy_estimates.csv")
-legacy |>
-  transmute(
-    Sample = tex(specification), Articles = count(articles),
-    `Additive change` = num(estimate, 2L), `95\\% interval` = ci(lower, upper, 2L),
-    `Proportional change (\\%)` = paste(pct(percent), pct_ci(percent_lower, percent_upper))
-  ) |>
-  save_table("tabs/legacy_comparison.tex")
 
 # Acknowledgment coding (2016) ------------------------------------------------------------------
 period_labels <- c(
@@ -261,6 +251,11 @@ het_p <- function(variable) p_macro(joint_tests$p[joint_tests$variable == variab
 field_range <- range(heterogeneity$percent[heterogeneity$variable == "field"])
 ack <- function(period, column) acknowledgment[[column]][acknowledgment$period == period]
 post_at <- function(time, column) post_by_year[[column]][post_by_year$event_time == time]
+example <- read_analysis("example_article.csv")
+wos_check <- read_json("data/wos_2016/tidy/legacy_check.json")
+ack_through_notice <- acknowledgment |>
+  filter(period %in% c("before", "notice_year")) |>
+  summarise(coded = sum(coded), unacknowledged = sum(unacknowledged))
 
 macros <- c(
   Retractions = count(snapshot$rows_by_nature$Retraction),
@@ -269,53 +264,49 @@ macros <- c(
   Matched = count(match_summary$matched),
   Unmatched = count(match_summary$exclusions$no_match_within_caliper %||% 0L),
   Stacks = count(status$stacks),
-  Comparison = count(status$comparison),
   Controls = count(match_summary$controls),
   MainPercent = pct(main$percent),
-  MainLower = pct(main$percent_lower),
-  MainUpper = pct(main$percent_upper),
-  MainReduction = pct(-main$percent),
+  MainInterval = pct_ci(main$percent_lower, main$percent_upper),
   FivePercent = pct(five$percent),
-  FiveLower = pct(five$percent_lower),
-  FiveUpper = pct(five$percent_upper),
+  FiveInterval = pct_ci(five$percent_lower, five$percent_upper),
   JournalYearPercent = pct(journal_year$percent),
-  JournalYearLower = pct(journal_year$percent_lower),
-  JournalYearUpper = pct(journal_year$percent_upper),
+  JournalYearInterval = pct_ci(journal_year$percent_lower, journal_year$percent_upper),
   JournalYearComparison = count(journal_year$comparison),
   JournalYearMinusThree = journal_year_at(-3),
   JournalYearMinusTwo = journal_year_at(-2),
   AdditiveEstimate = num(additive$estimate, 2L),
-  AdditiveLower = num(additive$lower, 2L),
-  AdditiveUpper = num(additive$upper, 2L),
+  AdditiveInterval = ci(additive$lower, additive$upper, 2L),
   PretrendP = p_macro(pretrends$p_value),
   EventMinusThree = event_at(-3),
   EventMinusTwo = event_at(-2),
   EventZero = event_at(0),
   EventOne = event_at(1),
-  EventThree = event_at(3),
   EventFive = event_at(5),
-  EventFiveLower = event_at(5, "percent_lower"),
-  EventFiveUpper = event_at(5, "percent_upper"),
+  EventFiveInterval = pct_ci(
+    es_main$percent_lower[es_main$event_time == 5], es_main$percent_upper[es_main$event_time == 5]
+  ),
   RetractedMeanBefore = num(path_at(1, -1, "mean")),
   RetractedMeanAfter = num(path_at(1, 3, "mean")),
   ComparisonMeanBefore = num(path_at(0, -1, "mean")),
   ComparisonMeanAfter = num(path_at(0, 3, "mean")),
-  RetractedMedianBefore = num(path_at(1, -1, "median"), 0L),
-  RetractedMedianAfter = num(path_at(1, 3, "median"), 0L),
   RetractedZeroAfter = pct(100 * path_at(1, 3, "zero_share")),
   ComparisonZeroAfter = pct(100 * path_at(0, 3, "zero_share")),
-  LegacyOpenAlexPercent = pct(legacy$percent[1]),
-  LegacyWosPercent = pct(legacy$percent[2]),
-  LegacyWosAdditive = num(legacy$estimate[2], 2L),
-  LegacyWosArticles = count(legacy$articles[2]),
   AckAfterPercent = pct(ack("after", "unacknowledged_percent")),
-  AckAfterLower = pct(ack("after", "lower")),
-  AckAfterUpper = pct(ack("after", "upper")),
+  AckAfterInterval = pct_ci(ack("after", "lower"), ack("after", "upper")),
   AckAfterCoded = count(ack("after", "coded")),
   AckAfterUnack = count(ack("after", "unacknowledged")),
-  AckBeforeCoded = count(ack("before", "coded")),
-  AckBeforeUnack = count(ack("before", "unacknowledged")),
-  AckBeforePercent = pct(ack("before", "unacknowledged_percent")),
+  AckThroughNoticeCoded = count(ack_through_notice$coded),
+  AckThroughNoticeUnack = count(ack_through_notice$unacknowledged),
+  AckThroughNoticePercent = pct(100 * ack_through_notice$unacknowledged / ack_through_notice$coded),
+  AckSampledBefore = count(ack("before", "sampled") + ack("notice_year", "sampled")),
+  AckSampledAfter = count(ack("after", "sampled")),
+  AckNotLocated = count(sum(acknowledgment$not_located)),
+  AckCoded = count(sum(acknowledgment$coded)),
+  ExampleThroughRetraction = count(example$through_retraction_year),
+  ExampleAfterRetraction = count(example$after_retraction_year),
+  WosNotices = count(wos_check$articles),
+  WosCitationRecords = count(wos_check$draft$total),
+  WosShareAfterNotice = pct(100 * wos_check$draft$share_after),
   PostArticles = count(post$articles),
   PostCitations = count(post$citations),
   PostAfter = count(post$after),
@@ -347,8 +338,9 @@ macros <- c(
   HetPriorP = het_p("prior_concern"),
   LooMin = pct(min(leave_one_out$percent)),
   LooMax = pct(max(leave_one_out$percent)),
-  JournalClusteredLower = pct(journal_clustered$percent_lower),
-  JournalClusteredUpper = pct(journal_clustered$percent_upper),
+  JournalClusteredInterval = pct_ci(
+    journal_clustered$percent_lower, journal_clustered$percent_upper
+  ),
   MisconductShare = reason_share("misconduct"),
   DuplicationShare = reason_share("duplication"),
   ErrorShare = reason_share("error"),
@@ -359,30 +351,25 @@ macros <- c(
   WosOverlap = count(comparison$date_agreement$overlap),
   WosNoticeYearAgreement = pct(
     100 * comparison$date_agreement$notice_year_equal / comparison$date_agreement$overlap
-  ),
-  HonestAvailable = if (isTRUE(honest$available)) "1" else "0"
+  )
 )
 if (sdid_available) {
   macros <- c(
     macros,
     SdidEstimate = num(sdid_pooled$estimate[1], 2L),
-    SdidLower = num(sdid_pooled$lower[1], 2L),
-    SdidUpper = num(sdid_pooled$upper[1], 2L),
+    SdidInterval = ci(sdid_pooled$lower[1], sdid_pooled$upper[1], 2L),
     SdidCohorts = count(sdid_pooled$cohorts[1]),
     SdidTreated = count(sdid_pooled$treated[1])
   )
 }
 if (isTRUE(honest$available)) {
   honest_did <- read_analysis("honest_did.csv")
-  holds <- filter(honest_did, lb > 0 | ub < 0)
   widest <- slice_max(honest_did, Mbar, n = 1)
   pre_coefficients <- es_main$estimate[es_main$event_time %in% -3:-2]
   macros <- c(
     macros,
-    HonestBreakdown = if (nrow(holds)) num(max(holds$Mbar), 1L) else "none",
     HonestMaxMbar = num(widest$Mbar, 1L),
-    HonestLowerAtMax = pct(100 * expm1(widest$lb)),
-    HonestUpperAtMax = pct(100 * expm1(widest$ub)),
+    HonestIntervalAtMax = pct_ci(100 * expm1(widest$lb), 100 * expm1(widest$ub)),
     HonestMaxPreChange = pct(100 * expm1(max(abs(diff(c(pre_coefficients, 0))))))
   )
 }

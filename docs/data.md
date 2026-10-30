@@ -4,7 +4,7 @@
 
 `data/retraction_watch/snapshot.json` records the URL, retrieval time, size and SHA-256 of
 the Retraction Watch CSV published by Crossref; the file itself is cached outside the
-repository. The frame rules are in `docs/design.md` and `scripts/retraction_watch/02_frame.py`,
+repository. The frame rules are in `scripts/retraction_watch/02_frame.py`,
 and every excluded record is listed with a reason in `exclusions.csv`.
 
 Reason labels are grouped literally by `reason_categories.csv`: a retraction whose labels
@@ -30,10 +30,11 @@ or themselves treated are excluded before matching.
 
 ## Web of Science, 2016
 
-`data/wos_2016/` holds the August 2016 exports behind the earlier draft (see its README).
+`data/wos_2016/` holds August 2016 Web of Science exports of retraction notices, retracted
+articles and their citing articles (see its README).
 `scripts/wos/01_import.py` freezes their hashes, tidies them and builds a zero-padded
-article-year panel. The earlier draft's analysis dropped every article-year with no
-citation; the tidy panel keeps them (9,872 of 22,926 complete article-years are zero).
+article-year panel that keeps every article-year, including those with no citation
+(9,872 of 22,926 complete article-years are zero).
 
 The hand-coded samples in `acknowledgment_{pre,post}.csv` record, for citing articles
 sampled in 2016, whether the citing passage noted a concern with the cited article. The

@@ -2,23 +2,23 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "01_estimate",
-  "started_at": "2026-10-30T00:24:37.466740+00:00",
+  "started_at": "2026-10-30T00:47:17.093487+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/01_estimate.py"
   ],
   "python": "3.14.7",
-  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
+  "git_commit": "a6d7ced14e0e7581b90e1c0b6a9ca3c37a657f36",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "2a8e6a88f75314f17fe3f9fe6b31a0c84c34aa1d3648dcaf2af53e590079e49c",
-      "bytes": 2697661
+      "sha256": "32343d83c228133e2e5d049f8e3e5567d092642742402c6a3d967fd2b88dcae1",
+      "bytes": 3654263
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "50f5686fc111abed656d3c3970ce98da4c954e48050941e73846144edc3af24d",
-      "bytes": 9212605
+      "sha256": "2009cc87038fdacef3f804769fa4b963b001e024edcdcaa98e64914526ce0c40",
+      "bytes": 13494896
     },
     {
       "path": "data/matching/stacks.csv",
@@ -99,14 +99,9 @@
       "bytes": 2165
     },
     {
-      "path": "R/legacy.R",
-      "sha256": "bb94e6dba714efa4f61264660161e3b48354afcf5d04b0025c0b0891a80ee1e6",
-      "bytes": 1491
-    },
-    {
       "path": "R/plots.R",
-      "sha256": "36cfc736a29fdd69a757a3cd4c1cd84ec5f247a1e3bec940fb3b7f18e7d9467e",
-      "bytes": 7569
+      "sha256": "0cc92a41926a5ee3c0140b5c94930cad48a9f04c3afc65e26d605e93e0439359",
+      "bytes": 8953
     },
     {
       "path": "R/reporting.R",
@@ -120,8 +115,8 @@
     },
     {
       "path": "R/stacked.R",
-      "sha256": "3600f887bc2e15d821fb0945476b21b572677132df6ab2df68823516119168ac",
-      "bytes": 8337
+      "sha256": "8828c3663a6b50dae7c2fc78a20d0e5ba87bafe26b53df466a5e86bea525dca6",
+      "bytes": 8629
     },
     {
       "path": "R/synthetic_did.R",
@@ -130,8 +125,8 @@
     },
     {
       "path": "scripts/analysis/estimate.R",
-      "sha256": "b4f96eaf57eecd5aae85d97c300df0420b74930f58a5b19b94dc94617de67cb5",
-      "bytes": 6997
+      "sha256": "4821ec0f4510d30f389057063fcd234cf2e766df5750ecb0ccf6c1305486a3e5",
+      "bytes": 7014
     }
   ],
   "outputs": [
@@ -143,19 +138,19 @@
     },
     {
       "path": "data/analysis/event_study.csv",
-      "sha256": "4136cb476903e295a919f3d6c1b82dc6742d87d89515b0e30e62f1f27e312ab5",
-      "bytes": 2968,
-      "rows": 18
+      "sha256": "777ab142d7cf98f2bb0134c5979683c06da8245d73b0e9e666c5453187c15e91",
+      "bytes": 7034,
+      "rows": 42
     },
     {
       "path": "data/analysis/event_study_ols.csv",
-      "sha256": "895456b033ced5f417a825e505ed3a6b9cd014c41553e8152412d651c9f3eafa",
-      "bytes": 1069,
-      "rows": 9
+      "sha256": "cca712a6aba93a95902b26d1a16d42df7de1c5264f9ec5033b4bd3255fc343cb",
+      "bytes": 2473,
+      "rows": 21
     },
     {
       "path": "data/analysis/pretrends.csv",
-      "sha256": "37caa333306798e46e33733f1b3f3f4faadff4c99c1a513bd0d5a5040494e5e9",
+      "sha256": "537f626634a3667146644fcb14f36db9188cbb9a4deee82975591f4a4e600ce2",
       "bytes": 125,
       "rows": 1
     },
@@ -183,16 +178,10 @@
       "rows": 1
     },
     {
-      "path": "data/analysis/legacy_estimates.csv",
-      "sha256": "d07625488c70e229edbf774bdd1bb078690f2e0e9dc11a379651812dcb8c4266",
-      "bytes": 700,
-      "rows": 2
-    },
-    {
       "path": "data/analysis/citation_paths.csv",
-      "sha256": "33611f345d60faf8415890a59f5ab56473a900df47be3adebf7d4f2196d65fe4",
-      "bytes": 2814,
-      "rows": 36
+      "sha256": "47d18d4b99a359d256a20b1a81f219b163214ea413585e664d0c70c0bd7e2753",
+      "bytes": 6432,
+      "rows": 84
     },
     {
       "path": "data/analysis/retraction_rates.csv",
@@ -236,13 +225,13 @@
     },
     {
       "path": "data/analysis/honest_did.csv",
-      "sha256": "5b2dd041c67eaf6ce42b1abe379e77feb53fe5c170b3bea15fda143180c25f69",
-      "bytes": 318,
+      "sha256": "49e133bd76a2cf76eb9c63bfa681fde1b9b3554d93a910c535ba8decbeaf297d",
+      "bytes": 317,
       "rows": 5
     },
     {
       "path": "data/analysis/honest_original.csv",
-      "sha256": "7a4e1cf0c103694b34cadcbb2459a68028bce6a21c96d8a10226e63aa3503c06",
+      "sha256": "9c03a491ad918cb27d8b3b4871d073cda6ae27b449360b0a6a3cbcbc51ef5b1c",
       "bytes": 78,
       "rows": 1
     }
@@ -250,8 +239,8 @@
   "code": [
     {
       "path": "scripts/analysis/01_estimate.py",
-      "sha256": "56e5427b742154b8244f37e7fb7fb62bc4e93925ae4e6755b87c75f2e3106dfa",
-      "bytes": 1819
+      "sha256": "2d75dc05a82307b17fbacb81bf4afee4e74bf22841b363a5913193faf287c7a2",
+      "bytes": 1791
     },
     {
       "path": "scripts/research_pipeline.py",
@@ -267,8 +256,8 @@
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "e8a08a7602a0691eda1730ae74a54a3c60155823a153a5635d979cdd71d993cb",
-      "bytes": 4278
+      "sha256": "ceebf4323089f81ad4f1a37faabae469495ad4c09dbbfadd8adad2e8367c7580",
+      "bytes": 4279
     },
     {
       "path": "data/openalex/receipts/05_world_counts.json",
@@ -311,5 +300,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T00:25:57.952013+00:00"
+  "finished_at": "2026-10-30T00:51:42.459692+00:00"
 }

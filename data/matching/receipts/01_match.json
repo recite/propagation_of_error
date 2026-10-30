@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "01_match",
-  "started_at": "2026-10-30T00:24:07.117430+00:00",
+  "started_at": "2026-10-30T00:46:13.436944+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/01_match.py"
   ],
   "python": "3.14.7",
-  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
+  "git_commit": "a6d7ced14e0e7581b90e1c0b6a9ca3c37a657f36",
   "inputs": [
     {
       "path": "data/openalex/histories.csv.gz",
@@ -181,5 +181,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T00:24:15.171166+00:00"
+  "finished_at": "2026-10-30T00:46:24.695424+00:00"
 }

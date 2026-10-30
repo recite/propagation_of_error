@@ -21,7 +21,7 @@ histories = importlib.import_module("scripts.openalex.02_histories")
 matching = importlib.import_module("scripts.matching.01_match")
 DATA = ROOT / "data/matching"
 OPENALEX = ROOT / "data/openalex"
-EVENT_TIMES = list(range(-3, 6))
+EVENT_TIMES = list(range(-10, 11))
 LAST_YEAR = histories.LAST_YEAR
 PANEL_FIELDS = [
     "stack_id",

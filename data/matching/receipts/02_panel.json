@@ -2,13 +2,13 @@
   "schema_version": 1,
   "study": "matching",
   "stage": "02_panel",
-  "started_at": "2026-10-30T00:24:15.457234+00:00",
+  "started_at": "2026-10-30T00:46:25.135416+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/matching/02_panel.py"
   ],
   "python": "3.14.7",
-  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
+  "git_commit": "a6d7ced14e0e7581b90e1c0b6a9ca3c37a657f36",
   "inputs": [
     {
       "path": "data/matching/matches.csv",
@@ -43,13 +43,13 @@
   "outputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "2a8e6a88f75314f17fe3f9fe6b31a0c84c34aa1d3648dcaf2af53e590079e49c",
-      "bytes": 2697661
+      "sha256": "32343d83c228133e2e5d049f8e3e5567d092642742402c6a3d967fd2b88dcae1",
+      "bytes": 3654263
     },
     {
       "path": "data/matching/panel_journal_year.csv.gz",
-      "sha256": "50f5686fc111abed656d3c3970ce98da4c954e48050941e73846144edc3af24d",
-      "bytes": 9212605
+      "sha256": "2009cc87038fdacef3f804769fa4b963b001e024edcdcaa98e64914526ce0c40",
+      "bytes": 13494896
     },
     {
       "path": "data/matching/stacks.csv",
@@ -73,8 +73,8 @@
   "code": [
     {
       "path": "scripts/matching/02_panel.py",
-      "sha256": "faa3a2da34b868e1e5aafa6bb5f129410ad559dc3f3dcdd56c2a675f96f16c99",
-      "bytes": 10320
+      "sha256": "16e5704eb5b401c7868b19fb3bdcb670e9ddb631d669dfd54b49a0bc81d029f4",
+      "bytes": 10322
     },
     {
       "path": "scripts/research_pipeline.py",
@@ -90,7 +90,7 @@
   "parents": [
     {
       "path": "data/matching/receipts/01_match.json",
-      "sha256": "fc81211b19d3e3d3f651e8877996fa2361c756c9253b1b6002ebb1bf9fac248e",
+      "sha256": "d9a1f5e0c88066fc1e0a8714cd70964b803aa7d5cdd833d5d1017f02f661caef",
       "bytes": 5497
     }
   ],
@@ -103,7 +103,7 @@
     {
       "name": "no_citations_missing",
       "passed": true,
-      "detail": 391820
+      "detail": 578691
     },
     {
       "name": "journal_year_panel_covers_matched_stacks",
@@ -114,9 +114,9 @@
   "sources": [],
   "metrics": {
     "stacks": 8627,
-    "rows": 391820,
+    "rows": 578691,
     "journal_year_stacks": 8950,
-    "journal_year_rows": 1505827,
+    "journal_year_rows": 2238965,
     "omissions": 0,
     "sdid_eligible": 6720,
     "flow": [
@@ -148,5 +148,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T00:24:37.136671+00:00"
+  "finished_at": "2026-10-30T00:47:16.033919+00:00"
 }

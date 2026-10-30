@@ -94,7 +94,9 @@ stack_model <- function(panel, label = "Main", pre = -3:-1, post = 1:3, poisson 
 
 stack_fit <- function(...) stack_model(...)$estimate
 
-stack_event_study <- function(panel, label = "Main", times = -3:5, poisson = TRUE) {
+# Every event year the panel holds is estimated; stacks contribute the years they have, so
+# the count of stacks behind each coefficient is reported alongside it.
+stack_event_study <- function(panel, label = "Main", times = -10:10, poisson = TRUE) {
   check_stacked_panel(panel)
   x <- panel[panel$event_time %in% times, ]
   fit <- fit_stacked(
@@ -106,17 +108,19 @@ stack_event_study <- function(panel, label = "Main", times = -3:5, poisson = TRU
   terms <- tidy_terms(fit, "^event_time::")
   b <- terms$estimate
   se <- terms$se
+  stacks_at <- table(unique(used[used$treated == 1L, c("stack_id", "event_time")])$event_time)
   out <- data.frame(
     specification = label, model = if (poisson) "PPML" else "OLS",
     event_time = as.integer(sub("event_time::(-?[0-9]+):treated", "\\1", terms$term)),
     estimate = b, se = se, df = df,
-    lower = b - qt(.975, df) * se, upper = b + qt(.975, df) * se,
-    stacks = length(unique(used$stack_id)), clusters = df + 1L
+    lower = b - qt(.975, df) * se, upper = b + qt(.975, df) * se, clusters = df + 1L
   )
   out <- rbind(out, data.frame(
     specification = label, model = out$model[1], event_time = -1L, estimate = 0, se = 0,
-    df = df, lower = 0, upper = 0, stacks = out$stacks[1], clusters = out$clusters[1]
+    df = df, lower = 0, upper = 0, clusters = out$clusters[1]
   ))
+  out$stacks <- as.integer(stacks_at[as.character(out$event_time)])
+  stopifnot(!anyNA(out$stacks))
   out <- out[order(out$event_time), ]
   if (poisson) {
     out$percent <- 100 * expm1(out$estimate)

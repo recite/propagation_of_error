@@ -1,6 +1,6 @@
-# Estimate every pre-specified quantity on the matched panel and write tidy CSVs.
+# Estimate every reported quantity on the matched panel and write tidy CSVs.
 # Invoked by scripts/analysis/01_estimate.py, which records the receipt.
-for (module in c("reporting.R", "analysis.R", "stacked.R", "legacy.R", "describe.R",
+for (module in c("reporting.R", "analysis.R", "stacked.R", "describe.R",
                  "acknowledgment.R", "honest.R")) {
   source(file.path("R", module))
 }
@@ -15,8 +15,6 @@ journal_year_panel <- read.csv(
 frame <- read.csv("data/retraction_watch/frame.csv", stringsAsFactors = FALSE)
 world <- read.csv("data/openalex/world_counts.csv")
 coding <- read.csv("data/wos_2016/tidy/acknowledgment.csv")
-wos_counts <- read.csv("data/wos_2016/tidy/citing_counts.csv")
-wos_articles <- read.csv("data/wos_2016/tidy/articles.csv")
 write_out <- function(x, name) write.csv(x, file.path(out, name), row.names = FALSE)
 
 main <- stack_model(panel, "Main: matched stacks, years +1 to +3")
@@ -107,17 +105,6 @@ journal_clustered <- {
 }
 write_out(journal_clustered, "journal_clustered.csv")
 
-legacy <- rbind(
-  legacy_within_model(panel, "Retracted articles only, OpenAlex, no comparison"),
-  {
-    x <- wos_counts[wos_counts$complete == 1L, ]
-    x$event_time <- x$year - wos_articles$notice_year[match(x$index, wos_articles$index)]
-    x$article_id <- as.character(x$index)
-    x$treated <- 1L
-    legacy_within_model(x, "2016 WoS sample, zero-padded, no comparison")
-  }
-)
-write_out(legacy, "legacy_estimates.csv")
 
 write_out(
   rbind(
@@ -147,6 +134,20 @@ treated_histories$article_id <- targets$article_id[
   match(treated_histories$target_id, targets$target_id)
 ]
 post <- post_retraction_citations(treated_histories, frame)
+# The introduction's example: Rubio et al. (2005), Cancer Research, retracted in 2010.
+example <- treated_histories[treated_histories$article_id == frame$article_id[
+  frame$doi == "10.1158/0008-5472.can-04-4194"
+], ]
+stopifnot(nrow(example) > 0L)
+write_out(
+  data.frame(
+    article = "rubio2005spontaneous",
+    retraction_year = frame$retraction_year[frame$doi == "10.1158/0008-5472.can-04-4194"],
+    through_retraction_year = sum(example$citations[example$year <= 2010L]),
+    after_retraction_year = sum(example$citations[example$year > 2010L])
+  ),
+  "example_article.csv"
+)
 write_out(post$summary, "post_retraction.csv")
 write_out(post$by_year, "post_retraction_by_year.csv")
 write_out(as.data.frame(table(reason = frame$reason_category)), "reasons.csv")

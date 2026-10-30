@@ -2,18 +2,23 @@
   "schema_version": 1,
   "study": "analysis",
   "stage": "02_sdid",
-  "started_at": "2026-10-30T00:00:11.514057+00:00",
+  "started_at": "2026-10-30T00:35:35.972803+00:00",
   "command": [
     "/opt/homebrew/opt/python@3.14/bin/python3.14",
     "/Users/soodoku/Documents/GitHub/recite/propagation_of_error/scripts/analysis/02_sdid.py"
   ],
   "python": "3.14.7",
-  "git_commit": "c17264eed7ad65b628a03f461285b114f15ddf0e",
+  "git_commit": "a6d7ced14e0e7581b90e1c0b6a9ca3c37a657f36",
   "inputs": [
     {
       "path": "data/matching/panel.csv.gz",
-      "sha256": "33d0a2dc54a5cf928f7f01997ce6d8ecadcaee785fafbdd7ef341fa65cb7dba6",
-      "bytes": 2697661
+      "sha256": "aba72a48fa7756123da5f075f3d6590d8276fa951e534f4e0d4edcf340fa4752",
+      "bytes": 3654263
+    },
+    {
+      "path": "data/matching/panel_journal_year.csv.gz",
+      "sha256": "4af825f54840b631d494f7de282f7c3c59f7d3faa93b0204bb73cc0108cbdcd8",
+      "bytes": 13494896
     },
     {
       "path": "data/matching/stacks.csv",
@@ -101,8 +106,8 @@
   "parents": [
     {
       "path": "data/matching/receipts/02_panel.json",
-      "sha256": "61f332a3ef2b4a8965026bff0f6bc2e06e000984567719915c17c323f048c6df",
-      "bytes": 3919
+      "sha256": "f02b42dc1c5dc1f6fafb81a14e9578ce080980a759e930030b3c90dd5ceae5f5",
+      "bytes": 4279
     }
   ],
   "checks": [
@@ -118,5 +123,5 @@
   },
   "unresolved": [],
   "status": "complete",
-  "finished_at": "2026-10-30T00:24:46.029426+00:00"
+  "finished_at": "2026-10-30T01:01:19.774633+00:00"
 }

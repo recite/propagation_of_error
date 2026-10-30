@@ -45,23 +45,16 @@ class ManuscriptTests(unittest.TestCase):
         )
         self.assertEqual(stray, [], f"hand-typed numerals: {stray}")
 
-    def test_every_used_macro_is_defined(self):
+    def test_macros_are_generated_and_used(self):
         defined = set(re.findall(r"\\newcommand\{\\([A-Za-z]+)\}", MACROS.read_text()))
         used = set(re.findall(r"\\([A-Z][A-Za-z]+)(?=[^A-Za-z]|$)", TEX.read_text()))
-        missing = sorted(
-            u
-            for u in used
-            if u not in defined
-            and u[0].isupper()
-            and u not in {"Large", "Huge", "LaTeX", "TeX", "S", "P"}
-            and u in used
-            and (u in defined or u.istitle() is False)
-        )
+        readme = set(re.findall(r"\{\{([A-Za-z]+)\}\}", (ROOT / "docs/README.in.md").read_text()))
         undefined = sorted(
             u for u in used if u not in defined and re.fullmatch(r"[A-Z][a-z]+(?:[A-Z][a-z]+)+", u)
         )
         self.assertEqual(undefined, [], f"macros used but not generated: {undefined}")
-        self.assertEqual(missing, missing)
+        unused = sorted(defined - used - readme)
+        self.assertEqual(unused, [], f"macros generated but never used: {unused}")
 
     def test_log_has_no_undefined_references(self):
         log = ROOT / "ms/main.log"
